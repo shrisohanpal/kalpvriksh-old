@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { baseUrl } from '../urls'
 
 import
 {
@@ -12,7 +13,7 @@ import
     SHOP_DETAILS_SUCCESS,
     SHOP_DETAILS_FAIL,
     SHOP_DELETE_REQUEST,
-    SHOP_DELETE_SUCCESS,
+    SHOP_DELETE_SUCCESS, 
     SHOP_DELETE_FAIL,
     SHOP_CREATE_FAIL,
     SHOP_CREATE_SUCCESS,
@@ -29,8 +30,8 @@ export const listShops = async (dispatch) =>
         dispatch({ type: SHOP_LIST_REQUEST })
 
         const { data } = await axios.get(
-            'http://localhost:5000/api/shops'
-        )
+            `${baseUrl}api/shops`
+            )
 
         dispatch({
             type: SHOP_LIST_SUCCESS,
