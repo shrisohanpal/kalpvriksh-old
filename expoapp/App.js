@@ -12,7 +12,12 @@ import MainNavigator from './navigation/MainNavigator';
 //useScreens();
 
 export default function App()
-{
+{/*
+  return(
+    <View>
+      <Text>Hello from DKS</Text>
+    </View>
+  )*/
   return (
     <Provider store={store}>
       <MainNavigator />

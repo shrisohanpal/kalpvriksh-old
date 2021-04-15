@@ -1,23 +1,16 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { View, SafeAreaView, Text, Button, ScrollView, Image, FlatList, StyleSheet, } from 'react-native'
-import ImageSlider from 'react-native-image-slider'
-//import Carousel from 'react-native-snap-carousel'
+import { View, SafeAreaView, Text, Button, ScrollView, Image, Dimensions, FlatList, StyleSheet } from 'react-native'
+
 //import Product from '../components/Product'
 import Shop from '../components/Shop'
+import Product from '../components/Product'
 import Message from '../components/Message'
 import { listProducts } from '../actions/productActions'
 import { listShops } from '../actions/shopActions'
 //import OwlCarousel from 'react-owl-carousel';
 
-const HomeScreen = () =>
-{
-    const images = [
-        'https://placeimg.com/640/640/nature',
-        'https://placeimg.com/640/640/people',
-        'https://placeimg.com/640/640/animals',
-        'https://placeimg.com/640/640/beer',
-    ]
+const HomeScreen = () => {
 
     const dispatch = useDispatch()
 
@@ -27,62 +20,80 @@ const HomeScreen = () =>
     const shopList = useSelector(state => state.shopList)
     const { loading: loadingShops, error: errorShops, shops } = shopList
 
-    useEffect(() =>
-    {
+    useEffect(() => {
         dispatch(listProducts())
         dispatch(listShops)
     }, [dispatch])
+
     return (
-        <SafeAreaView >
-            <ImageSlider
-                loopBothSides
-                autoPlayWithInterval={3000}
-                images={images}
-                customSlide={({ index, item, style, width }) => (
-                    <View key={index} style={[style]}>
-                        <Image source={{ uri: item }} style={{ height: 100, width: '100%' }} />
-                    </View>
-                )}
-            />
-            <Text>Featured Shops</Text>
-            { loadingShops ? (<Text>Loading...</Text>)
-                : errorShops
-                    ? (<Message data={errorShops} />)
-                    : (
-                        <FlatList
-                            //   keyExtractor={(item, index) => item._id}
-                            data={shops}
-                            renderItem={Shop}
-                            horizontal={true}
-                        />
-                    )
-            }
+        <ScrollView>
+            <View style={{ width: '100%' }}>
 
-            <Image source={require('../assets/banners/a.jpg')} style={{ width: 100, height: 100 }} fluid />
+                <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+                    <Image style={styles.scrollImage} source={require('../assets/banners/a.jpg')} />
+                    <Image style={styles.scrollImage} source={require('../assets/banners/b.jpg')} />
+                    <Image style={styles.scrollImage} source={require('../assets/banners/c.jpg')} />
+                </ScrollView>
 
-            <Text>Featured Products</Text>
-            {/*loadingProducts ? (<CircularProgress />)
-                : errorProducts
-                    ? (<Message variant='danger'>{errorProducts}</Message>)
-                    : (<OwlCarousel items={window.innerWidth > 780 ? 4 : 2}
-                        className="owl-theme"
-                        loop
-                        nav
-                        margin={8} autoplay={true} autoplayTimeout={2000}>
-                        {products.map((product) => (
-                            <div key={product._id}>
-                                <Product product={product} />
-                            </div>
+                <Text style={styles.text}>Featured Shops</Text>
+                {loadingShops ? (<Text>Loading...</Text>)
+                    : errorShops
+                        ? (<Message data={errorShops} />)
+                        : (
+                            <FlatList
+                                keyExtractor={(item, index) => item._id}
+                                data={shops}
+                                renderItem={Shop}
+                                showsHorizontalScrollIndicator={false}
+                                horizontal={true}
+                            />
+                        )
+                }
 
-                        ))}
-                    </OwlCarousel>
-                    )
-           */ }
+                <Image source={require('../assets/banners/ba.jpg')} style={styles.banner} fluid />
+                <Image source={require('../assets/banners/bb.jpg')} style={styles.banner} fluid />
+                <Image source={require('../assets/banners/bc.jpg')} style={styles.banner} fluid />
 
-            <Image source={require('../assets/banners/a.jpg')} style={{ width: 100, height: 100 }} fluid />
+                <Text style={styles.text}>Featured Products</Text>
+                {loadingProducts ? (<Text>Loading...</Text>)
+                    : errorProducts
+                        ? (<Message data={errorProducts} />)
+                        : (
+                            <FlatList
+                                keyExtractor={(item, index) => item._id}
+                                data={products}
+                                renderItem={Product}
+                                showsHorizontalScrollIndicator={false}
+                                horizontal={true}
+                            />
+                        )
+                }
 
-        </SafeAreaView>
+                <Image source={require('../assets/banners/cc.jpg')} style={styles.footerBanner} fluid />
+
+            </View>
+        </ScrollView>
     )
 }
+
+
+const styles = StyleSheet.create({
+    scrollImage: {
+        width: Dimensions.get('window').width,
+        height: Dimensions.get('window').width * 400 / 1080,
+    },
+    text: {
+        margin: 20,
+        fontSize: 25
+    },
+    banner: {
+        width: Dimensions.get('window').width,
+        height: Dimensions.get('window').width * 704 / 1312,
+    },
+    footerBanner: {
+        width: Dimensions.get('window').width,
+        height: Dimensions.get('window').width * 280 / 1500,
+    },
+})
 
 export default HomeScreen

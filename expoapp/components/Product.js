@@ -1,23 +1,63 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
-import { Card } from 'react-bootstrap'
+import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 
-const Product = ({ product }) =>
-{
+const Product = ({ item: product }) => {
+  //  console.log(product)
     return (
-        <Card className='my-3 p-3 rounded'>
-            <Link to={`/product/${product._id}`}>
-                <Card.Img src={product.images[0]} variant='top' />
-
-                <Card.Body>
-                    <Card.Title as='div'>
-                        <strong>{product.name}</strong>
-                    </Card.Title>
-                    <Card.Text as='h3'>₹ {product.price}</Card.Text>
-                </Card.Body>
-            </Link>
-        </Card>
+        <View style={styles.product}>
+            <View style={styles.productContainer}>
+                <TouchableOpacity>
+                    <View style={styles.textContainer}>
+                        <Text style={styles.text}>
+                            {product.name}
+                        </Text>
+                    </View>
+                    <Image style={styles.image} source={require('../assets/product.png')} />
+                    <View style={styles.textContainer}>
+                        <Text style={styles.text}>
+                            {product.price}
+                        </Text>
+                    </View>
+                </TouchableOpacity>
+            </View>
+        </View>
     )
-}
+    /* 
+                 <TouchableOpacity onPress={() => props.props.navigation.navigate('CropDetails', { item: props.item })}>
+                     <Image style={styles.image} source={props.item.imguri} />
+     );*/
+};
+
+const styles = StyleSheet.create({
+    product: {
+        height: 250,
+        width: 150 + 20,
+        //backgroundColor: '#f5f5f5',
+        paddingHorizontal: 10
+    },
+    productContainer: {
+        borderRadius: 10,
+        overflow: 'hidden',
+        shadowColor: 'black',
+        shadowOpacity: 1,
+        shadowOffset: { width: 2, height: 2 },
+        shadowRadius: 10,
+        elevation: 5,
+        //  backgroundColor:'red'
+    },
+    image: {
+        width: 150,
+        height: 150,
+        borderRadius: 10
+    },
+    textContainer: {
+        height: 30,
+        paddingHorizontal: 5,
+        // backgroundColor: 'green'
+    },
+    text: {
+        fontSize: 15
+    }
+})
 
 export default Product
