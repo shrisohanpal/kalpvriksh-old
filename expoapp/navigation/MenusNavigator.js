@@ -4,19 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons'
 
 import HomeNavigator from './HomeNavigator'
-
-function HomeScreen({ navigation })
-{
-    return (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <Text>this is Home Screen</Text>
-            <Button
-                onPress={() => navigation.navigate('Notifications')}
-                title="Go to notifications"
-            />
-        </View>
-    );
-}
+import AccountNavigator from './AccountNavigator'
 
 function CategoriesScreen({ navigation })
 {
@@ -77,7 +65,7 @@ export default function App()
             <BottomTab.Screen name="Home" component={HomeNavigator} />
             <BottomTab.Screen name="Categories" component={CategoriesScreen} />
             <BottomTab.Screen name="Location" component={LocationScreen} />
-            <BottomTab.Screen name="Account" component={AccountScreen} />
+            <BottomTab.Screen name="Account" component={AccountNavigator} />
         </BottomTab.Navigator>
     );
 }

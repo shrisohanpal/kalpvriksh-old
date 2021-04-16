@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Container, Table, Form, Button, Row, Col } from 'react-bootstrap'
-import { CircularProgress } from '@material-ui/core'
-import { LinkContainer } from 'react-router-bootstrap'
+import {View, Text} from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import { getUserDetails, updateUserProfile } from '../actions/userActions'
@@ -57,6 +55,13 @@ const ProfileScreen = ({ location, history }) =>
     }
   }
 
+  return (
+    <View>
+      <Text>HI</Text>
+    </View>
+  )
+
+  /*
   return (
     <Container>
       <Row>
@@ -177,7 +182,7 @@ const ProfileScreen = ({ location, history }) =>
         </Col>
       </Row>
     </Container>
-  )
+  )*/
 }
 
 export default ProfileScreen
