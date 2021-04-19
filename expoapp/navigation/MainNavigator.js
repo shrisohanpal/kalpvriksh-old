@@ -6,8 +6,7 @@ import { DrawerContentScrollView, DrawerItem, DrawerItemList } from '@react-navi
 import MenuNavigator from './MenusNavigator.js'
 
 
-function CustomDrawerContent(props)
-{
+function CustomDrawerContent(props) {
     return (
         <DrawerContentScrollView {...props}>
             <DrawerItem
@@ -21,8 +20,7 @@ function CustomDrawerContent(props)
     );
 }
 
-function SellerScreen({ navigation })
-{
+function SellerScreen({ navigation }) {
     return (
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
             <Text>Register as a Seller</Text>
@@ -33,8 +31,7 @@ function SellerScreen({ navigation })
 
 const Drawer = createDrawerNavigator();
 
-export default function App()
-{
+export default function App() {
     return (
         <NavigationContainer>
             <Drawer.Navigator drawerContent={(props) => <CustomDrawerContent {...props} />} initialRouteName="Menu">
