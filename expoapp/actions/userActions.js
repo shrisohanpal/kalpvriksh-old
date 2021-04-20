@@ -1,38 +1,37 @@
 import axios from 'axios'
-import
-{
-  USER_DETAILS_FAIL,
-  USER_DETAILS_REQUEST,
-  USER_DETAILS_SUCCESS,
-  USER_LOGIN_FAIL,
-  USER_LOGIN_REQUEST,
-  USER_LOGIN_SUCCESS,
-  USER_LOGOUT,
-  USER_REGISTER_FAIL,
-  USER_REGISTER_REQUEST,
-  USER_REGISTER_SUCCESS,
-  USER_UPDATE_PROFILE_FAIL,
-  USER_UPDATE_PROFILE_REQUEST,
-  USER_UPDATE_PROFILE_SUCCESS,
-  USER_DETAILS_RESET,
-  USER_FORGOT_PASSWORD_REQUEST,
-  USER_FORGOT_PASSWORD_SUCCESS,
-  USER_FORGOT_PASSWORD_FAIL,
-  USER_LIST_FAIL,
-  USER_LIST_SUCCESS,
-  USER_LIST_REQUEST,
-  USER_LIST_RESET,
-  USER_DELETE_REQUEST,
-  USER_DELETE_SUCCESS,
-  USER_DELETE_FAIL,
-  USER_UPDATE_FAIL,
-  USER_UPDATE_SUCCESS,
-  USER_UPDATE_REQUEST,
+import { baseUrl } from '../urls'
+import {
+USER_DETAILS_FAIL,
+USER_DETAILS_REQUEST,
+USER_DETAILS_SUCCESS,
+USER_LOGIN_FAIL,
+USER_LOGIN_REQUEST,
+USER_LOGIN_SUCCESS,
+USER_LOGOUT,
+USER_REGISTER_FAIL,
+USER_REGISTER_REQUEST,
+USER_REGISTER_SUCCESS,
+USER_UPDATE_PROFILE_FAIL,
+USER_UPDATE_PROFILE_REQUEST,
+USER_UPDATE_PROFILE_SUCCESS,
+USER_DETAILS_RESET,
+USER_FORGOT_PASSWORD_REQUEST,
+USER_FORGOT_PASSWORD_SUCCESS,
+USER_FORGOT_PASSWORD_FAIL,
+USER_LIST_FAIL,
+USER_LIST_SUCCESS,
+USER_LIST_REQUEST,
+USER_LIST_RESET,
+USER_DELETE_REQUEST,
+USER_DELETE_SUCCESS,
+USER_DELETE_FAIL,
+USER_UPDATE_FAIL,
+USER_UPDATE_SUCCESS,
+USER_UPDATE_REQUEST,
 } from '../constants/userConstants'
 import { ORDER_LIST_MY_RESET } from '../constants/orderConstants'
 
-export const login = (email, password) => async (dispatch) =>
-{
+export const login = (email, password) => async (dispatch) => {
   try {
     dispatch({
       type: USER_LOGIN_REQUEST,
@@ -45,7 +44,7 @@ export const login = (email, password) => async (dispatch) =>
     }
 
     const { data } = await axios.post(
-      '/api/users/login',
+      `${baseUrl}api/users/login`,
       { email, password },
       config
     )
@@ -67,8 +66,7 @@ export const login = (email, password) => async (dispatch) =>
   }
 }
 
-export const logout = () => (dispatch) =>
-{
+export const logout = () => (dispatch) => {
   localStorage.removeItem('userInfo')
   localStorage.removeItem('cartItems')
   localStorage.removeItem('shippingAddress')
@@ -80,8 +78,7 @@ export const logout = () => (dispatch) =>
   document.location.href = '/login'
 }
 
-export const register = (name, email, password) => async (dispatch) =>
-{
+export const register = (name, email, password) => async (dispatch) => {
   try {
     dispatch({
       type: USER_REGISTER_REQUEST,
@@ -121,8 +118,7 @@ export const register = (name, email, password) => async (dispatch) =>
   }
 }
 
-export const getUserDetails = (id) => async (dispatch, getState) =>
-{
+export const getUserDetails = (id) => async (dispatch, getState) => {
   try {
     dispatch({
       type: USER_DETAILS_REQUEST,
@@ -159,8 +155,7 @@ export const getUserDetails = (id) => async (dispatch, getState) =>
   }
 }
 
-export const updateUserProfile = (user) => async (dispatch, getState) =>
-{
+export const updateUserProfile = (user) => async (dispatch, getState) => {
   try {
     dispatch({
       type: USER_UPDATE_PROFILE_REQUEST,
@@ -204,8 +199,7 @@ export const updateUserProfile = (user) => async (dispatch, getState) =>
 }
 
 
-export const forgotPassword = (email) => async (dispatch) =>
-{
+export const forgotPassword = (email) => async (dispatch) => {
   try {
     dispatch({
       type: USER_FORGOT_PASSWORD_REQUEST,
@@ -232,8 +226,7 @@ export const forgotPassword = (email) => async (dispatch) =>
 }
 
 
-export const listUsers = () => async (dispatch, getState) =>
-{
+export const listUsers = () => async (dispatch, getState) => {
   try {
     dispatch({
       type: USER_LIST_REQUEST,
@@ -270,8 +263,7 @@ export const listUsers = () => async (dispatch, getState) =>
   }
 }
 
-export const deleteUser = (id) => async (dispatch, getState) =>
-{
+export const deleteUser = (id) => async (dispatch, getState) => {
   try {
     dispatch({
       type: USER_DELETE_REQUEST,
@@ -305,8 +297,7 @@ export const deleteUser = (id) => async (dispatch, getState) =>
   }
 }
 
-export const updateUser = (user) => async (dispatch, getState) =>
-{
+export const updateUser = (user) => async (dispatch, getState) => {
   try {
     dispatch({
       type: USER_UPDATE_REQUEST,

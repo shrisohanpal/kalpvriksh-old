@@ -1,106 +1,93 @@
 import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
-import { Form, Button, Row, Col } from 'react-bootstrap'
-import { CircularProgress } from '@material-ui/core'
 import { useDispatch, useSelector } from 'react-redux'
+import { View, TextInput, CheckBox, Button, Text, StyleSheet } from 'react-native'
 import Message from '../components/Message'
-import FormContainer from '../components/FormContainer'
-import { register } from '../actions/userActions'
+import { login } from '../actions/userActions'
 
-const RegisterScreen = ({ location, history }) =>
-{
-  const [name, setName] = useState('')
+const RegisterScreen = ({ match, location, history }) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [confirmPassword, setConfirmPassword] = useState('')
-  const [message, setMessage] = useState(null)
+  const [showPassword, setShowPassword] = useState(false)
 
   const dispatch = useDispatch()
 
-  const userRegister = useSelector((state) => state.userRegister)
-  const { loading, error, userInfo } = userRegister
+  const userLogin = useSelector((state) => state.userLogin)
+  const { loading, error, userInfo } = userLogin
 
-  const redirect = location.search ? location.search.split('=')[1] : '/'
+  const userForgotPassword = useSelector((state) => state.userForgotPassword)
+  const { success } = userForgotPassword
 
-  useEffect(() =>
-  {
-    if (userInfo) {
-      history.push(redirect)
-    }
-  }, [history, userInfo, redirect])
+  // const redirect = location.search ? location.search.split('=')[1] : '/'
 
-  const submitHandler = (e) =>
-  {
+  const submitHandler = (e) => {
     e.preventDefault()
-    if (password !== confirmPassword) {
-      setMessage('Passwords do not match')
-    } else {
-      dispatch(register(name, email, password))
-    }
+    dispatch(login(email, password))
   }
 
   return (
-    <FormContainer>
-      <h1>Sign Up</h1>
-      {message && <Message variant='danger'>{message}</Message>}
-      {error && <Message variant='danger'>{error}</Message>}
-      {loading && <CircularProgress />}
-      <Form onSubmit={submitHandler}>
-        <Form.Group controlId='name'>
-          <Form.Label>Name</Form.Label>
-          <Form.Control
-            type='name'
-            placeholder='Enter name'
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          ></Form.Control>
-        </Form.Group>
+    <View style={styles.container}>
+      <Text style={styles.text}>Email Address</Text>
+      <TextInput style={styles.textInput}
+        placeholder="Enter Email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        textContentType="password" />
 
-        <Form.Group controlId='email'>
-          <Form.Label>Email Address</Form.Label>
-          <Form.Control
-            type='email'
-            placeholder='Enter email'
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          ></Form.Control>
-        </Form.Group>
+      <Text style={styles.text}>Password</Text>
+      <TextInput style={styles.textInput}
+        placeholder="Enter Password" />
 
-        <Form.Group controlId='password'>
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-            type='password'
-            placeholder='Enter password'
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          ></Form.Control>
-        </Form.Group>
+      <View style={styles.checkBoxContainer}>
+        <CheckBox value={showPassword}
+          onValueChange={setShowPassword}
+          style={styles.checkbox}
+        />
+        <Text>Show Password</Text>
+      </View>
 
-        <Form.Group controlId='confirmPassword'>
-          <Form.Label>Confirm Password</Form.Label>
-          <Form.Control
-            type='password'
-            placeholder='Confirm password'
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-          ></Form.Control>
-        </Form.Group>
+      <View style={styles.buttonContainer}>
+        <Button style={styles.button}
+          title="LogIn" />
+      </View>
 
-        <Button type='submit' variant='primary'>
-          Register
-        </Button>
-      </Form>
+      <View style={styles.buttonContainer}>
+        <Button style={styles.button}
+          title="Register" />
+      </View>
 
-      <Row className='py-3'>
-        <Col>
-          Have an Account?{' '}
-          <Link to={redirect ? `/login?redirect=${redirect}` : '/login'}>
-            Login
-          </Link>
-        </Col>
-      </Row>
-    </FormContainer>
+    </View>
   )
+
 }
+
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    justifyContent: 'center',
+    padding: 20
+  },
+  text: {
+    fontSize: 25
+  },
+  textInput: {
+    fontSize: 20,
+    borderWidth: 1,
+    backgroundColor: 1,
+    padding: 10,
+    marginVertical: 10,
+    borderRadius: 5
+  },
+  checkBoxContainer: {
+    flexDirection: 'row'
+  },
+  checkbox: {
+    color: 'blue'
+  },
+  buttonContainer: {
+    margin: 20
+  }
+})
 
 export default RegisterScreen

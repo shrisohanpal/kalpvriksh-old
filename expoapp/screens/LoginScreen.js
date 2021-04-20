@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { View, TextInput, CheckBox, Button, Text, StyleSheet} from 'react-native'
+import { View, TextInput, CheckBox, Button, Text, TouchableOpacity, StyleSheet } from 'react-native'
 import Message from '../components/Message'
 import { login } from '../actions/userActions'
 
-const LoginScreen = ({ match, location, history }) =>
-{
+const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
@@ -18,45 +17,64 @@ const LoginScreen = ({ match, location, history }) =>
   const userForgotPassword = useSelector((state) => state.userForgotPassword)
   const { success } = userForgotPassword
 
- // const redirect = location.search ? location.search.split('=')[1] : '/'
+  // const redirect = location.search ? location.search.split('=')[1] : '/'
 
-  const submitHandler = (e) =>
-  {
-    e.preventDefault()
+  useEffect(() => {
+    if (userInfo) {
+      navigation.navigate('Profile')
+    }
+  })
+
+  const submitHandler = () => {
+    //  e.preventDefault()
     dispatch(login(email, password))
   }
 
   return (
     <View style={styles.container}>
+      {success && <Message>We have sent a new Password on Your Email Address.</Message>}
+      {error && <Message variant='danger'>{error}</Message>}
+      {loading && <Text>Loading...</Text>}
       <Text style={styles.text}>Email Address</Text>
       <TextInput style={styles.textInput}
         placeholder="Enter Email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
-      textContentType="password" />
-      
+      />
+
       <Text style={styles.text}>Password</Text>
       <TextInput style={styles.textInput}
-        placeholder="Enter Password" />
-      
+        placeholder="Enter Password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        textContentType="password"
+      />
+
       <View style={styles.checkBoxContainer}>
         <CheckBox value={showPassword}
           onValueChange={setShowPassword}
           style={styles.checkbox}
         />
-        <Text>Show Password</Text>
+        <Text style={{ fontSize: 18 }}>Show Password</Text>
       </View>
 
-      <View style={styles.buttonContainer}>
-      <Button style={styles.button}
-        title="LogIn" />
-      </View>
-      
       <View style={styles.buttonContainer}>
         <Button style={styles.button}
-          title="Register" />
+          title="LogIn"
+          onPress={() => submitHandler()}
+        />
       </View>
 
+      <View style={styles.buttonContainer}>
+        <Button style={styles.button}
+          title="Register"
+          onPress={() => { navigation.navigate('Register') }}
+        />
+      </View>
+
+      <TouchableOpacity style={{ margin: 10 }} onPress={() => { navigation.navigate('ForgotPassword') }}>
+        <Text style={{ fontSize: 15 }}>Forgot Password?</Text>
+      </TouchableOpacity>
     </View>
   )
 
@@ -71,15 +89,15 @@ const styles = StyleSheet.create({
     padding: 20
   },
   text: {
-   fontSize:25
+    fontSize: 20
   },
   textInput: {
-    fontSize: 20,
+    fontSize: 18,
     borderWidth: 1,
     backgroundColor: 1,
     padding: 10,
-    marginVertical:10,
-    borderRadius:5
+    marginVertical: 10,
+    borderRadius: 5
   },
   checkBoxContainer: {
     flexDirection: 'row'
@@ -88,7 +106,7 @@ const styles = StyleSheet.create({
     color: 'blue'
   },
   buttonContainer: {
-    margin:20
+    margin: 10
   }
 })
 

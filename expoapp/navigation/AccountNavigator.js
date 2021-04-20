@@ -3,32 +3,14 @@ import { useDispatch, useSelector } from 'react-redux'
 import { View, Text, Button } from 'react-native'
 import { createStackNavigator } from '@react-navigation/stack'
 import LoginScreen from '../screens/LoginScreen'
+import RegisterScreen from '../screens/RegisterScreen'
+import ForgetPasswordScreen from '../screens/ForgotPassword'
 import ProfileScreen from '../screens/ProfileScreen'
-
-
-function RegisterScreen({ navigation })
-{
-    return (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <Text>this is Register Screen</Text>
-        </View>
-    );
-}
-
-function ForgetPasswordScreen({ navigation })
-{
-    return (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <Text>this is Forget Password Screen</Text>
-        </View>
-    );
-}
 
 
 const Stack = createStackNavigator()
 
-export default function App()
-{
+export default function App() {
     const userDetails = useSelector((state) => state.userDetails)
     const { loading, error, user } = userDetails
 
