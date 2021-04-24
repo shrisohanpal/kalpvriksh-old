@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { View, SafeAreaView, Text, Button, ScrollView, Image, Dimensions, FlatList, StyleSheet } from 'react-native'
+import { View, ActivityIndicator, Text, Button, ScrollView, Image, Dimensions, FlatList, StyleSheet } from 'react-native'
 
 //import Product from '../components/Product'
 import Shop from '../components/Shop'
@@ -10,8 +10,8 @@ import { listProducts } from '../actions/productActions'
 import { listShops } from '../actions/shopActions'
 //import OwlCarousel from 'react-owl-carousel';
 
-const HomeScreen = () => {
-
+const HomeScreen = ({ navigation }) => {
+    // console.log(props)
     const dispatch = useDispatch()
 
     const productList = useSelector(state => state.productList)
@@ -36,14 +36,14 @@ const HomeScreen = () => {
                 </ScrollView>
 
                 <Text style={styles.text}>Featured Shops</Text>
-                {loadingShops ? (<Text>Loading...</Text>)
+                {loadingShops ? <ActivityIndicator size="large" />
                     : errorShops
                         ? (<Message data={errorShops} />)
                         : (
                             <FlatList
                                 keyExtractor={(item, index) => item._id}
                                 data={shops}
-                                renderItem={Shop}
+                                renderItem={({ item }) => <Shop shop={item} navigation={navigation} />}
                                 showsHorizontalScrollIndicator={false}
                                 horizontal={true}
                             />
@@ -55,14 +55,14 @@ const HomeScreen = () => {
                 <Image source={require('../assets/banners/bc.jpg')} style={styles.banner} fluid />
 
                 <Text style={styles.text}>Featured Products</Text>
-                {loadingProducts ? (<Text>Loading...</Text>)
+                {loadingProducts ? <ActivityIndicator size="large" />
                     : errorProducts
                         ? (<Message data={errorProducts} />)
                         : (
                             <FlatList
                                 keyExtractor={(item, index) => item._id}
                                 data={products}
-                                renderItem={Product}
+                                renderItem={({ item }) => <Product product={item} navigation={navigation} />}
                                 showsHorizontalScrollIndicator={false}
                                 horizontal={true}
                             />

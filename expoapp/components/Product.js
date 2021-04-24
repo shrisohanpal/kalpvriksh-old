@@ -1,12 +1,12 @@
 import React from 'react'
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 
-const Product = ({ item: product }) => {
-  //  console.log(product)
+const Product = ({ product, navigation }) => {
+    //  console.log(navigation)
     return (
         <View style={styles.product}>
             <View style={styles.productContainer}>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.navigate("Product")}>
                     <View style={styles.textContainer}>
                         <Text style={styles.text}>
                             {product.name}

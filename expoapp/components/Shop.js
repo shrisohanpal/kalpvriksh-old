@@ -1,19 +1,19 @@
 import React from 'react'
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 
-const Shop = ({ item: shop }) => {
- //   console.log(shop)
+const Shop = ({ shop, navigation }) => {
+    //   console.log(shop)
     return (
         <View style={styles.shop}>
             <View style={styles.shopContainer}>
-            <TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.navigate("Shop")}>
                     <Image style={styles.image} source={require('../assets/shop.png')} />
                     <View style={styles.textContainer}>
                         <Text style={styles.text}>
                             {shop.name}
                         </Text>
                     </View>
-            </TouchableOpacity>
+                </TouchableOpacity>
             </View>
         </View>
     )
@@ -26,9 +26,9 @@ const Shop = ({ item: shop }) => {
 const styles = StyleSheet.create({
     shop: {
         height: 200,
-        width: 150+20,
+        width: 150 + 20,
         //backgroundColor: '#f5f5f5',
-        paddingHorizontal:10
+        paddingHorizontal: 10
     },
     shopContainer: {
         borderRadius: 10,
@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 2, height: 2 },
         shadowRadius: 10,
         elevation: 5,
-      //  backgroundColor:'red'
+        //  backgroundColor:'red'
     },
     image: {
         width: 150,
@@ -47,8 +47,8 @@ const styles = StyleSheet.create({
     },
     textContainer: {
         height: 30,
-        paddingHorizontal:5,
-       // backgroundColor: 'green'
+        paddingHorizontal: 5,
+        // backgroundColor: 'green'
     },
     text: {
         fontSize: 15

@@ -4,19 +4,12 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons'
 
 import HomeNavigator from './HomeNavigator'
+import CategoriesNavigator from './CategoriesNavigator'
 import AccountNavigator from './AccountNavigator'
 
-function CategoriesScreen({ navigation })
-{
-    return (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <Text>this is Categories</Text>
-        </View>
-    );
-}
 
-function LocationScreen({ navigation })
-{
+
+function LocationScreen({ navigation }) {
     return (
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
             <Text>this is Location Screen</Text>
@@ -24,25 +17,15 @@ function LocationScreen({ navigation })
     );
 }
 
-function AccountScreen({ navigation })
-{
-    return (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <Text>this is Account Screen</Text>
-        </View>
-    );
-}
 
 const BottomTab = createBottomTabNavigator()
 
 
-export default function App()
-{
+export default function App() {
     return (
         <BottomTab.Navigator
             screenOptions={({ route }) => ({
-                tabBarIcon: ({ color, size }) =>
-                {
+                tabBarIcon: ({ color, size }) => {
                     let iconName;
                     switch (route.name) {
                         case 'Home':
@@ -63,7 +46,7 @@ export default function App()
             }}
             initialRouteName="Home">
             <BottomTab.Screen name="Home" component={HomeNavigator} />
-            <BottomTab.Screen name="Categories" component={CategoriesScreen} />
+            <BottomTab.Screen name="Categories" component={CategoriesNavigator} />
             <BottomTab.Screen name="Location" component={LocationScreen} />
             <BottomTab.Screen name="Account" component={AccountNavigator} />
         </BottomTab.Navigator>

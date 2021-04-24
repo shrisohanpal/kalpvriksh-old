@@ -1,8 +1,7 @@
 import axios from 'axios'
 import { baseUrl } from '../urls'
 
-import
-{
+import {
     SHOP_LIST_REQUEST,
     SHOP_LIST_SUCCESS,
     SHOP_LIST_FAIL,
@@ -13,7 +12,7 @@ import
     SHOP_DETAILS_SUCCESS,
     SHOP_DETAILS_FAIL,
     SHOP_DELETE_REQUEST,
-    SHOP_DELETE_SUCCESS, 
+    SHOP_DELETE_SUCCESS,
     SHOP_DELETE_FAIL,
     SHOP_CREATE_FAIL,
     SHOP_CREATE_SUCCESS,
@@ -24,14 +23,13 @@ import
 } from '../constants/shopConstants'
 import { logout } from './userActions'
 
-export const listShops = async (dispatch) =>
-{
+export const listShops = async (dispatch) => {
     try {
         dispatch({ type: SHOP_LIST_REQUEST })
 
         const { data } = await axios.get(
-            `${baseUrl}api/shops`
-            )
+            `${baseUrl}/api/shops`
+        )
 
         dispatch({
             type: SHOP_LIST_SUCCESS,
@@ -49,8 +47,7 @@ export const listShops = async (dispatch) =>
 }
 
 
-export const getShopByVendor = (id) => async (dispatch, getState) =>
-{
+export const getShopByVendor = (id) => async (dispatch, getState) => {
     try {
         dispatch({ type: SHOP_BY_VENDOR_REQUEST })
 
@@ -65,7 +62,7 @@ export const getShopByVendor = (id) => async (dispatch, getState) =>
         }
 
         const { data } = await axios.get(
-            `/api/shops/vendor/${id}`, config
+            `${baseUrl}/api/shops/vendor/${id}`, config
         )
 
         dispatch({
@@ -83,12 +80,11 @@ export const getShopByVendor = (id) => async (dispatch, getState) =>
     }
 }
 
-export const listShopDetails = (id) => async (dispatch) =>
-{
+export const listShopDetails = (id) => async (dispatch) => {
     try {
         dispatch({ type: SHOP_DETAILS_REQUEST })
 
-        const { data } = await axios.get(`/api/shops/${id}`)
+        const { data } = await axios.get(`${baseUrl}/api/shops/${id}`)
 
         dispatch({
             type: SHOP_DETAILS_SUCCESS,
@@ -105,8 +101,7 @@ export const listShopDetails = (id) => async (dispatch) =>
     }
 }
 
-export const deleteShop = (id) => async (dispatch, getState) =>
-{
+export const deleteShop = (id) => async (dispatch, getState) => {
     try {
         dispatch({
             type: SHOP_DELETE_REQUEST,
@@ -122,7 +117,7 @@ export const deleteShop = (id) => async (dispatch, getState) =>
             },
         }
 
-        await axios.delete(`/api/shops/${id}`, config)
+        await axios.delete(`${baseUrl}/api/shops/${id}`, config)
 
         dispatch({
             type: SHOP_DELETE_SUCCESS,
@@ -142,8 +137,7 @@ export const deleteShop = (id) => async (dispatch, getState) =>
     }
 }
 
-export const createShop = () => async (dispatch, getState) =>
-{
+export const createShop = () => async (dispatch, getState) => {
     try {
         dispatch({
             type: SHOP_CREATE_REQUEST,
@@ -159,7 +153,7 @@ export const createShop = () => async (dispatch, getState) =>
             },
         }
 
-        const { data } = await axios.post(`/api/shops`, {}, config)
+        const { data } = await axios.post(`${baseUrl}/api/shops`, {}, config)
 
         dispatch({
             type: SHOP_CREATE_SUCCESS,
@@ -180,8 +174,7 @@ export const createShop = () => async (dispatch, getState) =>
     }
 }
 
-export const updateShop = (shop) => async (dispatch, getState) =>
-{
+export const updateShop = (shop) => async (dispatch, getState) => {
     try {
         dispatch({
             type: SHOP_UPDATE_REQUEST,
@@ -199,7 +192,7 @@ export const updateShop = (shop) => async (dispatch, getState) =>
         }
 
         const { data } = await axios.put(
-            `/api/shops/${shop._id}`,
+            `${baseUrl}/api/shops/${shop._id}`,
             shop,
             config
         )
