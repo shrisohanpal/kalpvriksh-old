@@ -1,8 +1,9 @@
 import React from 'react'
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import { baseUrl } from '../urls'
 
 const Product = ({ product, navigation }) => {
-    //  console.log(navigation)
+    //  console.log(product)
     return (
         <View style={styles.product}>
             <View style={styles.productContainer}>
@@ -12,7 +13,9 @@ const Product = ({ product, navigation }) => {
                             {product.name}
                         </Text>
                     </View>
-                    <Image style={styles.image} source={require('../assets/product.png')} />
+                    <Image style={styles.image}
+                        source={{ uri: `${baseUrl}/api${product.images[0]}` }}
+                    />
                     <View style={styles.textContainer}>
                         <Text style={styles.text}>
                             {product.price}

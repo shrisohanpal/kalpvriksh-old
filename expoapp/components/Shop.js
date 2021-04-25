@@ -1,13 +1,16 @@
 import React from 'react'
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import { baseUrl } from '../urls'
 
 const Shop = ({ shop, navigation }) => {
-    //   console.log(shop)
+    // console.log(shop)
     return (
         <View style={styles.shop}>
             <View style={styles.shopContainer}>
                 <TouchableOpacity onPress={() => navigation.navigate("Shop")}>
-                    <Image style={styles.image} source={require('../assets/shop.png')} />
+                    <Image style={styles.image}
+                        source={{ uri: `${baseUrl}/api${shop.image}` }}
+                    />
                     <View style={styles.textContainer}>
                         <Text style={styles.text}>
                             {shop.name}

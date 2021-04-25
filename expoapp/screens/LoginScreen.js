@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { View, TextInput, CheckBox, Button, Text, TouchableOpacity, StyleSheet } from 'react-native'
+import { ScrollView, View, TextInput, CheckBox, Button, Text, ActivityIndicator, TouchableOpacity, StyleSheet } from 'react-native'
 import Message from '../components/Message'
 import { login } from '../actions/userActions'
 
@@ -21,61 +21,64 @@ const LoginScreen = ({ navigation }) => {
 
   useEffect(() => {
     if (userInfo) {
-      navigation.navigate('Profile')
+      //   navigation.navigate('Profile')
     }
   })
 
   const submitHandler = () => {
     //  e.preventDefault()
-    dispatch(login(email, password))
+    //dispatch(login(email, password))
+    dispatch(login('admin@example.com', '123456'))
   }
 
   return (
-    <View style={styles.container}>
-      {success && <Message>We have sent a new Password on Your Email Address.</Message>}
-      {error && <Message variant='danger'>{error}</Message>}
-      {loading && <Text>Loading...</Text>}
-      <Text style={styles.text}>Email Address</Text>
-      <TextInput style={styles.textInput}
-        placeholder="Enter Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-
-      <Text style={styles.text}>Password</Text>
-      <TextInput style={styles.textInput}
-        placeholder="Enter Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        textContentType="password"
-      />
-
-      <View style={styles.checkBoxContainer}>
-        <CheckBox value={showPassword}
-          onValueChange={setShowPassword}
-          style={styles.checkbox}
+    <ScrollView>
+      <View style={styles.container}>
+        {success && <Message>We have sent a new Password on Your Email Address.</Message>}
+        {error && <Message data={error} />}
+        {loading && <ActivityIndicator />}
+        <Text style={styles.text}>Email Address</Text>
+        <TextInput style={styles.textInput}
+          placeholder="Enter Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
         />
-        <Text style={{ fontSize: 18 }}>Show Password</Text>
-      </View>
 
-      <View style={styles.buttonContainer}>
-        <Button style={styles.button}
-          title="LogIn"
-          onPress={() => submitHandler()}
+        <Text style={styles.text}>Password</Text>
+        <TextInput style={styles.textInput}
+          placeholder="Enter Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          textContentType="password"
         />
-      </View>
 
-      <View style={styles.buttonContainer}>
-        <Button style={styles.button}
-          title="Register"
-          onPress={() => { navigation.navigate('Register') }}
-        />
-      </View>
+        <View style={styles.checkBoxContainer}>
+          <CheckBox value={showPassword}
+            onValueChange={setShowPassword}
+            style={styles.checkbox}
+          />
+          <Text style={{ fontSize: 18 }}>Show Password</Text>
+        </View>
 
-      <TouchableOpacity style={{ margin: 10 }} onPress={() => { navigation.navigate('ForgotPassword') }}>
-        <Text style={{ fontSize: 15 }}>Forgot Password?</Text>
-      </TouchableOpacity>
-    </View>
+        <View style={styles.buttonContainer}>
+          <Button style={styles.button}
+            title="LogIn"
+            onPress={() => submitHandler()}
+          />
+        </View>
+
+        <View style={styles.buttonContainer}>
+          <Button style={styles.button}
+            title="Register"
+            onPress={() => { navigation.navigate('Register') }}
+          />
+        </View>
+
+        <TouchableOpacity style={{ margin: 10 }} onPress={() => { navigation.navigate('ForgotPassword') }}>
+          <Text style={{ fontSize: 15 }}>Forgot Password?</Text>
+        </TouchableOpacity>
+      </View>
+    </ScrollView>
   )
 
 }

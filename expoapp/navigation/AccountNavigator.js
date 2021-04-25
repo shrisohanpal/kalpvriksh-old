@@ -18,11 +18,16 @@ export default function App() {
     const { userInfo } = userLogin
 
     return (
-        <Stack.Navigator initialRouteName={userInfo ? "Profile" : "Login"}>
-            <Stack.Screen name="Login" component={LoginScreen} />
-            <Stack.Screen name="Register" component={RegisterScreen} />
-            <Stack.Screen name="ForgotPassword" component={ForgetPasswordScreen} />
-            <Stack.Screen name="Profile" component={ProfileScreen} />
+        <Stack.Navigator>
+            {userInfo ?
+                <Stack.Screen name="Profile" component={ProfileScreen} />
+                :
+                <>
+                    <Stack.Screen name="Login" component={LoginScreen} />
+                    <Stack.Screen name="Register" component={RegisterScreen} />
+                    <Stack.Screen name="ForgotPassword" component={ForgetPasswordScreen} />
+                </>
+            }
         </Stack.Navigator>
     );
 }

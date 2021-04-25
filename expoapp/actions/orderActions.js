@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { AsyncStorage } from 'react-native'
 import { baseUrl } from '../urls'
 import { CART_CLEAR_ITEMS } from '../constants/cartConstants'
 import {
@@ -60,7 +61,7 @@ export const createOrder = (order) => async (dispatch, getState) => {
       type: CART_CLEAR_ITEMS,
       // payload: data,
     })
-    localStorage.removeItem('cartItems')
+    AsyncStorage.removeItem('cartItems')
   } catch (error) {
     const message =
       error.response && error.response.data.message

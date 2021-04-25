@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { AsyncStorage } from 'react-native'
 import { baseUrl } from '../urls'
 import {
   USER_DETAILS_FAIL,
@@ -54,7 +55,7 @@ export const login = (email, password) => async (dispatch) => {
       payload: data,
     })
 
-    localStorage.setItem('userInfo', JSON.stringify(data))
+    await AsyncStorage.setItem('userInfo', JSON.stringify(data))
   } catch (error) {
     dispatch({
       type: USER_LOGIN_FAIL,
@@ -67,15 +68,15 @@ export const login = (email, password) => async (dispatch) => {
 }
 
 export const logout = () => (dispatch) => {
-  localStorage.removeItem('userInfo')
-  localStorage.removeItem('cartItems')
-  localStorage.removeItem('shippingAddress')
-  localStorage.removeItem('paymentMethod')
+  AsyncStorage.removeItem('userInfo')
+  AsyncStorage.removeItem('cartItems')
+  AsyncStorage.removeItem('shippingAddress')
+  AsyncStorage.removeItem('paymentMethod')
   dispatch({ type: USER_LOGOUT })
   dispatch({ type: USER_DETAILS_RESET })
   dispatch({ type: ORDER_LIST_MY_RESET })
   dispatch({ type: USER_LIST_RESET })
-  document.location.href = '/login'
+  //  document.location.href = '/login'
 }
 
 export const register = (name, email, password) => async (dispatch) => {
@@ -106,7 +107,7 @@ export const register = (name, email, password) => async (dispatch) => {
       payload: data,
     })
 
-    localStorage.setItem('userInfo', JSON.stringify(data))
+    AsyncStorage.setItem('userInfo', JSON.stringify(data))
   } catch (error) {
     dispatch({
       type: USER_REGISTER_FAIL,
@@ -182,7 +183,7 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
       type: USER_LOGIN_SUCCESS,
       payload: data,
     })
-    localStorage.setItem('userInfo', JSON.stringify(data))
+    AsyncStorage.setItem('userInfo', JSON.stringify(data))
   } catch (error) {
     const message =
       error.response && error.response.data.message

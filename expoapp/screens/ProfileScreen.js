@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import {View, Text} from 'react-native'
+import { View, Text, TextInput, Button, ActivityIndicator, ScrollView, StyleSheet } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import { getUserDetails, updateUserProfile } from '../actions/userActions'
@@ -7,8 +7,7 @@ import { listMyOrders } from '../actions/orderActions'
 import { USER_UPDATE_PROFILE_RESET } from '../constants/userConstants'
 import { logout } from '../actions/userActions'
 
-const ProfileScreen = ({ location, history }) =>
-{
+const ProfileScreen = () => {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -29,25 +28,18 @@ const ProfileScreen = ({ location, history }) =>
   const orderListMy = useSelector((state) => state.orderListMy)
   const { loading: loadingOrders, error: errorOrders, orders } = orderListMy
 
-  useEffect(() =>
-  {
-    if (!userInfo) {
-      history.push('/login')
+  useEffect(() => {
+    if (!user || !user.name || success) {
+      dispatch({ type: USER_UPDATE_PROFILE_RESET })
+      dispatch(getUserDetails('profile'))
+      dispatch(listMyOrders())
     } else {
-      if (!user || !user.name || success) {
-        dispatch({ type: USER_UPDATE_PROFILE_RESET })
-        dispatch(getUserDetails('profile'))
-        dispatch(listMyOrders())
-      } else {
-        setName(user.name)
-        setEmail(user.email)
-      }
+      setName(user.name)
+      setEmail(user.email)
     }
-  }, [dispatch, history, userInfo, user, success])
+  }, [dispatch, userInfo, user, success])
 
-  const submitHandler = (e) =>
-  {
-    e.preventDefault()
+  const submitHandler = () => {
     if (password !== confirmPassword) {
       setMessage('Passwords do not match')
     } else {
@@ -56,66 +48,58 @@ const ProfileScreen = ({ location, history }) =>
   }
 
   return (
-    <View>
-      <Text>HI</Text>
+    <View style={styles.profile}>
+      {message && <Message data={message} />}
+      {success && <Message data="Profile Updated" />}
+
+      {loading ?
+        <ActivityIndicator />
+        : error ?
+          <Message data={error} />
+          : (
+            <ScrollView>
+              <View style={styles.form}>
+                <Text style={styles.label}>Name</Text>
+                <TextInput
+                  style={styles.textInput}
+                  onChangeText={(e) => setName(e.target.value)}
+                  value={name}
+                />
+                <Text style={styles.label}>Email Address</Text>
+                <TextInput
+                  style={styles.textInput}
+                  onChangeText={(e) => setEmail(e.target.value)}
+                  value={email}
+                />
+                <Text style={styles.label}>Password</Text>
+                <TextInput
+                  style={styles.textInput}
+                  onChangeText={(e) => setPassword(e.target.value)}
+                />
+                <Text style={styles.label}>Conform Password</Text>
+                <TextInput
+                  style={styles.textInput}
+                  onChangeText={(e) => setConfirmPassword(e.target.value)}
+                />
+                <View style={{ marginVertical: 10 }}>
+                  <Button
+                    title="Update"
+                    onPress={submitHandler}
+                  />
+                </View>
+                <Button
+                  title="Logout"
+                  color='red'
+                  onPress={() => dispatch(logout())}
+                />
+              </View>
+            </ScrollView>
+          )
+      }
     </View>
   )
 
   /*
-  return (
-    <Container>
-      <Row>
-        <Col md={3}>
-          <h2>User Profile</h2>
-          {message && <Message variant='danger'>{message}</Message>}
-          { }
-          {success && <Message variant='success'>Profile Updated</Message>}
-          {loading ? (
-            <CircularProgress />
-          ) : error ? (
-            <Message variant='danger'>{error}</Message>
-          ) : (
-                <Form onSubmit={submitHandler}>
-                  <Form.Group controlId='name'>
-                    <Form.Label>Name</Form.Label>
-                    <Form.Control
-                      type='name'
-                      placeholder='Enter name'
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                    ></Form.Control>
-                  </Form.Group>
-
-                  <Form.Group controlId='email'>
-                    <Form.Label>Email Address</Form.Label>
-                    <Form.Control
-                      type='email'
-                      placeholder='Enter email'
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                    ></Form.Control>
-                  </Form.Group>
-
-                  <Form.Group controlId='password'>
-                    <Form.Label>Password</Form.Label>
-                    <Form.Control
-                      type='password'
-                      placeholder='Enter password'
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                    ></Form.Control>
-                  </Form.Group>
-
-                  <Form.Group controlId='confirmPassword'>
-                    <Form.Label>Confirm Password</Form.Label>
-                    <Form.Control
-                      type='password'
-                      placeholder='Confirm password'
-                      value={confirmPassword}
-                      onChange={(e) => setConfirmPassword(e.target.value)}
-                    ></Form.Control>
-                  </Form.Group>
-
                   <Button type='submit' variant='primary'>
                     Update
             </Button>
@@ -128,7 +112,7 @@ const ProfileScreen = ({ location, history }) =>
               <h2>My Orders</h2>
             </Col>
             <Col xs={4}>
-              <Button variant='danger' onClick={() => dispatch(logout())}>Logout</Button>
+              <Button variant='danger' onClick={>Logout</Button>
             </Col>
           </Row>
           {loadingOrders ? (
@@ -184,5 +168,26 @@ const ProfileScreen = ({ location, history }) =>
     </Container>
   )*/
 }
+
+const styles = StyleSheet.create({
+  profile: {
+    flex: 1,
+    padding: 10
+  },
+  form: {
+    margin: 20
+  },
+  label: {
+    fontSize: 18,
+    marginVertical: 5
+  },
+  textInput: {
+    borderBottomColor: '#ccc',
+    borderBottomWidth: 1,
+    marginBottom: 15,
+    paddingVertical: 4,
+    paddingHorizontal: 2
+  }
+})
 
 export default ProfileScreen

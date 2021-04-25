@@ -1,13 +1,28 @@
 import React from 'react'
-import { View, Text } from 'react-native'
+import { View, Text, StyleSheet } from 'react-native'
 
-const Message = ({ data }) =>
-{
+const Message = ({ data }) => {
     return (
-        <View>
-            <Text>{data}</Text>
+        <View style={styles.message}>
+            <Text style={styles.text}>
+                {data}
+            </Text>
         </View>
     )
 }
+
+const styles = StyleSheet.create({
+    message: {
+        width: '100%',
+        borderRadius: 10,
+        marginVertical: 10,
+        backgroundColor: 'red'
+    },
+    text: {
+        fontSize: 20,
+        color: '#fff',
+        margin: 10
+    }
+})
 
 export default Message
