@@ -1,10 +1,8 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
 import { composeWithDevTools } from 'redux-devtools-extension'
-//import { AsyncStorage } from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage'
-import
-{
+import { AsyncStorage } from 'react-native'
+import {
     userLoginReducer,
     userRegisterReducer,
     userDetailsReducer,
@@ -14,16 +12,14 @@ import
     userDeleteReducer,
     userUpdateReducer,
 } from './reducers/userReducers'
-import
-{
+import {
     categoryListReducer,
     categoryDetailsReducer,
     categoryDeleteReducer,
     categoryCreateReducer,
     categoryUpdateReducer
 } from './reducers/categoryReducers'
-import
-{
+import {
     shopListReducer,
     shopByVendorReducer,
     shopDetailsReducer,
@@ -31,8 +27,7 @@ import
     shopCreateReducer,
     shopUpdateReducer,
 } from './reducers/shopReducers'
-import
-{
+import {
     productListReducer,
     productListByShopReducer,
     productListByVendorReducer,
@@ -45,8 +40,7 @@ import
     productTopRatedReducer,
 } from './reducers/productReducers'
 import { cartReducer } from './reducers/cartReducers'
-import
-{
+import {
     orderCreateReducer,
     orderDetailsReducer,
     orderPayReducer,
@@ -102,24 +96,18 @@ const reducer = combineReducers({
     orderListByVendor: orderListByVendorReducer
 })
 
-/*
-const cartItemsFromStorage = localStorage.getItem('cartItems')
-    ? JSON.parse(localStorage.getItem('cartItems'))
-    : []
-*/
-
-const cartItemsFromStorage = [] /*AsyncStorage.getItem('cartItems')
+const cartItemsFromStorage = AsyncStorage.getItem('cartItems')
     ? JSON.parse(AsyncStorage.getItem('cartItems'))
-    : []*/
+    : []
 
-const userInfoFromStorage = null/* localStorage.getItem('userInfo')
-    ? JSON.parse(localStorage.getItem('userInfo'))
-    : null*/
+const userInfoFromStorage = AsyncStorage.getItem('userInfo')
+    ? JSON.parse(AsyncStorage.getItem('userInfo'))
+    : null
 
-const shippingAddressFromStorage = {} /*localStorage.getItem('shippingAddress')
-    ? JSON.parse(localStorage.getItem('shippingAddress'))
+const shippingAddressFromStorage = AsyncStorage.getItem('shippingAddress')
+    ? JSON.parse(AsyncStorage.getItem('shippingAddress'))
     : {}
-*/
+
 const initialState = {
     cart: {
         cartItems: cartItemsFromStorage,
