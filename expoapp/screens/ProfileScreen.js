@@ -6,6 +6,7 @@ import { getUserDetails, updateUserProfile } from '../actions/userActions'
 import { listMyOrders } from '../actions/orderActions'
 import { USER_UPDATE_PROFILE_RESET } from '../constants/userConstants'
 import { logout } from '../actions/userActions'
+import { Colors } from 'react-native/Libraries/NewAppScreen'
 
 const ProfileScreen = () => {
   const [name, setName] = useState('')
@@ -53,7 +54,7 @@ const ProfileScreen = () => {
       {success && <Message data="Profile Updated" />}
 
       {loading ?
-        <ActivityIndicator />
+        <ActivityIndicator size="large" color={Colors.primary} />
         : error ?
           <Message data={error} />
           : (
@@ -62,24 +63,24 @@ const ProfileScreen = () => {
                 <Text style={styles.label}>Name</Text>
                 <TextInput
                   style={styles.textInput}
-                  onChangeText={(e) => setName(e.target.value)}
+                  onChangeText={setName}
                   value={name}
                 />
                 <Text style={styles.label}>Email Address</Text>
                 <TextInput
                   style={styles.textInput}
-                  onChangeText={(e) => setEmail(e.target.value)}
+                  onChangeText={setEmail}
                   value={email}
                 />
                 <Text style={styles.label}>Password</Text>
                 <TextInput
                   style={styles.textInput}
-                  onChangeText={(e) => setPassword(e.target.value)}
+                  onChangeText={setPassword}
                 />
                 <Text style={styles.label}>Conform Password</Text>
                 <TextInput
                   style={styles.textInput}
-                  onChangeText={(e) => setConfirmPassword(e.target.value)}
+                  onChangeText={setConfirmPassword}
                 />
                 <View style={{ marginVertical: 10 }}>
                   <Button

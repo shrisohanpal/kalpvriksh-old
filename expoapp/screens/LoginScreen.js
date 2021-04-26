@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ScrollView, View, TextInput, CheckBox, Button, Text, ActivityIndicator, TouchableOpacity, StyleSheet } from 'react-native'
 import Message from '../components/Message'
 import { login } from '../actions/userActions'
+import { Colors } from 'react-native/Libraries/NewAppScreen'
 
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState('')
@@ -17,18 +18,9 @@ const LoginScreen = ({ navigation }) => {
   const userForgotPassword = useSelector((state) => state.userForgotPassword)
   const { success } = userForgotPassword
 
-  // const redirect = location.search ? location.search.split('=')[1] : '/'
-
-  useEffect(() => {
-    if (userInfo) {
-      //   navigation.navigate('Profile')
-    }
-  })
-
   const submitHandler = () => {
-    //  e.preventDefault()
-    //dispatch(login(email, password))
-    dispatch(login('admin@example.com', '123456'))
+    dispatch(login(email, password))
+    // dispatch(login('admin@example.com', '123456'))
   }
 
   return (
@@ -36,19 +28,21 @@ const LoginScreen = ({ navigation }) => {
       <View style={styles.container}>
         {success && <Message>We have sent a new Password on Your Email Address.</Message>}
         {error && <Message data={error} />}
-        {loading && <ActivityIndicator />}
+        {loading && <ActivityIndicator size="large" color={Colors.primary} />}
+
         <Text style={styles.text}>Email Address</Text>
         <TextInput style={styles.textInput}
           placeholder="Enter Email"
+          onChangeText={setEmail}
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
         />
 
         <Text style={styles.text}>Password</Text>
         <TextInput style={styles.textInput}
           placeholder="Enter Password"
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChangeText={setPassword}
+          secureTextEntry={!showPassword}
           textContentType="password"
         />
 
@@ -83,13 +77,12 @@ const LoginScreen = ({ navigation }) => {
 
 }
 
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    // backgroundColor: '#fff',
     justifyContent: 'center',
-    padding: 20
+    padding: 20,
   },
   text: {
     fontSize: 20

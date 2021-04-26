@@ -18,7 +18,12 @@ export default function App() {
     const { userInfo } = userLogin
 
     return (
-        <Stack.Navigator>
+        <Stack.Navigator
+            screenOptions={{
+                headerTintColor: 'white',
+                headerStyle: { backgroundColor: '#007bff' },
+            }}
+        >
             {userInfo ?
                 <Stack.Screen name="Profile" component={ProfileScreen} />
                 :

@@ -34,6 +34,7 @@ const HomeScreen = ({ navigation }) => {
         <ScrollView>
             <View style={{ width: '100%', alignItems: 'center' }}>
                 <FlatList
+                    keyExtractor={(item, index) => String(item)}
                     data={images}
                     renderItem={({ item }) => <Image style={styles.scrollImage} source={item} />}
                     showsHorizontalScrollIndicator={false}

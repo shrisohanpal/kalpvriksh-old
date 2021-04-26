@@ -13,9 +13,9 @@ const Message = ({ data }) => {
 
 const styles = StyleSheet.create({
     message: {
-        width: '100%',
+        //  width: '100%',
         borderRadius: 10,
-        marginVertical: 10,
+        margin: 10,
         backgroundColor: 'red'
     },
     text: {

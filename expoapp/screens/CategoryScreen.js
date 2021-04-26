@@ -3,14 +3,19 @@ import { useDispatch, useSelector } from 'react-redux'
 import { TouchableOpacity, View, Text, ActivityIndicator, FlatList, StyleSheet } from 'react-native'
 
 import Message from '../components/Message'
+import Card from '../components/Card'
 import { listCategorys } from '../actions/categoryActions'
 
 
 const Category = ({ category, navigation }) => {
     return (
-        <TouchableOpacity onPress={() => navigation.navigate("Product")}>
-            <Text>{category.name}</Text>
-        </TouchableOpacity>
+        <Card style={styles.category}>
+            <TouchableOpacity
+                onPress={() => navigation.navigate("Product")}
+            >
+                <Text style={styles.text}>{category.name}</Text>
+            </TouchableOpacity>
+        </Card>
     )
 }
 
@@ -28,7 +33,6 @@ const CategoryScreen = ({ navigation }) => {
 
     return (
         <View>
-            <Text style={styles.text}>Categories</Text>
             {loading ? <ActivityIndicator size="large" />
                 : error
                     ? (<Message data={error} />)
@@ -45,6 +49,16 @@ const CategoryScreen = ({ navigation }) => {
     )
 }
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+    category: {
+        margin: 10,
+        padding: 10,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    text: {
+        fontSize: 25
+    }
+})
 
 export default CategoryScreen
