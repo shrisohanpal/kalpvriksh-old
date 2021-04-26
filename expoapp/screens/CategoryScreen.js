@@ -11,7 +11,7 @@ const Category = ({ category, navigation }) => {
     return (
         <Card style={styles.category}>
             <TouchableOpacity
-                onPress={() => navigation.navigate("Product")}
+                onPress={() => navigation.navigate('ProductsByCat', { id: category._id, title: category.name })}
             >
                 <Text style={styles.text}>{category.name}</Text>
             </TouchableOpacity>

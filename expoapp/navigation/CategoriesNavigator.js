@@ -4,34 +4,39 @@ import { createStackNavigator } from '@react-navigation/stack'
 import { Ionicons, FontAwesome } from '@expo/vector-icons';
 
 import CategoryScreen from '../screens/CategoryScreen'
-import ProductScreen from '../screens/ProductScreen'
+import ProductsByCatScreen from '../screens/ProductsByCatScreen'
 
 const Stack = createStackNavigator()
 
-export default function App() {
+export default function App({ navigation }) {
     return (
-        <Stack.Navigator initialRouteName="Home">
+        <Stack.Navigator
+            screenOptions={{
+                headerTintColor: 'white',
+                headerStyle: { backgroundColor: '#007bff' },
+            }}
+            initialRouteName="Home">
             <Stack.Screen
                 name="Category"
                 component={CategoryScreen}
                 options={{
                     title: 'Kalpvriksh',
-                    headerStyle: {
-                        backgroundColor: '#007bff',
-                    },
-                    headerTintColor: '#fff',
                     headerLeft: () => (
-                        <FontAwesome name="bars" size={25} color='#ffffff' style={{ margin: 10 }} />
+                        <FontAwesome name="bars" size={25} color='#ffffff' style={{ margin: 10 }} onPress={() => navigation.openDrawer()} />
                     ),
                     headerRight: () => (
                         <View style={{ flexDirection: 'row' }}>
-                            <Ionicons name="ios-search" size={25} color='#ffffff' style={{ margin: 10 }} />
-                            <Ionicons name="ios-cart" size={25} color='#ffffff' style={{ margin: 10 }} />
+                            <Ionicons name="ios-search" size={25} color='#ffffff' style={{ margin: 10 }} onPress={() => navigation.navigate('Search')} />
+                            <Ionicons name="ios-cart" size={25} color='#ffffff' style={{ margin: 10 }} onPress={() => navigation.navigate('Cart')} />
                         </View >
                     )
                 }}
             />
-            <Stack.Screen name="Product" component={ProductScreen} />
+            <Stack.Screen
+                name="ProductsByCat"
+                component={ProductsByCatScreen}
+                options={({ route }) => ({ title: route.params.title })}
+            />
 
         </Stack.Navigator>
     );

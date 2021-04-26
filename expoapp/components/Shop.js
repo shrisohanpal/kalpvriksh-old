@@ -29,7 +29,8 @@ const Shop = ({ shop, navigation }) => {
 const styles = StyleSheet.create({
     shop: {
         height: 200,
-        margin: 20
+        margin: 20,
+        minWidth: 200
     },
     touchable: {
         borderRadius: 10,
