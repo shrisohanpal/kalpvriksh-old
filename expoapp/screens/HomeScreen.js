@@ -10,8 +10,13 @@ import { listProducts } from '../actions/productActions'
 import { listShops } from '../actions/shopActions'
 //import OwlCarousel from 'react-owl-carousel';
 
+
+
 const HomeScreen = ({ navigation }) => {
     // console.log(props)
+
+    const images = [require('../assets/banners/a.jpg'), require('../assets/banners/b.jpg'), require('../assets/banners/c.jpg')]
+
     const dispatch = useDispatch()
 
     const productList = useSelector(state => state.productList)
@@ -27,13 +32,16 @@ const HomeScreen = ({ navigation }) => {
 
     return (
         <ScrollView>
-            <View style={{ width: '100%' }}>
-
-                <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-                    <Image style={styles.scrollImage} source={require('../assets/banners/a.jpg')} />
-                    <Image style={styles.scrollImage} source={require('../assets/banners/b.jpg')} />
-                    <Image style={styles.scrollImage} source={require('../assets/banners/c.jpg')} />
-                </ScrollView>
+            <View style={{ width: '100%', alignItems: 'center' }}>
+                <FlatList
+                    data={images}
+                    renderItem={({ item }) => <Image style={styles.scrollImage} source={item} />}
+                    showsHorizontalScrollIndicator={false}
+                    horizontal={true}
+                    snapToInterval={Dimensions.get('window').width}
+                    decelerationRate="fast"
+                    bounces={false}
+                />
 
                 <Text style={styles.text}>Featured Shops</Text>
                 {loadingShops ? <ActivityIndicator size="large" />

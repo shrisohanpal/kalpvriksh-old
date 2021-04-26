@@ -96,17 +96,26 @@ const reducer = combineReducers({
     orderListByVendor: orderListByVendorReducer
 })
 
-const cartItemsFromStorage = AsyncStorage.getItem('cartItems')
-    ? JSON.parse(AsyncStorage.getItem('cartItems'))
-    : []
 
-const userInfoFromStorage = AsyncStorage.getItem('userInfo')
-    ? JSON.parse(AsyncStorage.getItem('userInfo'))
-    : null
+const cartItemsFromStorage = []
+const userInfoFromStorage = null
+const shippingAddressFromStorage = {}
 
-const shippingAddressFromStorage = AsyncStorage.getItem('shippingAddress')
-    ? JSON.parse(AsyncStorage.getItem('shippingAddress'))
-    : {}
+try {
+    cartItemsFromStorage = AsyncStorage.getItem('cartItems')
+        ? JSON.parse(AsyncStorage.getItem('cartItems'))
+        : []
+
+    userInfoFromStorage = AsyncStorage.getItem('userInfo')
+        ? JSON.parse(AsyncStorage.getItem('userInfo'))
+        : null
+
+    shippingAddressFromStorage = AsyncStorage.getItem('shippingAddress')
+        ? JSON.parse(AsyncStorage.getItem('shippingAddress'))
+        : {}
+} catch (error) {
+    console.log(error)
+}
 
 const initialState = {
     cart: {
