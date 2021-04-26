@@ -8,7 +8,7 @@ const Product = ({ product, navigation }) => {
     return (
         <Card style={styles.product}>
             <View style={styles.touchable}>
-                <TouchableOpacity onPress={() => navigation.navigate("Product")}>
+                <TouchableOpacity onPress={() => navigation.navigate('Product', { id: product._id })}>
                     <View>
                         <View style={styles.imageContainer}>
                             <Image style={styles.image}
@@ -32,7 +32,8 @@ const Product = ({ product, navigation }) => {
 const styles = StyleSheet.create({
     product: {
         height: 200,
-        margin: 20
+        margin: 20,
+        minWidth: 200
     },
     touchable: {
         borderRadius: 10,

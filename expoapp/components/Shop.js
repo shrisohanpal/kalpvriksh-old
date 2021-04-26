@@ -8,7 +8,7 @@ const Shop = ({ shop, navigation }) => {
     return (
         <Card style={styles.shop}>
             <View style={styles.touchable}>
-                <TouchableOpacity onPress={() => navigation.navigate("Shop")}>
+                <TouchableOpacity onPress={() => navigation.navigate('Shop', { id: shop._id })}>
                     <View>
                         <View style={styles.imageContainer}>
                             <Image style={styles.image}
