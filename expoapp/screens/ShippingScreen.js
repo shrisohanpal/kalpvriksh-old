@@ -1,12 +1,13 @@
 import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, Button, StyleSheet } from 'react-native'
 
-const ShippingScreen = () => {
+const ShippingScreen = ({ navigation }) => {
     return (
         <View>
             <Text>
-                Shipping Screen
+                this is Shipping Screen
             </Text>
+            <Button title="Go to Payment Screen" onPress={() => navigation.navigate('Payment')} />
         </View>
     )
 }

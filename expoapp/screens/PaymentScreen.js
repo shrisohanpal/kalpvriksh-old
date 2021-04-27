@@ -1,13 +1,14 @@
 import React, { useState } from 'react'
-import { View, Text } from 'react-native'
+import { View, Text, Button } from 'react-native'
 
 
-const PaymentScreen = () => {
+const PaymentScreen = ({ navigation }) => {
     return (
         <View>
             <Text>
-                Payment Screen
+                this is  Payment Screen
             </Text>
+            <Button title="Go to Place Order Screen" onPress={() => navigation.navigate('PlaceOrder')} />
         </View>
     )
 }

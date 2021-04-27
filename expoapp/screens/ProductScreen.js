@@ -49,7 +49,10 @@ const ProductScreen = ({ navigation, route }) => {
                                 <Text style={styles.text}>Price: ₹{product.price}</Text>
                                 <Text style={styles.text}>Description: {product.description}</Text>
                                 <View style={styles.buttonContainer}>
-                                    <Button title="Add To Cart" />
+                                    <Button
+                                        title="Add To Cart"
+                                        onPress={() => navigation.navigate('Cart', { id: product._id })}
+                                    />
                                 </View>
                             </View>
                         </ScrollView>

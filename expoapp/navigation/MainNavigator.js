@@ -4,7 +4,8 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
 import { DrawerContentScrollView, DrawerItem, DrawerItemList } from '@react-navigation/drawer';
 import MenuNavigator from './MenusNavigator.js'
-
+import AdminNavigator from './AdminNavigator'
+import VendorNavigator from './VendorNavigator'
 
 function CustomDrawerContent(props) {
     return (
@@ -36,6 +37,8 @@ export default function App() {
         <NavigationContainer>
             <Drawer.Navigator drawerContent={(props) => <CustomDrawerContent {...props} />} initialRouteName="Menu">
                 <Drawer.Screen name="Menu" component={MenuNavigator} />
+                <Drawer.Screen name="Admin" component={AdminNavigator} />
+                <Drawer.Screen name="Vendor" component={VendorNavigator} />
                 <Drawer.Screen name="Seller" component={SellerScreen} />
             </Drawer.Navigator>
         </NavigationContainer>

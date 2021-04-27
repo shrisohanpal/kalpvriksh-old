@@ -1,9 +1,11 @@
 import React from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 
-const Message = ({ data }) => {
+const Message = ({ data, variant }) => {
     return (
-        <View style={styles.message}>
+        <View style={{
+            ...styles.message, backgroundColor: variant === 'success' ? '#3CB371' : 'red'
+        }}>
             <Text style={styles.text}>
                 {data}
             </Text>
@@ -13,10 +15,8 @@ const Message = ({ data }) => {
 
 const styles = StyleSheet.create({
     message: {
-        //  width: '100%',
         borderRadius: 10,
         margin: 10,
-        backgroundColor: 'red'
     },
     text: {
         fontSize: 20,

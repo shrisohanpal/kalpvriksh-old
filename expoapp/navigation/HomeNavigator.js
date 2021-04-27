@@ -6,8 +6,11 @@ import { Ionicons, FontAwesome } from '@expo/vector-icons';
 import HomeScreen from '../screens/HomeScreen'
 import ShopScreen from '../screens/ShopScreen'
 import ProductScreen from '../screens/ProductScreen'
-import SearchScreen from '../screens/SearchScreen'
 import CartScreen from '../screens/CartScreen'
+import ShippingScreen from '../screens/ShippingScreen'
+import PaymentScreen from '../screens/PaymentScreen'
+import PlaceOrderScreen from '../screens/PlaceOrderScreen'
+import SearchScreen from '../screens/SearchScreen'
 
 const Stack = createStackNavigator()
 
@@ -37,8 +40,11 @@ export default function App({ navigation }) {
             />
             <Stack.Screen name="Shop" component={ShopScreen} />
             <Stack.Screen name="Product" component={ProductScreen} />
-            <Stack.Screen name="Search" component={SearchScreen} />
             <Stack.Screen name="Cart" component={CartScreen} />
+            <Stack.Screen name="Shipping" component={ShippingScreen} />
+            <Stack.Screen name="Payment" component={PaymentScreen} />
+            <Stack.Screen name="PlaceOrder" component={PlaceOrderScreen} />
+            <Stack.Screen name="Search" component={SearchScreen} />
         </Stack.Navigator>
     );
 }
