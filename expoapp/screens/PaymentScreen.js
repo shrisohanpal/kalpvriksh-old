@@ -1,14 +1,38 @@
 import React, { useState } from 'react'
 import { View, Text, Button } from 'react-native'
+import { useDispatch, useSelector } from 'react-redux'
+import { savePaymentMethod } from '../actions/cartActions'
 
 
 const PaymentScreen = ({ navigation }) => {
+
+    const cart = useSelector((state) => state.cart)
+    const { shippingAddress } = cart
+
+    if (!shippingAddress.address) {
+        navigation.navigate('Shipping')
+    }
+
+    const [paymentMethod, setPaymentMethod] = useState('Cash')
+
+    const dispatch = useDispatch()
+
+    const submitHandler = () => {
+        dispatch(savePaymentMethod(paymentMethod))
+        navigation.navigate('PlaceOrder')
+    }
+
     return (
         <View>
-            <Text>
-                this is  Payment Screen
+            <Text style={{ fontSize: 22, margin: 10 }}>
+                Select Payment Method
             </Text>
-            <Button title="Go to Place Order Screen" onPress={() => navigation.navigate('PlaceOrder')} />
+            <View>
+                <Text>Check Box</Text>
+            </View>
+            <View style={{ margin: 10, alignItems: 'flex-start' }}>
+                <Button title="Go to Place Order Screen" onPress={submitHandler} />
+            </View>
         </View>
     )
 }
