@@ -4,7 +4,9 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 
-import UserListScreen from '../screens/UserListScreen'
+import VendorsShopScreen from '../screens/VendorsShopScreen'
+import VendorsProductListScreen from '../screens/VendorsProductListScreen'
+import VendorsOrderListScreen from '../screens/VendorsOrderListScreen'
 
 
 const Stack = createStackNavigator()
@@ -16,8 +18,7 @@ const ShopNavigator = () => {
                 headerTintColor: 'white',
                 headerStyle: { backgroundColor: '#007bff' }
             }}>
-            <Stack.Screen name="UserList" component={UserListScreen} />
-            <Stack.Screen name="UserEdit" component={UserListScreen} />
+            <Stack.Screen name="VendorsShop" component={VendorsShopScreen} />
         </Stack.Navigator>
     )
 }
@@ -29,8 +30,7 @@ const ProductsNavigator = () => {
                 headerTintColor: 'white',
                 headerStyle: { backgroundColor: '#007bff' }
             }}>
-            <Stack.Screen name="UserList" component={UserListScreen} />
-            <Stack.Screen name="UserEdit" component={UserListScreen} />
+            <Stack.Screen name="VendorsProductList" component={VendorsProductListScreen} />
         </Stack.Navigator>
     )
 }
@@ -42,8 +42,7 @@ const OrdersNavigator = () => {
                 headerTintColor: 'white',
                 headerStyle: { backgroundColor: '#007bff' }
             }}>
-            <Stack.Screen name="UserList" component={UserListScreen} />
-            <Stack.Screen name="UserEdit" component={UserListScreen} />
+            <Stack.Screen name="VendorsOrderList" component={VendorsOrderListScreen} />
         </Stack.Navigator>
     )
 }

@@ -1,6 +1,5 @@
 import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { View, Text, Button } from 'react-native'
+import { useSelector } from 'react-redux'
 import { createStackNavigator } from '@react-navigation/stack'
 import LoginScreen from '../screens/LoginScreen'
 import RegisterScreen from '../screens/RegisterScreen'
@@ -20,8 +19,7 @@ export default function App() {
             screenOptions={{
                 headerTintColor: 'white',
                 headerStyle: { backgroundColor: '#007bff' },
-            }}
-        >
+            }}>
             {userInfo ?
                 <Stack.Screen name="Profile" component={ProfileScreen} />
                 :

@@ -5,6 +5,7 @@ import { createStackNavigator } from '@react-navigation/stack'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 
 import UserListScreen from '../screens/UserListScreen'
+import UserEditScreen from '../screens/UserEditScreen'
 
 
 const Stack = createStackNavigator()
@@ -17,7 +18,7 @@ const UsersNavigator = () => {
                 headerStyle: { backgroundColor: '#007bff' }
             }}>
             <Stack.Screen name="UserList" component={UserListScreen} />
-            <Stack.Screen name="UserEdit" component={UserListScreen} />
+            <Stack.Screen name="UserEdit" component={UserEditScreen} />
         </Stack.Navigator>
     )
 }

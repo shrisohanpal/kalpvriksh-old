@@ -1,4 +1,5 @@
-import * as React from 'react';
+import * as React from 'react'
+import { useSelector } from 'react-redux'
 import { Text, View, Image } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
@@ -33,12 +34,20 @@ function SellerScreen({ navigation }) {
 const Drawer = createDrawerNavigator();
 
 export default function App() {
+
+    const userLogin = useSelector((state) => state.userLogin)
+    const { userInfo } = userLogin
+
     return (
         <NavigationContainer>
             <Drawer.Navigator drawerContent={(props) => <CustomDrawerContent {...props} />} initialRouteName="Menu">
                 <Drawer.Screen name="Menu" component={MenuNavigator} />
-                <Drawer.Screen name="Admin" component={AdminNavigator} />
-                <Drawer.Screen name="Vendor" component={VendorNavigator} />
+                {userInfo && userInfo.isAdmin && (
+                    <Drawer.Screen name="Admin" component={AdminNavigator} />
+                )}
+                {userInfo && userInfo.isVendor && (
+                    <Drawer.Screen name="Vendor" component={VendorNavigator} />
+                )}
                 <Drawer.Screen name="Seller" component={SellerScreen} />
             </Drawer.Navigator>
         </NavigationContainer>
