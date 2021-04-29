@@ -3,9 +3,9 @@ import { View, Text } from 'react-native'
 
 export default () => {
     return (
-        <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
             <Text>
-                This is Order Screen
+                Product Edit Screen
             </Text>
         </View>
     )

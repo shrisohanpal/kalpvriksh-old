@@ -6,7 +6,14 @@ import Ionicons from 'react-native-vector-icons/Ionicons'
 
 import UserListScreen from '../screens/UserListScreen'
 import UserEditScreen from '../screens/UserEditScreen'
-
+import CategoryListScreen from '../screens/CategoryListScreen'
+import CategoryEditScreen from '../screens/CategoryEditScreen'
+import ShopListScreen from '../screens/ShopListScreen'
+import ShopEditScreen from '../screens/ShopEditScreen'
+import ProductListScreen from '../screens/ProductListScreen'
+import ProductEditScreen from '../screens/ProductEditScreen'
+import OrderListScreen from '../screens/OrderListScreen'
+import OrderScreen from '../screens/OrderScreen'
 
 const Stack = createStackNavigator()
 
@@ -30,8 +37,8 @@ const CategoriesNavigator = () => {
                 headerTintColor: 'white',
                 headerStyle: { backgroundColor: '#007bff' }
             }}>
-            <Stack.Screen name="UserList" component={UserListScreen} />
-            <Stack.Screen name="UserEdit" component={UserListScreen} />
+            <Stack.Screen name="CategoryList" component={CategoryListScreen} />
+            <Stack.Screen name="CategoryEdit" component={CategoryEditScreen} />
         </Stack.Navigator>
     )
 }
@@ -43,8 +50,8 @@ const ShopsNavigator = () => {
                 headerTintColor: 'white',
                 headerStyle: { backgroundColor: '#007bff' }
             }}>
-            <Stack.Screen name="UserList" component={UserListScreen} />
-            <Stack.Screen name="UserEdit" component={UserListScreen} />
+            <Stack.Screen name="ShopList" component={ShopListScreen} />
+            <Stack.Screen name="ShopEdit" component={ShopEditScreen} />
         </Stack.Navigator>
     )
 }
@@ -56,8 +63,8 @@ const ProductsNavigator = () => {
                 headerTintColor: 'white',
                 headerStyle: { backgroundColor: '#007bff' }
             }}>
-            <Stack.Screen name="UserList" component={UserListScreen} />
-            <Stack.Screen name="UserEdit" component={UserListScreen} />
+            <Stack.Screen name="ProductList" component={ProductListScreen} />
+            <Stack.Screen name="ProductEdit" component={ProductEditScreen} />
         </Stack.Navigator>
     )
 }
@@ -69,8 +76,8 @@ const OrdersNavigator = () => {
                 headerTintColor: 'white',
                 headerStyle: { backgroundColor: '#007bff' }
             }}>
-            <Stack.Screen name="UserList" component={UserListScreen} />
-            <Stack.Screen name="UserEdit" component={UserListScreen} />
+            <Stack.Screen name="OrderList" component={OrderListScreen} />
+            <Stack.Screen name="Order" component={OrderScreen} />
         </Stack.Navigator>
     )
 }

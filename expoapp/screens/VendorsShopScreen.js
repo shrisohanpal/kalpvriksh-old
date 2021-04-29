@@ -107,7 +107,7 @@ const VendorsShopScreen = ({ navigation }) => {
                 <Message data={errorDelete} />
             ) : shop && (
                 <FlatList
-                    keyExtractor={(item, index) => item._id}
+                    keyExtractor={(item, index) => String(index)}
                     data={[shop]}
                     renderItem={({ item }) => <Shop shop={item} navigation={navigation} />}
                 />

@@ -5,8 +5,11 @@ import { createStackNavigator } from '@react-navigation/stack'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 
 import VendorsShopScreen from '../screens/VendorsShopScreen'
+import ShopEditScreen from '../screens/ShopEditScreen'
 import VendorsProductListScreen from '../screens/VendorsProductListScreen'
+import ProductEditScreen from '../screens/ProductEditScreen'
 import VendorsOrderListScreen from '../screens/VendorsOrderListScreen'
+import OrderScreen from '../screens/OrderScreen'
 
 
 const Stack = createStackNavigator()
@@ -19,6 +22,7 @@ const ShopNavigator = () => {
                 headerStyle: { backgroundColor: '#007bff' }
             }}>
             <Stack.Screen name="VendorsShop" component={VendorsShopScreen} />
+            <Stack.Screen name="ShopEdit" component={ShopEditScreen} />
         </Stack.Navigator>
     )
 }
@@ -31,6 +35,7 @@ const ProductsNavigator = () => {
                 headerStyle: { backgroundColor: '#007bff' }
             }}>
             <Stack.Screen name="VendorsProductList" component={VendorsProductListScreen} />
+            <Stack.Screen name="ProductEdit" component={ProductEditScreen} />
         </Stack.Navigator>
     )
 }
@@ -43,6 +48,7 @@ const OrdersNavigator = () => {
                 headerStyle: { backgroundColor: '#007bff' }
             }}>
             <Stack.Screen name="VendorsOrderList" component={VendorsOrderListScreen} />
+            <Stack.Screen name="Order" component={OrderScreen} />
         </Stack.Navigator>
     )
 }
