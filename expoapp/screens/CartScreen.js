@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { View, Text, Image, Button, StyleSheet, FlatList, ScrollView } from 'react-native'
+import { View, Text, Image, Button, StyleSheet, FlatList, ScrollView, Alert } from 'react-native'
 import Message from '../components/Message'
 import { addToCart, removeFromCart } from '../actions/cartActions'
 import { baseUrl } from '../urls'
@@ -29,6 +29,9 @@ const CartScreen = ({ route, navigation }) => {
     const cart = useSelector((state) => state.cart)
     const { cartItems } = cart
 
+    const userLogin = useSelector((state) => state.userLogin)
+    const { userInfo } = userLogin
+
     useEffect(() => {
         if (productId) {
             dispatch(addToCart(productId, qty))
@@ -41,6 +44,12 @@ const CartScreen = ({ route, navigation }) => {
 
     const checkoutHandler = () => {
         //    history.push('/login?redirect=shipping')
+        if (userInfo) {
+            navigation.navigate('Shipping')
+        } else {
+            Alert.alert("Login to Continue.", "you are not logged in this app. If you want to continue then you have to login.")
+            // navigation.navigate('Login')
+        }
     }
 
     return (
@@ -49,18 +58,27 @@ const CartScreen = ({ route, navigation }) => {
                 cartItems.length === 0
                     ? <Message data="Your cart is empty" variant="success" />
                     : <ScrollView>
+                        {/**
                         <FlatList
                             keyExtractor={(item, index) => item._id}
                             data={cartItems}
                             renderItem={({ item }) => <CartItem item={item} />}
                         />
+                         */}
+                        <Text style={{ fontSize: 30 }}>ddg</Text>
+
+                        {cartItems.map((item) => {
+                            <View>
+                                <Text>ddg</Text>
+                            </View>
+                        })}
                         <Text style={styles.text2}>Subtotal ({cartItems.reduce((acc, item) => acc + item.qty, 0)}) items</Text>
                         <Text style={styles.text2}>₹{cartItems
                             .reduce((acc, item) => acc + item.qty * item.price, 0)
                             .toFixed(2)}
                         </Text>
                         <View style={{ margin: 10, alignItems: 'flex-start' }}>
-                            <Button title="Proceed To Checkout" onPress={() => navigation.navigate('Shipping')} />
+                            <Button title="Proceed To Checkout" onPress={checkoutHandler} />
                         </View>
                     </ScrollView>
             }

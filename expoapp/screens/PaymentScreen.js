@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { View, Text, Button } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { savePaymentMethod } from '../actions/cartActions'
@@ -21,6 +21,10 @@ const PaymentScreen = ({ navigation }) => {
         dispatch(savePaymentMethod(paymentMethod))
         navigation.navigate('PlaceOrder')
     }
+
+    /*    useEffect(() => {
+            navigation.navigate('PlaceOrder')
+        }, [navigation])*/
 
     return (
         <View>

@@ -8,8 +8,7 @@ import Product from '../components/Product'
 import Message from '../components/Message'
 import { listProducts } from '../actions/productActions'
 import { listShops } from '../actions/shopActions'
-//import OwlCarousel from 'react-owl-carousel';
-
+import Colors from '../constants/Colors'
 
 
 const HomeScreen = ({ navigation }) => {
@@ -45,7 +44,7 @@ const HomeScreen = ({ navigation }) => {
                 />
 
                 <Text style={styles.text}>Featured Shops</Text>
-                {loadingShops ? <ActivityIndicator size="large" />
+                {loadingShops ? <ActivityIndicator size="large" color={Colors.primary} />
                     : errorShops
                         ? (<Message data={errorShops} />)
                         : (
@@ -64,7 +63,7 @@ const HomeScreen = ({ navigation }) => {
                 <Image source={require('../assets/banners/bc.jpg')} style={styles.banner} fluid />
 
                 <Text style={styles.text}>Featured Products</Text>
-                {loadingProducts ? <ActivityIndicator size="large" />
+                {loadingProducts ? <ActivityIndicator size="large" color={Colors.primary} />
                     : errorProducts
                         ? (<Message data={errorProducts} />)
                         : (
