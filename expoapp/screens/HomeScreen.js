@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { View, ActivityIndicator, Text, Button, ScrollView, Image, Dimensions, FlatList, StyleSheet } from 'react-native'
-
-//import Product from '../components/Product'
 import Shop from '../components/Shop'
 import Product from '../components/Product'
+import SquareProduct from '../components/SquareProduct'
 import Message from '../components/Message'
-import { listProducts } from '../actions/productActions'
+import { listCategorys } from '../actions/categoryActions'
 import { listShops } from '../actions/shopActions'
+import { listProducts } from '../actions/productActions'
 import Colors from '../constants/Colors'
 
 
@@ -18,15 +18,16 @@ const HomeScreen = ({ navigation }) => {
 
     const dispatch = useDispatch()
 
-    const productList = useSelector(state => state.productList)
-    const { loading: loadingProducts, error: errorProducts, products } = productList
-
     const shopList = useSelector(state => state.shopList)
     const { loading: loadingShops, error: errorShops, shops } = shopList
 
+    const productList = useSelector(state => state.productList)
+    const { loading: loadingProducts, error: errorProducts, products } = productList
+
     useEffect(() => {
-        dispatch(listProducts())
+        dispatch(listCategorys())
         dispatch(listShops)
+        dispatch(listProducts())
     }, [dispatch])
 
     return (
@@ -42,6 +43,21 @@ const HomeScreen = ({ navigation }) => {
                     decelerationRate="fast"
                     bounces={false}
                 />
+
+                <Text style={styles.text}>Featured Products</Text>
+                {loadingProducts ? <ActivityIndicator size="large" color={Colors.primary} />
+                    : errorProducts
+                        ? (<Message data={errorProducts} />)
+                        : (
+                            <FlatList
+                                keyExtractor={(item, index) => item._id}
+                                data={products}
+                                renderItem={({ item }) => <SquareProduct product={item} navigation={navigation} />}
+                                showsVerticalScrollIndicator={false}
+                                numColumns={2}
+                            />
+                        )
+                }
 
                 <Text style={styles.text}>Featured Shops</Text>
                 {loadingShops ? <ActivityIndicator size="large" color={Colors.primary} />
