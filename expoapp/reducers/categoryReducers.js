@@ -1,25 +1,24 @@
-import
-{
-    CATEGORY_CREATE_FAIL,
-    CATEGORY_CREATE_REQUEST,
-    CATEGORY_CREATE_RESET,
-    CATEGORY_DETAILS_REQUEST,
-    CATEGORY_DETAILS_SUCCESS,
-    CATEGORY_DETAILS_FAIL,
-    CATEGORY_CREATE_SUCCESS,
-    CATEGORY_DELETE_FAIL,
-    CATEGORY_DELETE_REQUEST,
-    CATEGORY_DELETE_SUCCESS,
-    CATEGORY_LIST_FAIL,
-    CATEGORY_LIST_REQUEST,
-    CATEGORY_LIST_SUCCESS,
-    CATEGORY_UPDATE_FAIL,
-    CATEGORY_UPDATE_REQUEST,
-    CATEGORY_UPDATE_SUCCESS,
+import {
+CATEGORY_CREATE_FAIL,
+CATEGORY_CREATE_REQUEST,
+CATEGORY_CREATE_RESET,
+CATEGORY_DETAILS_REQUEST,
+CATEGORY_DETAILS_SUCCESS,
+CATEGORY_DETAILS_FAIL,
+CATEGORY_CREATE_SUCCESS,
+CATEGORY_DELETE_FAIL,
+CATEGORY_DELETE_REQUEST,
+CATEGORY_DELETE_SUCCESS,
+CATEGORY_LIST_FAIL,
+CATEGORY_LIST_REQUEST,
+CATEGORY_LIST_SUCCESS,
+CATEGORY_UPDATE_FAIL,
+CATEGORY_UPDATE_REQUEST,
+CATEGORY_UPDATE_SUCCESS,
+CATEGORY_UPDATE_RESET,
 } from '../constants/categoryConstants'
 
-export const categoryListReducer = (state = { categorys: [] }, action) =>
-{
+export const categoryListReducer = (state = { categorys: [] }, action) => {
     switch (action.type) {
         case CATEGORY_LIST_REQUEST:
             return { loading: true, categorys: [] }
@@ -35,8 +34,7 @@ export const categoryListReducer = (state = { categorys: [] }, action) =>
     }
 }
 
-export const categoryDetailsReducer = (state = {}, action) =>
-{
+export const categoryDetailsReducer = (state = {}, action) => {
     switch (action.type) {
         case CATEGORY_DETAILS_REQUEST:
             return { ...state, loading: true }
@@ -49,8 +47,7 @@ export const categoryDetailsReducer = (state = {}, action) =>
     }
 }
 
-export const categoryCreateReducer = (state = {}, action) =>
-{
+export const categoryCreateReducer = (state = {}, action) => {
     switch (action.type) {
         case CATEGORY_CREATE_REQUEST:
             return { loading: true }
@@ -66,8 +63,7 @@ export const categoryCreateReducer = (state = {}, action) =>
 }
 
 
-export const categoryDeleteReducer = (state = {}, action) =>
-{
+export const categoryDeleteReducer = (state = {}, action) => {
     switch (action.type) {
         case CATEGORY_DELETE_REQUEST:
             return { loading: true }
@@ -80,8 +76,7 @@ export const categoryDeleteReducer = (state = {}, action) =>
     }
 }
 
-export const categoryUpdateReducer = (state = { category: {} }, action) =>
-{
+export const categoryUpdateReducer = (state = { category: {} }, action) => {
     switch (action.type) {
         case CATEGORY_UPDATE_REQUEST:
             return { loading: true }
@@ -89,7 +84,7 @@ export const categoryUpdateReducer = (state = { category: {} }, action) =>
             return { loading: false, success: true, category: action.payload }
         case CATEGORY_UPDATE_FAIL:
             return { loading: false, error: action.payload }
-        case CATEGORY_CREATE_RESET:
+        case CATEGORY_UPDATE_RESET:
             return { category: {} }
         default:
             return state

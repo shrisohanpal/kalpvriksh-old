@@ -1,12 +1,14 @@
 import axios from 'axios'
 import React, { useState, useEffect } from 'react'
-import { View, Text, ActivityIndicator, Button, StyleSheet } from 'react-native'
+import { ScrollView, View, Text, TextInput, Button, ActivityIndicator, StyleSheet } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { baseUrl } from '../urls'
 import Message from '../components/Message'
 import Card from '../components/Card'
 import { listShopDetails, updateShop } from '../actions/shopActions'
 import { SHOP_UPDATE_RESET } from '../constants/shopConstants'
+import Colors from '../constants/Colors'
+
 
 const ShopEditScreen = ({ navigation, route }) => {
 
@@ -46,7 +48,7 @@ const ShopEditScreen = ({ navigation, route }) => {
             dispatch({ type: SHOP_UPDATE_RESET })
             navigation.goBack()
         } else {
-            if (shop || !shop._id || shop._id !== shopId) {
+            if (!shop || !shop._id || shop._id !== shopId) {
                 dispatch(listShopDetails(shopId))
             } else {
                 setName(shop.name)
@@ -88,8 +90,8 @@ const ShopEditScreen = ({ navigation, route }) => {
         }
     }
 
-    const submitHandler = (e) => {
-        e.preventDefault()
+    const submitHandler = () => {
+        //  e.preventDefault()
         dispatch(
             updateShop({
                 _id: shopId,
@@ -118,10 +120,77 @@ const ShopEditScreen = ({ navigation, route }) => {
     }
 
     return (
-        <View>
-            <Text>This is Shop Edit Screen</Text>
-        </View>
+        <ScrollView>
+            <Card style={styles.card}>
+                {loadingUpdate && <ActivityIndicator size="large" color={Colors.primary} />}
+                {errorUpdate && <Message data={errorUpdate} />}
+                {loading ? (
+                    <ActivityIndicator size="large" color={Colors.primary} />
+                ) : error ? (
+                    <Message data={error} />
+                ) : (
+                    <View>
+                        <Text style={styles.title}>Edit Shop</Text>
+                        <Text style={styles.label}>Name</Text>
+                        <TextInput style={styles.textInput}
+                            placeholder="Enter name"
+                            value={name}
+                            onChangeText={setName}
+                        />
+                        <Text style={styles.label}>Image</Text>
+                        <TextInput style={styles.textInput}
+                            placeholder="Enter image url"
+                            value={image}
+                            onChangeText={setImage}
+                        />
+
+                        <Text style={styles.label}>Description</Text>
+                        <TextInput style={styles.textInput}
+                            placeholder="Enter Description"
+                            value={description}
+                            onChangeText={setDescription}
+                        />
+
+                        <View style={styles.buttonContainer} >
+                            <Button title="Update"
+                                onPress={submitHandler}
+                            />
+                        </View>
+                    </View>
+                )
+                }
+            </Card>
+        </ScrollView>
     )
 }
+
+
+
+const styles = StyleSheet.create({
+    card: {
+        margin: 10,
+        padding: 10
+    },
+    title: {
+        fontSize: 25,
+        margin: 10
+    },
+    label: {
+        fontSize: 18,
+        margin: 10
+    },
+    textInput: {
+        fontSize: 15,
+        borderWidth: 1,
+        backgroundColor: 1,
+        padding: 10,
+        margin: 10,
+        borderRadius: 5
+    },
+    buttonContainer: {
+        margin: 10,
+        alignItems: 'flex-start'
+    }
+})
 
 export default ShopEditScreen
