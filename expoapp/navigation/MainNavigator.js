@@ -5,8 +5,10 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
 import { DrawerContentScrollView, DrawerItem, DrawerItemList } from '@react-navigation/drawer';
 import MenuNavigator from './MenusNavigator.js'
+import StoreNavigator from './StoreNavigator'
 import AdminNavigator from './AdminNavigator'
 import VendorNavigator from './VendorNavigator'
+
 
 function CustomDrawerContent(props) {
     return (
@@ -22,15 +24,6 @@ function CustomDrawerContent(props) {
     );
 }
 
-function SellerScreen({ navigation }) {
-    return (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <Text>Register as a Seller</Text>
-        </View>
-    );
-}
-//  onPress={() => navigation.navigate('Notifications')}
-
 const Drawer = createDrawerNavigator();
 
 export default function App() {
@@ -42,13 +35,13 @@ export default function App() {
         <NavigationContainer>
             <Drawer.Navigator drawerContent={(props) => <CustomDrawerContent {...props} />} initialRouteName="Menu">
                 <Drawer.Screen name="Menu" component={MenuNavigator} />
+                <Drawer.Screen name="Seller" component={StoreNavigator} />
                 {userInfo && userInfo.isAdmin && (
                     <Drawer.Screen name="Admin" component={AdminNavigator} />
                 )}
                 {userInfo && userInfo.isVendor && (
                     <Drawer.Screen name="Vendor" component={VendorNavigator} />
                 )}
-                <Drawer.Screen name="Seller" component={SellerScreen} />
             </Drawer.Navigator>
         </NavigationContainer>
     );
