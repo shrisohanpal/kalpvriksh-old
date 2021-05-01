@@ -36,8 +36,9 @@ const styles = StyleSheet.create({
     product: {
         height: width,
         width: width,
-        borderWidth: 0.25,
-        borderColor: 'black',
+        borderBottomWidth: 1,
+        borderRightWidth: 1,
+        borderColor: '#ccc',
         alignItems: 'center',
     },
     touchable: {

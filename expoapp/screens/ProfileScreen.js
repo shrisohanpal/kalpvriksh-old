@@ -1,14 +1,34 @@
 import React, { useState, useEffect } from 'react'
-import { View, Text, TextInput, Button, ActivityIndicator, ScrollView, StyleSheet } from 'react-native'
+import { View, Text, TextInput, Button, FlatList, ActivityIndicator, TouchableOpacity, ScrollView, StyleSheet } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
+import Card from '../components/Card'
 import { getUserDetails, updateUserProfile } from '../actions/userActions'
 import { listMyOrders } from '../actions/orderActions'
 import { USER_UPDATE_PROFILE_RESET } from '../constants/userConstants'
 import { logout } from '../actions/userActions'
-import { Colors } from 'react-native/Libraries/NewAppScreen'
+import Colors from '../constants/Colors'
 
-const ProfileScreen = () => {
+
+const Order = ({ navigation, order }) => {
+  return (
+    <Card style={styles.card}>
+      <TouchableOpacity onPress={() => navigation.navigate('Order', { id: order._id })}>
+        <Text style={styles.text}>
+          Id: {order._id}
+        </Text>
+        <Text style={styles.text}>
+          Name: {order.name}
+        </Text>
+
+      </TouchableOpacity>
+    </Card>
+  )
+}
+
+
+
+const ProfileScreen = ({ navigation }) => {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -93,81 +113,25 @@ const ProfileScreen = () => {
                   color='red'
                   onPress={() => dispatch(logout())}
                 />
+                <View style={{ margin: 20 }} />
+                <Text style={styles.label}>Orders</Text>
+                {loadingOrders ? (
+                  <ActivityIndicator size="large" color={Colors.primary} />
+                ) : errorOrders ? (
+                  <Message data={errorOrders} />
+                ) : (
+                  <FlatList
+                    keyExtractor={(item, index) => item._id}
+                    data={orders}
+                    renderItem={({ item }) => <Order order={item} navigation={navigation} />}
+                  />
+                )}
               </View>
             </ScrollView>
           )
       }
     </View>
   )
-
-  /*
-                  <Button type='submit' variant='primary'>
-                    Update
-            </Button>
-                </Form>
-              )}
-        </Col>
-        <Col md={9}>
-          <Row>
-            <Col xs={8}>
-              <h2>My Orders</h2>
-            </Col>
-            <Col xs={4}>
-              <Button variant='danger' onClick={>Logout</Button>
-            </Col>
-          </Row>
-          {loadingOrders ? (
-            <CircularProgress />
-          ) : errorOrders ? (
-            <Message variant='danger'>{errorOrders}</Message>
-          ) : (
-                <Table striped bordered hover responsive className='table-sm'>
-                  <thead>
-                    <tr>
-                      <th>ID</th>
-                      <th>DATE</th>
-                      <th>TOTAL</th>
-                      <th>PAID</th>
-                      <th>DELIVERED</th>
-                      <th></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {orders.map((order) => (
-                      <tr key={order._id}>
-                        <td>{order._id}</td>
-                        <td>{order.createdAt.substring(0, 10)}</td>
-                        <td>{order.totalPrice}</td>
-                        <td>
-                          {order.isPaid ? (
-                            order.paidAt.substring(0, 10)
-                          ) : (
-                              <i className='fas fa-times' style={{ color: 'red' }}></i>
-                            )}
-                        </td>
-                        <td>
-                          {order.isDelivered ? (
-                            order.deliveredAt.substring(0, 10)
-                          ) : (
-                              <i className='fas fa-times' style={{ color: 'red' }}></i>
-                            )}
-                        </td>
-                        <td>
-                          <LinkContainer to={`/order/${order._id}`}>
-                            <Button className='btn-sm' variant='light'>
-                              Details
-                      </Button>
-                          </LinkContainer>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </Table>
-              )}
-        </Col>
-      </Row>
-    </Container>
-  )*/
 }
 
 const styles = StyleSheet.create({
@@ -188,6 +152,14 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     paddingVertical: 4,
     paddingHorizontal: 2
+  },
+  card: {
+    marginVertical: 5,
+    paddingVertical: 10
+  },
+  text: {
+    fontSize: 18,
+    marginHorizontal: 10
   }
 })
 

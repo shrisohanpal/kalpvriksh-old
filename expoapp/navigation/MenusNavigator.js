@@ -5,11 +5,11 @@ import Ionicons from 'react-native-vector-icons/Ionicons'
 
 import HomeNavigator from './HomeNavigator'
 import CategoriesNavigator from './CategoriesNavigator'
+import SearchNavigator from './SearchNavigator'
 import AccountNavigator from './AccountNavigator'
 
 
-
-function LocationScreen({ navigation }) {
+function LocationScreen({ }) {
     return (
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
             <Text>this is Location Screen</Text>
@@ -32,6 +32,8 @@ export default function App() {
                             iconName = 'home'; break
                         case 'Categories':
                             iconName = 'duplicate'; break
+                        case 'Search':
+                            iconName = 'search'; break;
                         case 'Location':
                             iconName = 'location'; break
                         case 'Account':
@@ -47,6 +49,7 @@ export default function App() {
             initialRouteName="Home">
             <BottomTab.Screen name="Home" component={HomeNavigator} />
             <BottomTab.Screen name="Categories" component={CategoriesNavigator} />
+            <BottomTab.Screen name="Search" component={SearchNavigator} />
             <BottomTab.Screen name="Location" component={LocationScreen} />
             <BottomTab.Screen name="Account" component={AccountNavigator} />
         </BottomTab.Navigator>
