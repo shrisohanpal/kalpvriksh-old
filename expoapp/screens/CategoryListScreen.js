@@ -5,7 +5,7 @@ import { TouchableOpacity, View, Text, ActivityIndicator, FlatList, StyleSheet }
 import Message from '../components/Message'
 import Card from '../components/Card'
 import { listCategorys } from '../actions/categoryActions'
-
+import Colors from '../constants/Colors'
 
 const Category = ({ category, navigation }) => {
     return (
@@ -33,7 +33,7 @@ const CategoryListScreen = ({ navigation }) => {
 
     return (
         <View>
-            {loading ? <ActivityIndicator size="large" />
+            {loading ? <ActivityIndicator size="large" color={Colors.primary} />
                 : error
                     ? (<Message data={error} />)
                     : (

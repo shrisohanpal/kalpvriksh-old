@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { View, ActivityIndicator, Text, Button, ScrollView, Image, Dimensions, FlatList, StyleSheet } from 'react-native'
+import Categories from '../components/Categories'
 import Shop from '../components/Shop'
 import Product from '../components/Product'
 import SquareProduct from '../components/SquareProduct'
@@ -25,7 +26,7 @@ const HomeScreen = ({ navigation }) => {
     const { loading: loadingProducts, error: errorProducts, products } = productList
 
     useEffect(() => {
-        dispatch(listCategorys())
+        //  dispatch(listCategorys())
         dispatch(listShops)
         dispatch(listProducts())
     }, [dispatch])
@@ -45,7 +46,8 @@ const HomeScreen = ({ navigation }) => {
                 />
 
                 <Text style={styles.text}>Featured Products</Text>
-                {loadingProducts ? <ActivityIndicator size="large" color={Colors.primary} />
+                {/*
+                    loadingProducts ? <ActivityIndicator size="large" color={Colors.primary} />
                     : errorProducts
                         ? (<Message data={errorProducts} />)
                         : (
@@ -57,8 +59,8 @@ const HomeScreen = ({ navigation }) => {
                                 numColumns={2}
                             />
                         )
-                }
-
+                        */    }
+                <Categories />
                 <Text style={styles.text}>Featured Shops</Text>
                 {loadingShops ? <ActivityIndicator size="large" color={Colors.primary} />
                     : errorShops
