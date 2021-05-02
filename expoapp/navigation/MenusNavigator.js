@@ -6,16 +6,9 @@ import Ionicons from 'react-native-vector-icons/Ionicons'
 import HomeNavigator from './HomeNavigator'
 import CategoriesNavigator from './CategoriesNavigator'
 import SearchNavigator from './SearchNavigator'
+import NearMeNavigator from './NearMeNavigator'
 import AccountNavigator from './AccountNavigator'
-
-
-function LocationScreen({ }) {
-    return (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <Text>this is Location Screen</Text>
-        </View>
-    );
-}
+import NearMeScreen from '../screens/NearMeScreen';
 
 
 const BottomTab = createBottomTabNavigator()
@@ -34,7 +27,7 @@ export default function App() {
                             iconName = 'duplicate'; break
                         case 'Search':
                             iconName = 'search'; break;
-                        case 'Location':
+                        case 'Near Me':
                             iconName = 'location'; break
                         case 'Account':
                             iconName = 'person'; break
@@ -50,7 +43,7 @@ export default function App() {
             <BottomTab.Screen name="Home" component={HomeNavigator} />
             <BottomTab.Screen name="Categories" component={CategoriesNavigator} />
             <BottomTab.Screen name="Search" component={SearchNavigator} />
-            <BottomTab.Screen name="Location" component={LocationScreen} />
+            <BottomTab.Screen name="Near Me" component={NearMeNavigator} />
             <BottomTab.Screen name="Account" component={AccountNavigator} />
         </BottomTab.Navigator>
     );
