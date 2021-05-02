@@ -19,6 +19,9 @@ const HomeScreen = ({ navigation }) => {
 
     const dispatch = useDispatch()
 
+    const categoryList = useSelector(state => state.categoryList)
+    const { loading: loadingCategories, error: errorCategories, categorys } = categoryList
+
     const shopList = useSelector(state => state.shopList)
     const { loading: loadingShops, error: errorShops, shops } = shopList
 
@@ -26,7 +29,7 @@ const HomeScreen = ({ navigation }) => {
     const { loading: loadingProducts, error: errorProducts, products } = productList
 
     useEffect(() => {
-        //  dispatch(listCategorys())
+        dispatch(listCategorys())
         dispatch(listShops)
         dispatch(listProducts())
     }, [dispatch])
@@ -46,21 +49,18 @@ const HomeScreen = ({ navigation }) => {
                 />
 
                 <Text style={styles.text}>Featured Products</Text>
-                {/*
-                    loadingProducts ? <ActivityIndicator size="large" color={Colors.primary} />
-                    : errorProducts
-                        ? (<Message data={errorProducts} />)
-                        : (
-                            <FlatList
-                                keyExtractor={(item, index) => item._id}
-                                data={products}
-                                renderItem={({ item }) => <SquareProduct product={item} navigation={navigation} />}
-                                showsVerticalScrollIndicator={false}
-                                numColumns={2}
-                            />
-                        )
-                        */    }
-                <Categories />
+                {
+                    loadingProducts
+                        ? <ActivityIndicator size="large" color={Colors.primary} />
+                        : errorProducts
+                            ? <Message data={errorProducts} />
+                            :
+                            loadingCategories
+                                ? <ActivityIndicator size="large" color={Colors.primary} />
+                                : errorCategories
+                                    ? <Message data={errorCategories} />
+                                    : <Categories navigation={navigation} />
+                }
                 <Text style={styles.text}>Featured Shops</Text>
                 {loadingShops ? <ActivityIndicator size="large" color={Colors.primary} />
                     : errorShops
