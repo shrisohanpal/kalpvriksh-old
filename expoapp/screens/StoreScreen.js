@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { ScrollView, Image, Text, View, Button, StyleSheet } from 'react-native'
+import { ScrollView, Image, Text, View, Button, StyleSheet, Alert } from 'react-native'
 import Card from '../components/Card'
 
 
@@ -37,7 +37,7 @@ const StoreScreen = ({ navigation }) => {
                 description="Payments will be done directly and securly into your bank account"
             />
             <View style={styles.buttonContainer}>
-                <Button title="Register as a Seller" />
+                <Button title="Register as a Seller" onPress={() => Alert.alert('We are still working on this feature.')} />
             </View>
         </ScrollView>
     )

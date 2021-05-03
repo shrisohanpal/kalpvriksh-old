@@ -37,16 +37,15 @@ const Category = ({ category, navigation }) => {
 }
 
 
-const Categories = ({ navigation }) => {
+const Categories = ({ navigation, categorys, products }) => {
 
-    const { categorys } = useSelector(state => state.categoryList)
-    const { products } = useSelector(state => state.productList)
+    //const { categorys } = useSelector(state => state.categoryList)
+    //  const { products } = useSelector(state => state.productList)
 
     useEffect(() => {
         var i, j;
         for (i = 0; i < categorys.length; i++) {
             categorys[i].products = []
-
         }
         for (i = 0; i < categorys.length; i++) {
             for (j = 0; j < products.length; j++) {

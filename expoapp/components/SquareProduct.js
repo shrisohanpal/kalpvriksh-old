@@ -22,9 +22,6 @@ const Product = ({ product, navigation }) => {
                         <View style={styles.details}>
                             <Text style={styles.price}>₹{product.price.toFixed(2)}</Text>
                         </View>
-                        <View style={styles.actions}>
-                            {product.children}
-                        </View>
                     </View>
                 </TouchableOpacity>
             </View>
@@ -34,20 +31,23 @@ const Product = ({ product, navigation }) => {
 
 const styles = StyleSheet.create({
     product: {
-        height: width,
+        // height: width,
         width: width,
-        borderBottomWidth: 1,
-        borderRightWidth: 1,
+        borderWidth: 1,
+        padding: 10,
         borderColor: '#ccc',
         alignItems: 'center',
+        justifyContent: 'center',
     },
     touchable: {
-        overflow: 'hidden'
+        overflow: 'hidden',
     },
     imageContainer: {
-        width: width * 0.6,
-        height: width * 0.6,
-        overflow: 'hidden'
+        width: width * 0.7,
+        height: width * 0.7,
+        alignSelf: 'center',
+        borderRadius: 10,
+        overflow: 'hidden',
     },
     image: {
         width: '100%',
@@ -55,7 +55,8 @@ const styles = StyleSheet.create({
     },
     details: {
         alignItems: 'center',
-        height: width * 0.2,
+        // height: width * 0.15,
+        overflow: 'scroll'
     },
     title: {
         //  fontFamily: 'open-sans-bold',
@@ -65,13 +66,6 @@ const styles = StyleSheet.create({
         //  fontFamily: 'open-sans',
         fontSize: 15,
         color: '#888'
-    },
-    actions: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        height: '23%',
-        paddingHorizontal: 20
     }
 });
 

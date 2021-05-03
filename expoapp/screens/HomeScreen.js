@@ -31,7 +31,7 @@ const HomeScreen = ({ navigation }) => {
     useEffect(() => {
         dispatch(listCategorys())
         dispatch(listShops)
-        dispatch(listProducts())
+        dispatch(listProducts(''))
     }, [dispatch])
 
     return (
@@ -59,7 +59,7 @@ const HomeScreen = ({ navigation }) => {
                                 ? <ActivityIndicator size="large" color={Colors.primary} />
                                 : errorCategories
                                     ? <Message data={errorCategories} />
-                                    : <Categories navigation={navigation} />
+                                    : <Categories navigation={navigation} products={products} categorys={categorys} />
                 }
                 <Text style={styles.text}>Featured Shops</Text>
                 {loadingShops ? <ActivityIndicator size="large" color={Colors.primary} />

@@ -9,7 +9,7 @@ const Shop = ({ shop, navigation }) => {
     return (
         <View style={styles.shop}>
             <View style={styles.touchable}>
-                <TouchableOpacity onPress={() => navigation.navigate('Product', { id: shop._id })}>
+                <TouchableOpacity onPress={() => navigation.navigate('Shop', { id: shop._id })}>
                     <View>
                         <View style={styles.details}>
                             <Text style={styles.title}>{shop.name}</Text>
@@ -28,10 +28,11 @@ const Shop = ({ shop, navigation }) => {
 
 const styles = StyleSheet.create({
     shop: {
-        height: width,
+        // height: width,
         width: width,
         borderBottomWidth: 1,
         borderRightWidth: 1,
+        padding: 10,
         borderColor: '#ccc',
         alignItems: 'center',
     },
@@ -39,8 +40,11 @@ const styles = StyleSheet.create({
         overflow: 'hidden'
     },
     imageContainer: {
-        width: width * 0.6,
-        height: width * 0.6,
+        width: width * 0.7,
+        height: width * 0.7,
+        borderRadius: 10,
+        borderRadius: 10,
+        alignSelf: 'center',
         overflow: 'hidden'
     },
     image: {
@@ -49,23 +53,16 @@ const styles = StyleSheet.create({
     },
     details: {
         alignItems: 'center',
-        height: width * 0.2,
+        //   height: width * 0.3,
     },
     title: {
         //  fontFamily: 'open-sans-bold',
-        fontSize: 14,
+        fontSize: 15,
     },
     price: {
         //  fontFamily: 'open-sans',
         fontSize: 15,
         color: '#888'
-    },
-    actions: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        height: '23%',
-        paddingHorizontal: 20
     }
 });
 
