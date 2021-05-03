@@ -4,9 +4,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Container, Row, Col, ListGroup, Image, Form, Button, Card } from 'react-bootstrap'
 import Message from '../components/Message'
 import { addToCart, removeFromCart } from '../actions/cartActions'
+import { baseUrl } from '../urls'
 
-const CartScreen = ({ match, location, history }) =>
-{
+const CartScreen = ({ match, location, history }) => {
     const productId = match.params.id
 
     const qty = location.search ? Number(location.search.split('=')[1]) : 1
@@ -16,20 +16,17 @@ const CartScreen = ({ match, location, history }) =>
     const cart = useSelector((state) => state.cart)
     const { cartItems } = cart
 
-    useEffect(() =>
-    {
+    useEffect(() => {
         if (productId) {
             dispatch(addToCart(productId, qty))
         }
     }, [dispatch, productId, qty])
 
-    const removeFromCartHandler = (id) =>
-    {
+    const removeFromCartHandler = (id) => {
         dispatch(removeFromCart(id))
     }
 
-    const checkoutHandler = () =>
-    {
+    const checkoutHandler = () => {
         history.push('/login?redirect=shipping')
     }
 
@@ -48,7 +45,7 @@ const CartScreen = ({ match, location, history }) =>
                                 <ListGroup.Item key={item.product}>
                                     <Row>
                                         <Col md={2}>
-                                            <Image src={item.images[0]} alt={item.name} fluid rounded />
+                                            <Image src={`${baseUrl}/api${item.images[0]}`} alt={item.name} fluid rounded />
                                         </Col>
                                         <Col md={3}>
                                             <Link to={`/product/${item.product}`}>{item.name}</Link>

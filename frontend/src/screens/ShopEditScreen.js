@@ -8,9 +8,9 @@ import Message from '../components/Message'
 import FormContainer from '../components/FormContainer'
 import { listShopDetails, updateShop } from '../actions/shopActions'
 import { SHOP_UPDATE_RESET } from '../constants/shopConstants'
+import { baseUrl } from '../urls'
 
-const ShopEditScreen = ({ match, history }) =>
-{
+const ShopEditScreen = ({ match, history }) => {
   const shopId = match.params.id
 
   const [name, setName] = useState('')
@@ -42,8 +42,7 @@ const ShopEditScreen = ({ match, history }) =>
   const categoryList = useSelector((state) => state.categoryList)
   const { loading: categoryLoading, error: categoryError, categorys } = categoryList
 
-  useEffect(() =>
-  {
+  useEffect(() => {
     if (successUpdate) {
       dispatch({ type: SHOP_UPDATE_RESET })
       history.goBack()
@@ -67,8 +66,7 @@ const ShopEditScreen = ({ match, history }) =>
     }
   }, [dispatch, history, shopId, shop, successUpdate])
 
-  const uploadFileHandler = async (e) =>
-  {
+  const uploadFileHandler = async (e) => {
     const file = e.target.files[0]
     const formData = new FormData()
     formData.append('image', file)
@@ -81,7 +79,7 @@ const ShopEditScreen = ({ match, history }) =>
         },
       }
 
-      const { data } = await axios.post('/api/upload', formData, config)
+      const { data } = await axios.post(`${baseUrl}/api/upload`, formData, config)
 
       setImage(data)
       setUploading(false)
@@ -91,8 +89,7 @@ const ShopEditScreen = ({ match, history }) =>
     }
   }
 
-  const submitHandler = (e) =>
-  {
+  const submitHandler = (e) => {
     e.preventDefault()
     dispatch(
       updateShop({
@@ -113,10 +110,8 @@ const ShopEditScreen = ({ match, history }) =>
     )
   }
 
-  const handleLocation = () =>
-  {
-    navigator.geolocation.getCurrentPosition(function (position)
-    {
+  const handleLocation = () => {
+    navigator.geolocation.getCurrentPosition(function (position) {
       setLatitude(position.coords.latitude)
       setLongitude(position.coords.longitude)
       alert(`Location Added Successfully! \n Latitide: ${position.coords.latitude} \n Longitude: ${position.coords.longitude}`)

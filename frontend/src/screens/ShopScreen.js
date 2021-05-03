@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { Container, Row, Col, Image, ListGroup, Card, Button, Form } from 'react-bootstrap'
+import { Container, Row, Col, Image, ListGroup } from 'react-bootstrap'
 import { CircularProgress } from '@material-ui/core'
 import Product from '../components/Product'
 import { listShopDetails } from '../actions/shopActions'
@@ -9,9 +9,9 @@ import Message from '../components/Message'
 import { listProductsByShop } from '../actions/productActions'
 import OwlCarousel from 'react-owl-carousel';
 import GoogleMapReact from 'google-map-react';
+import { baseUrl } from '../urls'
 
-const ShopScreen = ({ history, match }) =>
-{
+const ShopScreen = ({ history, match }) => {
     const dispatch = useDispatch()
 
     const shopDetails = useSelector(state => state.shopDetails)
@@ -23,8 +23,7 @@ const ShopScreen = ({ history, match }) =>
     const productListByShop = useSelector(state => state.productListByShop)
     const { loading: loadingProducts, error: errorProducts, products } = productListByShop
 
-    useEffect(() =>
-    {
+    useEffect(() => {
         const shopId = match.params.id
         dispatch(listShopDetails(shopId))
         dispatch(listProductsByShop(shopId))
@@ -42,7 +41,9 @@ const ShopScreen = ({ history, match }) =>
                     (
                         <Row>
                             <Col md={6}>
-                                <Image src={shop.image} alt={shop.name} className='h-1' fluid />
+                                <Image
+                                    src={`${baseUrl}/api${shop.image}`}
+                                    alt={shop.name} className='h-1' fluid />
                                 <ListGroup>
                                     <ListGroup.Item>
                                         Address: {shop.address}

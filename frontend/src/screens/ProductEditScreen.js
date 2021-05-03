@@ -8,9 +8,9 @@ import Message from '../components/Message'
 import FormContainer from '../components/FormContainer'
 import { listProductDetails, updateProduct, deleteProduct } from '../actions/productActions'
 import { PRODUCT_UPDATE_RESET } from '../constants/productConstants'
+import { baseUrl } from '../urls'
 
-const ProductEditScreen = ({ match, history }) =>
-{
+const ProductEditScreen = ({ match, history }) => {
   const productId = match.params.id
 
   const [name, setName] = useState('')
@@ -44,8 +44,7 @@ const ProductEditScreen = ({ match, history }) =>
   const categoryList = useSelector((state) => state.categoryList)
   const { loading: categoryLoading, error: categoryError, categorys } = categoryList
 
-  useEffect(() =>
-  {
+  useEffect(() => {
     if (successUpdate) {
       dispatch({ type: PRODUCT_UPDATE_RESET })
       history.goBack()
@@ -71,8 +70,7 @@ const ProductEditScreen = ({ match, history }) =>
     }
   }, [dispatch, history, productId, product, successUpdate])
 
-  const uploadFileHandler = async (e) =>
-  {
+  const uploadFileHandler = async (e) => {
     const file = e.target.files[0]
     const formData = new FormData()
     formData.append('image', file)
@@ -85,7 +83,7 @@ const ProductEditScreen = ({ match, history }) =>
         },
       }
 
-      const { data } = await axios.post('/api/upload', formData, config)
+      const { data } = await axios.post(`${baseUrl}/api/upload`, formData, config)
 
       setImage(data)
       setUploading(false)
@@ -95,8 +93,7 @@ const ProductEditScreen = ({ match, history }) =>
     }
   }
 
-  const uploadFileHandler2 = async (e) =>
-  {
+  const uploadFileHandler2 = async (e) => {
     const file = e.target.files[0]
     const formData = new FormData()
     formData.append('image', file)
@@ -109,7 +106,7 @@ const ProductEditScreen = ({ match, history }) =>
         },
       }
 
-      const { data } = await axios.post('/api/upload', formData, config)
+      const { data } = await axios.post(`${baseUrl}/api/upload`, formData, config)
 
       setImage2(data)
       setUploading(false)
@@ -119,8 +116,7 @@ const ProductEditScreen = ({ match, history }) =>
     }
   }
 
-  const uploadFileHandler3 = async (e) =>
-  {
+  const uploadFileHandler3 = async (e) => {
     const file = e.target.files[0]
     const formData = new FormData()
     formData.append('image', file)
@@ -133,7 +129,7 @@ const ProductEditScreen = ({ match, history }) =>
         },
       }
 
-      const { data } = await axios.post('/api/upload', formData, config)
+      const { data } = await axios.post(`${baseUrl}/api/upload`, formData, config)
 
       setImage3(data)
       setUploading(false)
@@ -143,8 +139,7 @@ const ProductEditScreen = ({ match, history }) =>
     }
   }
 
-  const submitHandler = (e) =>
-  {
+  const submitHandler = (e) => {
     e.preventDefault()
     dispatch(
       updateProduct({
@@ -165,8 +160,7 @@ const ProductEditScreen = ({ match, history }) =>
     )
   }
 
-  const deleteHandler = (id) =>
-  {
+  const deleteHandler = (id) => {
     if (window.confirm('Are you sure')) {
       dispatch(deleteProduct(id))
       history.goBack()

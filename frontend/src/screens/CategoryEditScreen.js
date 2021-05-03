@@ -1,4 +1,3 @@
-import axios from 'axios'
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Container, Form, Button } from 'react-bootstrap'
@@ -9,8 +8,7 @@ import FormContainer from '../components/FormContainer'
 import { listCategoryDetails, updateCategory } from '../actions/categoryActions'
 import { CATEGORY_UPDATE_RESET } from '../constants/categoryConstants'
 
-const CategoryEditScreen = ({ match, history }) =>
-{
+const CategoryEditScreen = ({ match, history }) => {
   const categoryId = match.params.id
   const [name, setName] = useState('')
 
@@ -26,8 +24,7 @@ const CategoryEditScreen = ({ match, history }) =>
     success: successUpdate,
   } = categoryUpdate
 
-  useEffect(() =>
-  {
+  useEffect(() => {
     if (successUpdate) {
       dispatch({ type: CATEGORY_UPDATE_RESET })
       history.push('/admin/categorylist')
@@ -40,8 +37,7 @@ const CategoryEditScreen = ({ match, history }) =>
     }
   }, [dispatch, history, categoryId, category, successUpdate])
 
-  const submitHandler = (e) =>
-  {
+  const submitHandler = (e) => {
     e.preventDefault()
     dispatch(
       updateCategory({
@@ -65,21 +61,21 @@ const CategoryEditScreen = ({ match, history }) =>
         ) : error ? (
           <Message variant='danger'>{error}</Message>
         ) : (
-              <Form onSubmit={submitHandler}>
-                <Form.Group controlId='name'>
-                  <Form.Label>Name</Form.Label>
-                  <Form.Control
-                    type='name'
-                    placeholder='Enter name'
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                  ></Form.Control>
-                </Form.Group>
-                <Button type='submit' variant='primary'>
-                  {category && category.name ? 'Update' : 'Create'}
-                </Button>
-              </Form>
-            )}
+          <Form onSubmit={submitHandler}>
+            <Form.Group controlId='name'>
+              <Form.Label>Name</Form.Label>
+              <Form.Control
+                type='name'
+                placeholder='Enter name'
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              ></Form.Control>
+            </Form.Group>
+            <Button type='submit' variant='primary'>
+              {category && category.name ? 'Update' : 'Create'}
+            </Button>
+          </Form>
+        )}
       </FormContainer>
     </Container>
   )

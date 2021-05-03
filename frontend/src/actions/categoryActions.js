@@ -1,6 +1,6 @@
 import axios from 'axios'
-import
-{
+import { baseUrl } from '../urls'
+import {
     CATEGORY_CREATE_FAIL,
     CATEGORY_CREATE_REQUEST,
     CATEGORY_CREATE_SUCCESS,
@@ -19,15 +19,13 @@ import
 } from '../constants/categoryConstants'
 import { logout } from './userActions'
 
-export const listCategorys = () => async (dispatch) =>
-{
+export const listCategorys = () => async (dispatch) => {
     try {
         dispatch({ type: CATEGORY_LIST_REQUEST })
 
         const { data } = await axios.get(
-            '/api/categorys'
+            `${baseUrl}/api/categorys`
         )
-        // console.log('Categorys action is called!' + data)
         dispatch({
             type: CATEGORY_LIST_SUCCESS,
             payload: data,
@@ -43,12 +41,11 @@ export const listCategorys = () => async (dispatch) =>
     }
 }
 
-export const listCategoryDetails = (id) => async (dispatch) =>
-{
+export const listCategoryDetails = (id) => async (dispatch) => {
     try {
         dispatch({ type: CATEGORY_DETAILS_REQUEST })
 
-        const { data } = await axios.get(`/api/categorys/${id}`)
+        const { data } = await axios.get(`${baseUrl}/api/categorys/${id}`)
 
         dispatch({
             type: CATEGORY_DETAILS_SUCCESS,
@@ -65,8 +62,7 @@ export const listCategoryDetails = (id) => async (dispatch) =>
     }
 }
 
-export const deleteCategory = (id) => async (dispatch, getState) =>
-{
+export const deleteCategory = (id) => async (dispatch, getState) => {
     try {
         dispatch({
             type: CATEGORY_DELETE_REQUEST,
@@ -82,7 +78,7 @@ export const deleteCategory = (id) => async (dispatch, getState) =>
             },
         }
 
-        await axios.delete(`/api/categorys/${id}`, config)
+        await axios.delete(`${baseUrl}/api/categorys/${id}`, config)
 
         dispatch({
             type: CATEGORY_DELETE_SUCCESS,
@@ -102,8 +98,7 @@ export const deleteCategory = (id) => async (dispatch, getState) =>
     }
 }
 
-export const createCategory = () => async (dispatch, getState) =>
-{
+export const createCategory = () => async (dispatch, getState) => {
     try {
         dispatch({
             type: CATEGORY_CREATE_REQUEST,
@@ -119,7 +114,7 @@ export const createCategory = () => async (dispatch, getState) =>
             },
         }
 
-        const { data } = await axios.post(`/api/categorys`, {}, config)
+        const { data } = await axios.post(`${baseUrl}/api/categorys`, {}, config)
 
         dispatch({
             type: CATEGORY_CREATE_SUCCESS,
@@ -142,8 +137,7 @@ export const createCategory = () => async (dispatch, getState) =>
 }
 
 
-export const updateCategory = (category) => async (dispatch, getState) =>
-{
+export const updateCategory = (category) => async (dispatch, getState) => {
     try {
         dispatch({
             type: CATEGORY_UPDATE_REQUEST,
@@ -161,7 +155,7 @@ export const updateCategory = (category) => async (dispatch, getState) =>
         }
 
         const { data } = await axios.put(
-            `/api/categorys/${category._id}`,
+            `${baseUrl}/api/categorys/${category._id}`,
             category,
             config
         )

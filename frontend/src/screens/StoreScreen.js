@@ -4,12 +4,11 @@ import Modal from 'react-modal';
 import { Container, Row, Col, Image, Table, Card, Button, Form } from 'react-bootstrap'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import axios from 'axios'
+import { baseUrl } from '../urls'
 
-const StoreScreen = ({ history }) =>
-{
+const StoreScreen = ({ history }) => {
     const [modalIsOpen, setIsOpen] = useState(false);
-    const changeState = () =>
-    {
+    const changeState = () => {
         setIsOpen(!modalIsOpen)
     }
     const customStyles = {
@@ -26,8 +25,7 @@ const StoreScreen = ({ history }) =>
     const userLogin = useSelector((state) => state.userLogin)
     const { userInfo } = userLogin
 
-    const registerHandler = () =>
-    {
+    const registerHandler = () => {
         if (userInfo) {
             changeState()
         } else {
@@ -36,11 +34,10 @@ const StoreScreen = ({ history }) =>
     }
 
     const [loading, setLoading] = useState(false)
-    const confirmHandler = async () =>
-    {
+    const confirmHandler = async () => {
         //  console.log('Confor Handler Called')
         setLoading(true)
-        await axios.post(`/api/users/registerseller/${userInfo._id}`)
+        await axios.post(`${baseUrl}/api/users/registerseller/${userInfo._id}`)
         setLoading(false)
         history.push('/')
     }

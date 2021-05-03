@@ -7,9 +7,9 @@ import CheckoutSteps from '../components/CheckoutSteps'
 import { createOrder } from '../actions/orderActions'
 import { ORDER_CREATE_RESET } from '../constants/orderConstants'
 import { USER_DETAILS_RESET } from '../constants/userConstants'
+import { baseUrl } from '../urls'
 
-const PlaceOrderScreen = ({ history }) =>
-{
+const PlaceOrderScreen = ({ history }) => {
     const dispatch = useDispatch()
 
     const cart = useSelector((state) => state.cart)
@@ -20,8 +20,7 @@ const PlaceOrderScreen = ({ history }) =>
         history.push('/payment')
     }
     //   Calculate prices
-    const addDecimals = (num) =>
-    {
+    const addDecimals = (num) => {
         return (Math.round(num * 100) / 100).toFixed(2)
     }
 
@@ -39,8 +38,7 @@ const PlaceOrderScreen = ({ history }) =>
     const orderCreate = useSelector((state) => state.orderCreate)
     const { order, success, error } = orderCreate
 
-    useEffect(() =>
-    {
+    useEffect(() => {
         if (success) {
             // history.push(`/order/${order._id}`)
             history.push(`/profile`)
@@ -50,8 +48,7 @@ const PlaceOrderScreen = ({ history }) =>
         // eslint-disable-next-line
     }, [history, success])
 
-    const placeOrderHandler = () =>
-    {
+    const placeOrderHandler = () => {
         dispatch(
             createOrder({
                 orderItems: cart.cartItems,
@@ -99,7 +96,7 @@ const PlaceOrderScreen = ({ history }) =>
                                                 <Row>
                                                     <Col md={1}>
                                                         <Image
-                                                            src={item.images[0]}
+                                                            src={`${baseUrl}/api${item.images[0]}`}
                                                             alt={item.name}
                                                             fluid
                                                             rounded

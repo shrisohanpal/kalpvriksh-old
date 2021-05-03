@@ -1,25 +1,22 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
 import { Link } from 'react-router-dom'
 import { Container, Row, Col, ListGroup, Image, Card, Button } from 'react-bootstrap'
 import { CircularProgress } from '@material-ui/core'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
-import
-{
+import {
     getOrderDetails,
     payOrder,
     dispatchOrder,
     deliverOrder,
 } from '../actions/orderActions'
-import
-{
+import {
     ORDER_PAY_RESET,
     ORDER_DELIVER_RESET,
 } from '../constants/orderConstants'
+import { baseUrl } from '../urls'
 
-const OrderScreen = ({ match, history }) =>
-{
+const OrderScreen = ({ match, history }) => {
     const orderId = match.params.id
     const dispatch = useDispatch()
 
@@ -37,8 +34,7 @@ const OrderScreen = ({ match, history }) =>
 
     if (!loading) {
         //   Calculate prices
-        const addDecimals = (num) =>
-        {
+        const addDecimals = (num) => {
             return (Math.round(num * 100) / 100).toFixed(2)
         }
 
@@ -47,8 +43,7 @@ const OrderScreen = ({ match, history }) =>
         )
     }
 
-    useEffect(() =>
-    {
+    useEffect(() => {
         if (!userInfo) {
             history.push('/login')
         }
@@ -60,18 +55,15 @@ const OrderScreen = ({ match, history }) =>
         }
     }, [dispatch, orderId, successPay, successDeliver, order])
 
-    const successPaymentHandler = () =>
-    {
+    const successPaymentHandler = () => {
         dispatch(payOrder(orderId))
     }
 
-    const dispatchHandler = () =>
-    {
+    const dispatchHandler = () => {
         dispatch(dispatchOrder(order))
     }
 
-    const deliverHandler = () =>
-    {
+    const deliverHandler = () => {
         dispatch(deliverOrder(order))
     }
 
@@ -145,7 +137,7 @@ const OrderScreen = ({ match, history }) =>
                                                     <Row>
                                                         <Col md={1}>
                                                             <Image
-                                                                src={item.images[0]}
+                                                                src={`${baseUrl}/api${item.images[0]}`}
                                                                 alt={item.name}
                                                                 fluid
                                                                 rounded

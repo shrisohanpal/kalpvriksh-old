@@ -5,22 +5,20 @@ import { Container, Row, Col, Image, ListGroup, Card, Button, Carousel, Form } f
 import { CircularProgress } from '@material-ui/core'
 import { listProductDetails } from '../actions/productActions'
 import Message from '../components/Message'
+import { baseUrl } from '../urls'
 
-const ProductScreen = ({ history, match }) =>
-{
+const ProductScreen = ({ history, match }) => {
     const [qty, setQty] = useState(1)
     const dispatch = useDispatch()
 
     const productDetails = useSelector(state => state.productDetails)
     const { loading, error, product } = productDetails
 
-    useEffect(() =>
-    {
+    useEffect(() => {
         dispatch(listProductDetails(match.params.id))
     }, [dispatch, match])
 
-    const addToCartHandler = () =>
-    {
+    const addToCartHandler = () => {
         history.push(`/cart/${match.params.id}?qty=${qty}`)
     }
 
@@ -41,7 +39,9 @@ const ProductScreen = ({ history, match }) =>
                                         product.images.map((x, k) => (
                                             <Carousel.Item key={k}>
                                                 <div style={{ height: 400 }}>
-                                                    <Image style={{ display: 'block', width: '100%', height: '100%', borderRadius: '1%', margin: '0%' }} src={x} alt={product.name} fluid />
+                                                    <Image style={{ display: 'block', width: '100%', height: '100%', borderRadius: '1%', margin: '0%' }}
+                                                        src={`${baseUrl}/api${x}`}
+                                                        alt={product.name} fluid />
                                                 </div>
                                             </Carousel.Item>
                                         ))

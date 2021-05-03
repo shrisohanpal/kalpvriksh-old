@@ -1,6 +1,6 @@
 import axios from 'axios'
-import
-{
+import { baseUrl } from '../urls'
+import {
   PRODUCT_LIST_REQUEST,
   PRODUCT_LIST_SUCCESS,
   PRODUCT_LIST_FAIL,
@@ -36,13 +36,12 @@ import { logout } from './userActions'
 
 export const listProducts = (keyword = '', pageNumber = '') => async (
   dispatch
-) =>
-{
+) => {
   try {
     dispatch({ type: PRODUCT_LIST_REQUEST })
 
     const { data } = await axios.get(
-      `/api/products?keyword=${keyword}&pageNumber=${pageNumber}`
+      `${baseUrl}/api/products?keyword=${keyword}&pageNumber=${pageNumber}`
     )
 
     dispatch({
@@ -62,13 +61,12 @@ export const listProducts = (keyword = '', pageNumber = '') => async (
 
 export const listProductsByShop = (shopId) => async (
   dispatch
-) =>
-{
+) => {
   try {
     dispatch({ type: PRODUCT_LIST_BY_SHOP_REQUEST })
 
     const { data } = await axios.get(
-      `/api/products/byshop?shopId=${shopId}`
+      `${baseUrl}/api/products/byshop?shopId=${shopId}`
     )
 
     dispatch({
@@ -88,13 +86,12 @@ export const listProductsByShop = (shopId) => async (
 
 export const listProductsByVendor = (vendorId) => async (
   dispatch
-) =>
-{
+) => {
   try {
     dispatch({ type: PRODUCT_LIST_BY_VENDOR_REQUEST })
 
     const { data } = await axios.get(
-      `/api/products/byvendor?vendorId=${vendorId}`
+      `${baseUrl}/api/products/byvendor?vendorId=${vendorId}`
     )
 
     dispatch({
@@ -114,13 +111,12 @@ export const listProductsByVendor = (vendorId) => async (
 
 export const listProductsByCat = (catId) => async (
   dispatch
-) =>
-{
+) => {
   try {
     dispatch({ type: PRODUCT_LIST_BY_CATEGORY_REQUEST })
 
     const { data } = await axios.get(
-      `/api/products/bycat?catId=${catId}`
+      `${baseUrl}/api/products/bycat?catId=${catId}`
     )
 
     dispatch({
@@ -138,12 +134,11 @@ export const listProductsByCat = (catId) => async (
   }
 }
 
-export const listProductDetails = (id) => async (dispatch) =>
-{
+export const listProductDetails = (id) => async (dispatch) => {
   try {
     dispatch({ type: PRODUCT_DETAILS_REQUEST })
 
-    const { data } = await axios.get(`/api/products/${id}`)
+    const { data } = await axios.get(`${baseUrl}/api/products/${id}`)
 
     dispatch({
       type: PRODUCT_DETAILS_SUCCESS,
@@ -160,8 +155,7 @@ export const listProductDetails = (id) => async (dispatch) =>
   }
 }
 
-export const deleteProduct = (id) => async (dispatch, getState) =>
-{
+export const deleteProduct = (id) => async (dispatch, getState) => {
   try {
     dispatch({
       type: PRODUCT_DELETE_REQUEST,
@@ -177,7 +171,7 @@ export const deleteProduct = (id) => async (dispatch, getState) =>
       },
     }
 
-    await axios.delete(`/api/products/${id}`, config)
+    await axios.delete(`${baseUrl}/api/products/${id}`, config)
 
     dispatch({
       type: PRODUCT_DELETE_SUCCESS,
@@ -197,8 +191,7 @@ export const deleteProduct = (id) => async (dispatch, getState) =>
   }
 }
 
-export const createProduct = () => async (dispatch, getState) =>
-{
+export const createProduct = () => async (dispatch, getState) => {
   try {
     dispatch({
       type: PRODUCT_CREATE_REQUEST,
@@ -214,7 +207,7 @@ export const createProduct = () => async (dispatch, getState) =>
       },
     }
 
-    const { data } = await axios.post(`/api/products`, {}, config)
+    const { data } = await axios.post(`${baseUrl}/api/products`, {}, config)
 
     dispatch({
       type: PRODUCT_CREATE_SUCCESS,
@@ -235,8 +228,7 @@ export const createProduct = () => async (dispatch, getState) =>
   }
 }
 
-export const updateProduct = (product) => async (dispatch, getState) =>
-{
+export const updateProduct = (product) => async (dispatch, getState) => {
   try {
     dispatch({
       type: PRODUCT_UPDATE_REQUEST,
@@ -254,7 +246,7 @@ export const updateProduct = (product) => async (dispatch, getState) =>
     }
 
     const { data } = await axios.put(
-      `/api/products/${product._id}`,
+      `${baseUrl}/api/products/${product._id}`,
       product,
       config
     )
@@ -282,8 +274,7 @@ export const updateProduct = (product) => async (dispatch, getState) =>
 export const createProductReview = (productId, review) => async (
   dispatch,
   getState
-) =>
-{
+) => {
   try {
     dispatch({
       type: PRODUCT_CREATE_REVIEW_REQUEST,
@@ -300,7 +291,7 @@ export const createProductReview = (productId, review) => async (
       },
     }
 
-    await axios.post(`/api/products/${productId}/reviews`, review, config)
+    await axios.post(`${baseUrl}/api/products/${productId}/reviews`, review, config)
 
     dispatch({
       type: PRODUCT_CREATE_REVIEW_SUCCESS,
@@ -320,12 +311,11 @@ export const createProductReview = (productId, review) => async (
   }
 }
 
-export const listTopProducts = () => async (dispatch) =>
-{
+export const listTopProducts = () => async (dispatch) => {
   try {
     dispatch({ type: PRODUCT_TOP_REQUEST })
 
-    const { data } = await axios.get(`/api/products/top`)
+    const { data } = await axios.get(`${baseUrl}/api/products/top`)
 
     dispatch({
       type: PRODUCT_TOP_SUCCESS,
