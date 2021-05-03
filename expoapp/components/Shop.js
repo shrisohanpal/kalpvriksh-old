@@ -29,8 +29,8 @@ const Shop = ({ shop, navigation }) => {
 const styles = StyleSheet.create({
     shop: {
         height: 200,
-        margin: 20,
-        minWidth: 200
+        margin: 10,
+        width: 200,
     },
     touchable: {
         borderRadius: 10,
@@ -50,7 +50,8 @@ const styles = StyleSheet.create({
     details: {
         alignItems: 'center',
         height: '17%',
-        padding: 10
+        padding: 10,
+        overflow: 'hidden'
     },
     title: {
         //  fontFamily: 'open-sans-bold',

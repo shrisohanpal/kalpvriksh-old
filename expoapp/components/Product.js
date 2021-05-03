@@ -32,8 +32,8 @@ const Product = ({ product, navigation }) => {
 const styles = StyleSheet.create({
     product: {
         height: 200,
-        margin: 20,
-        minWidth: 200
+        margin: 10,
+        width: 200
     },
     touchable: {
         borderRadius: 10,

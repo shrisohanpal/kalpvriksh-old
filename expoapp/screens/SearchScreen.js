@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { View, TextInput, FlatList, ActivityIndicator, StyleSheet } from 'react-native'
+import { View, TextInput, FlatList, ActivityIndicator, StyleSheet, Button } from 'react-native'
 import Product from '../components/SquareProduct'
 import Message from '../components/Message'
 import { listProducts } from '../actions/productActions'
@@ -34,13 +34,14 @@ const SearchScreen = ({ navigation }) => {
                 <Message data={error} />
             ) : (
                 <View>
-
                     <FlatList
+                        style={{ marginBottom: 160 }}
                         keyExtractor={(item, index) => item._id}
                         data={products}
                         renderItem={({ item }) => <Product product={item} navigation={navigation} />}
                         numColumns={2}
                     />
+                    <Button title="SDF" />
                 </View>
             )}
         </View>

@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { TouchableOpacity, View, Text, ActivityIndicator, FlatList, StyleSheet } from 'react-native'
+import { listProducts } from '../actions/productActions'
 import Product from './SquareProduct'
 
 
 const Category = ({ category, navigation }) => {
+
     return (
         <View>
             {
@@ -27,6 +29,14 @@ const Category = ({ category, navigation }) => {
                                     </View>
                                 )
                             }
+                            {
+                                category.products.length > 5 && (
+                                    <View style={{ flexDirection: 'row' }}>
+                                        <Product product={category.products[4]} navigation={navigation} />
+                                        <Product product={category.products[5]} navigation={navigation} />
+                                    </View>
+                                )
+                            }
                         </View>
 
                     </View>
@@ -37,24 +47,22 @@ const Category = ({ category, navigation }) => {
 }
 
 
-const Categories = ({ navigation, categorys, products }) => {
+const Categories = ({ navigation }) => {
 
-    //const { categorys } = useSelector(state => state.categoryList)
-    //  const { products } = useSelector(state => state.productList)
+    const { categorys } = useSelector(state => state.categoryList)
+    const { products } = useSelector(state => state.productList)
 
-    useEffect(() => {
-        var i, j;
-        for (i = 0; i < categorys.length; i++) {
-            categorys[i].products = []
+    var i, j;
+    for (i = 0; i < categorys.length; i++) {
+        categorys[i].products = []
+        for (j = 0; j < products.length; j++) {
+            if (categorys[i]._id === products[j].category)
+                categorys[i].products.push(products[j])
         }
-        for (i = 0; i < categorys.length; i++) {
-            for (j = 0; j < products.length; j++) {
-                if (categorys[i]._id === products[j].category)
-                    categorys[i].products.push(products[j])
-            }
-        }
-    })
+    }
 
+
+    console.log('Length: ' + categorys.length)
     return (
         <View >
             {

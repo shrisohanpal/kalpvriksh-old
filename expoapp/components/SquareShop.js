@@ -28,13 +28,13 @@ const Shop = ({ shop, navigation }) => {
 
 const styles = StyleSheet.create({
     shop: {
-        // height: width,
         width: width,
         borderBottomWidth: 1,
         borderRightWidth: 1,
         padding: 10,
         borderColor: '#ccc',
         alignItems: 'center',
+        backgroundColor: '#ffffff'
     },
     touchable: {
         overflow: 'hidden'

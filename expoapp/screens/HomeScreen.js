@@ -29,9 +29,9 @@ const HomeScreen = ({ navigation }) => {
     const { loading: loadingProducts, error: errorProducts, products } = productList
 
     useEffect(() => {
-        dispatch(listCategorys())
         dispatch(listShops)
         dispatch(listProducts(''))
+        dispatch(listCategorys())
     }, [dispatch])
 
     return (
@@ -50,17 +50,17 @@ const HomeScreen = ({ navigation }) => {
 
                 <Text style={styles.text}>Featured Products</Text>
                 {
-                    loadingProducts
+                    (loadingProducts || loadingCategories)
                         ? <ActivityIndicator size="large" color={Colors.primary} />
                         : errorProducts
                             ? <Message data={errorProducts} />
-                            :
-                            loadingCategories
-                                ? <ActivityIndicator size="large" color={Colors.primary} />
-                                : errorCategories
-                                    ? <Message data={errorCategories} />
-                                    : <Categories navigation={navigation} products={products} categorys={categorys} />
+                            : errorCategories
+                                ? <Message data={errorCategories} />
+                                : <Categories navigation={navigation} products={products} categorys={categorys} />
                 }
+
+                <Image source={require('../assets/banners/ba.jpg')} style={styles.banner} fluid />
+
                 <Text style={styles.text}>Featured Shops</Text>
                 {loadingShops ? <ActivityIndicator size="large" color={Colors.primary} />
                     : errorShops
@@ -76,9 +76,7 @@ const HomeScreen = ({ navigation }) => {
                         )
                 }
 
-                <Image source={require('../assets/banners/ba.jpg')} style={styles.banner} fluid />
                 <Image source={require('../assets/banners/bb.jpg')} style={styles.banner} fluid />
-                <Image source={require('../assets/banners/bc.jpg')} style={styles.banner} fluid />
 
                 <Text style={styles.text}>Featured Products</Text>
                 {loadingProducts ? <ActivityIndicator size="large" color={Colors.primary} />
@@ -95,6 +93,9 @@ const HomeScreen = ({ navigation }) => {
                         )
                 }
 
+                <Image source={require('../assets/banners/bc.jpg')} style={styles.banner} fluid />
+
+
                 <Image source={require('../assets/banners/cc.jpg')} style={styles.footerBanner} fluid />
 
             </View>
@@ -109,7 +110,7 @@ const styles = StyleSheet.create({
         height: Dimensions.get('window').width * 400 / 1080,
     },
     text: {
-        margin: 20,
+        marginTop: 20,
         fontSize: 25
     },
     banner: {

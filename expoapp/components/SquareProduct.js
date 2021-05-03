@@ -31,13 +31,13 @@ const Product = ({ product, navigation }) => {
 
 const styles = StyleSheet.create({
     product: {
-        // height: width,
         width: width,
         borderWidth: 1,
         padding: 10,
         borderColor: '#ccc',
         alignItems: 'center',
         justifyContent: 'center',
+        backgroundColor: '#ffffff'
     },
     touchable: {
         overflow: 'hidden',
