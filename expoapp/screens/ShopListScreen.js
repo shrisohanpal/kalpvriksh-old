@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { View, Text, TouchableOpacity, ActivityIndicator, FlatList, StyleSheet } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
-import Card from '../components/Card'
+import Shop from '../components/ListShop'
 import {
     listShops,
     deleteShop,
@@ -10,24 +10,6 @@ import {
 } from '../actions/shopActions'
 import { SHOP_CREATE_RESET } from '../constants/shopConstants'
 import Colors from '../constants/Colors'
-
-const Shop = ({ navigation, shop }) => {
-    return (
-        <Card style={styles.card}>
-            <TouchableOpacity onPress={() => navigation.navigate('ShopEdit', { id: shop._id })}>
-                <Text style={styles.text}>
-                    Id: {shop._id}
-                </Text>
-                <Text style={styles.text}>
-                    Name: {shop.name}
-                </Text>
-                <Text style={styles.text}>
-                    Email: {shop.email}
-                </Text>
-            </TouchableOpacity>
-        </Card>
-    )
-}
 
 
 const ShopListScreen = ({ navigation }) => {
@@ -115,17 +97,6 @@ const ShopListScreen = ({ navigation }) => {
         </View>
     )
 }
-
-const styles = StyleSheet.create({
-    card: {
-        margin: 10,
-        paddingVertical: 10
-    },
-    text: {
-        fontSize: 20,
-        marginHorizontal: 10
-    }
-})
 
 
 export default ShopListScreen

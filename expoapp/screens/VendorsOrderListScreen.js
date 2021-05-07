@@ -2,28 +2,9 @@ import React, { useEffect } from 'react'
 import { View, Text, TouchableOpacity, ActivityIndicator, FlatList, StyleSheet } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
-import Card from '../components/Card'
+import Order from '../components/ListOrder'
 import { listOrdersByVendor } from '../actions/orderActions'
 import Colors from '../constants/Colors'
-
-
-const Order = ({ navigation, order }) => {
-    return (
-        <Card style={styles.card}>
-            <TouchableOpacity onPress={() => navigation.navigate('Order', { id: order._id })}>
-                <Text style={styles.text}>
-                    Id: {order._id}
-                </Text>
-                <Text style={styles.text}>
-                    Name: {order.name}
-                </Text>
-                <Text style={styles.text}>
-                    Email: {order.email}
-                </Text>
-            </TouchableOpacity>
-        </Card>
-    )
-}
 
 
 const VendorsOrderListScreen = ({ navigation }) => {

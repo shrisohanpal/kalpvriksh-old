@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
-import { View, Text, TouchableOpacity, ActivityIndicator, FlatList, StyleSheet } from 'react-native'
+import { View, ActivityIndicator, FlatList, StyleSheet } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
-import Card from '../components/Card'
+import Shop from '../components/ListShop'
 import {
     getShopByVendor,
     deleteShop,
@@ -10,24 +10,6 @@ import {
 } from '../actions/shopActions'
 import { SHOP_CREATE_RESET } from '../constants/shopConstants'
 import Colors from '../constants/Colors'
-
-const Shop = ({ navigation, shop }) => {
-    return (
-        <Card style={styles.card}>
-            <TouchableOpacity onPress={() => navigation.navigate('ShopEdit', { id: shop._id })}>
-                <Text style={styles.text}>
-                    Id: {shop._id}
-                </Text>
-                <Text style={styles.text}>
-                    Name: {shop.name}
-                </Text>
-                <Text style={styles.text}>
-                    Email: {shop.email}
-                </Text>
-            </TouchableOpacity>
-        </Card>
-    )
-}
 
 
 const VendorsShopScreen = ({ navigation }) => {

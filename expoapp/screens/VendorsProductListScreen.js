@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { View, Text, TouchableOpacity, ActivityIndicator, FlatList, StyleSheet } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
-import Card from '../components/Card'
+import Product from '../components/ListProduct'
 import {
     listProductsByVendor,
     deleteProduct,
@@ -10,25 +10,6 @@ import {
 } from '../actions/productActions'
 import { PRODUCT_CREATE_RESET } from '../constants/productConstants'
 import Colors from '../constants/Colors'
-
-
-const Product = ({ navigation, product }) => {
-    return (
-        <Card style={styles.card}>
-            <TouchableOpacity onPress={() => navigation.navigate('ProductEdit', { id: product._id })}>
-                <Text style={styles.text}>
-                    Id: {product._id}
-                </Text>
-                <Text style={styles.text}>
-                    Name: {product.name}
-                </Text>
-                <Text style={styles.text}>
-                    Email: {product.email}
-                </Text>
-            </TouchableOpacity>
-        </Card>
-    )
-}
 
 const VendorsProductListScreen = ({ navigation }) => {
 
