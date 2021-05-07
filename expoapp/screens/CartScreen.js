@@ -65,12 +65,10 @@ const CartScreen = ({ route, navigation }) => {
                             renderItem={({ item }) => <CartItem item={item} />}
                         />
                          */}
-                        <Text style={{ fontSize: 30 }}>ddg</Text>
-
                         {cartItems.map((item) => {
-                            <View>
-                                <Text>ddg</Text>
-                            </View>
+                            return (
+                                <CartItem key={item.product} item={item} />
+                            )
                         })}
                         <Text style={styles.text2}>Subtotal ({cartItems.reduce((acc, item) => acc + item.qty, 0)}) items</Text>
                         <Text style={styles.text2}>₹{cartItems

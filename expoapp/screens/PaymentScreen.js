@@ -22,6 +22,7 @@ const PaymentScreen = ({ navigation }) => {
         navigation.navigate('PlaceOrder')
     }
 
+    submitHandler()
     /*    useEffect(() => {
             navigation.navigate('PlaceOrder')
         }, [navigation])*/

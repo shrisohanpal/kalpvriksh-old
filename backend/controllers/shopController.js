@@ -4,17 +4,15 @@ import Shop from '../models/shopModel.js'
 // @desc    Fetch all shops
 // @route   GET /api/shops
 // @access  Public
-const getShops = asyncHandler(async (req, res) =>
-{
-    const shops = await Shop.find({})
+const getShops = asyncHandler(async (req, res) => {
+    const shops = await Shop.find({}).sort({ updatedAt: -1 })
     res.json({ shops })
 })
 
 // @desc    Fetch shop By Vendor
 // @route   GET /api/shops/vendor/:id
 // @access  Private AdminOrVenodr
-const getShopByVendor = asyncHandler(async (req, res) =>
-{
+const getShopByVendor = asyncHandler(async (req, res) => {
     const shop = await Shop.findOne({ user: req.params.id })
     if (shop) {
         res.json(shop)
@@ -27,8 +25,7 @@ const getShopByVendor = asyncHandler(async (req, res) =>
 // @desc    Fetch single shop
 // @route   GET /api/shops/:id
 // @access  Public
-const getShopById = asyncHandler(async (req, res) =>
-{
+const getShopById = asyncHandler(async (req, res) => {
     const shop = await Shop.findById(req.params.id)
 
     if (shop) {
@@ -42,8 +39,7 @@ const getShopById = asyncHandler(async (req, res) =>
 // @desc    Delete a shop
 // @route   DELETE /api/shops/:id
 // @access  Private AdminOrVendor
-const deleteShop = asyncHandler(async (req, res) =>
-{
+const deleteShop = asyncHandler(async (req, res) => {
     const shop = await Shop.findById(req.params.id)
 
     if (shop) {
@@ -58,8 +54,7 @@ const deleteShop = asyncHandler(async (req, res) =>
 // @desc    Create a shop
 // @route   POST /api/shops
 // @access  Private AdminOrVendor
-const createShop = asyncHandler(async (req, res) =>
-{
+const createShop = asyncHandler(async (req, res) => {
     const shop = new Shop({
         user: req.user._id,
         image: '/uploads/default.png'
@@ -73,8 +68,7 @@ const createShop = asyncHandler(async (req, res) =>
 // @desc    Update a shop
 // @route   PUT /api/shops/:id
 // @access  Private AdminOrVendor
-const updateShop = asyncHandler(async (req, res) =>
-{
+const updateShop = asyncHandler(async (req, res) => {
     const {
         name,
         image,
@@ -115,8 +109,7 @@ const updateShop = asyncHandler(async (req, res) =>
 })
 
 
-export
-{
+export {
     getShops,
     getShopByVendor,
     getShopById,

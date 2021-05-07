@@ -61,8 +61,6 @@ const Categories = ({ navigation }) => {
         }
     }
 
-
-    console.log('Length: ' + categorys.length)
     return (
         <View >
             {

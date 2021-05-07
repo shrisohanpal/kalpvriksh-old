@@ -14,7 +14,7 @@ function CustomDrawerContent(props) {
     return (
         <DrawerContentScrollView {...props}>
             <DrawerItem
-                label={() => { return (<Image style={{ margin: 0, padding: 0, width: 'auto', height: 100 }} source={require('../assets/banners/a.jpg')} />) }}
+                label={() => { return (<Image style={{ margin: 0, padding: 0, width: '100%', height: 100 }} source={require('../assets/banners/a.jpg')} />) }}
                 onPress={() => { }} />
             <DrawerItemList {...props} />
             <DrawerItem

@@ -5,9 +5,8 @@ import Shop from '../models/shopModel.js'
 // @desc    Fetch all products
 // @route   GET /api/products
 // @access  Public
-const getProducts = asyncHandler(async (req, res) =>
-{
-  const pageSize = 100
+const getProducts = asyncHandler(async (req, res) => {
+  const pageSize = 10000
   const page = Number(req.query.pageNumber) || 1
 
   const keyword = req.query.keyword
@@ -29,9 +28,7 @@ const getProducts = asyncHandler(async (req, res) =>
     : {}
 
   const count = await Product.countDocuments({ ...keyword })
-  const products = await Product.find({ $or: [keyword, keyword2] })
-    .limit(pageSize)
-    .skip(pageSize * (page - 1))
+  const products = await Product.find({ $or: [keyword, keyword2] }).sort({ updatedAt: -1 })
 
   res.json({ products, page, pages: Math.ceil(count / pageSize) })
 })
@@ -39,8 +36,7 @@ const getProducts = asyncHandler(async (req, res) =>
 // @desc    Fetch all products of a shop
 // @route   GET /api/products/byshop
 // @access  Public
-const getProductsByShop = asyncHandler(async (req, res) =>
-{
+const getProductsByShop = asyncHandler(async (req, res) => {
   const shopId = req.query.shopId
   const products = await Product.find({ shop: shopId })
   res.json({ products })
@@ -49,8 +45,7 @@ const getProductsByShop = asyncHandler(async (req, res) =>
 // @desc    Fetch all products of a vendor
 // @route   GET /api/products/byvendor
 // @access  Public
-const getProductsByVendor = asyncHandler(async (req, res) =>
-{
+const getProductsByVendor = asyncHandler(async (req, res) => {
   const userId = req.query.vendorId
   const products = await Product.find({ user: userId })
   res.json({ products })
@@ -59,8 +54,7 @@ const getProductsByVendor = asyncHandler(async (req, res) =>
 // @desc    Fetch all products of a category
 // @route   GET /api/products/bycat
 // @access  Public
-const getProductsByCat = asyncHandler(async (req, res) =>
-{
+const getProductsByCat = asyncHandler(async (req, res) => {
   const catId = req.query.catId
   const products = await Product.find({ category: catId })
   res.json({ products })
@@ -70,8 +64,7 @@ const getProductsByCat = asyncHandler(async (req, res) =>
 // @desc    Fetch single product
 // @route   GET /api/products/:id
 // @access  Public
-const getProductById = asyncHandler(async (req, res) =>
-{
+const getProductById = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.id)
 
   if (product) {
@@ -85,8 +78,7 @@ const getProductById = asyncHandler(async (req, res) =>
 // @desc    Delete a product
 // @route   DELETE /api/products/:id
 // @access  Private/Admin
-const deleteProduct = asyncHandler(async (req, res) =>
-{
+const deleteProduct = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.id)
 
   if (product) {
@@ -101,8 +93,7 @@ const deleteProduct = asyncHandler(async (req, res) =>
 // @desc    Create a product
 // @route   POST /api/products
 // @access  Private/Admin
-const createProduct = asyncHandler(async (req, res) =>
-{
+const createProduct = asyncHandler(async (req, res) => {
   const product = new Product({
     user: req.user._id,
     shop: await Shop.findOne({ user: req.user._id }),
@@ -116,8 +107,7 @@ const createProduct = asyncHandler(async (req, res) =>
 // @desc    Update a product
 // @route   PUT /api/products/:id
 // @access  Private/Admin
-const updateProduct = asyncHandler(async (req, res) =>
-{
+const updateProduct = asyncHandler(async (req, res) => {
   const {
     name,
     category,
@@ -160,8 +150,7 @@ const updateProduct = asyncHandler(async (req, res) =>
 // @desc    Create new review
 // @route   POST /api/products/:id/reviews
 // @access  Private
-const createProductReview = asyncHandler(async (req, res) =>
-{
+const createProductReview = asyncHandler(async (req, res) => {
   const { rating, comment } = req.body
 
   const product = await Product.findById(req.params.id)
@@ -202,15 +191,13 @@ const createProductReview = asyncHandler(async (req, res) =>
 // @desc    Get top rated products
 // @route   GET /api/products/top
 // @access  Public
-const getTopProducts = asyncHandler(async (req, res) =>
-{
+const getTopProducts = asyncHandler(async (req, res) => {
   const products = await Product.find({}).sort({ rating: -1 }).limit(3)
 
   res.json(products)
 })
 
-export
-{
+export {
   getProducts,
   getProductsByShop,
   getProductsByVendor,

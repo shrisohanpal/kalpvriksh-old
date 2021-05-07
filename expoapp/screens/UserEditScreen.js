@@ -3,7 +3,7 @@ import { ScrollView, View, Text, ActivityIndicator, TextInput, CheckBox, Button,
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import Card from '../components/Card'
-import { getUserDetails, updateUser } from '../actions/userActions'
+import { getUserDetails, updateUser, deleteUser } from '../actions/userActions'
 import { USER_UPDATE_RESET } from '../constants/userConstants'
 import Colors from '../constants/Colors'
 
@@ -48,6 +48,10 @@ const UserEditScreen = ({ route, navigation }) => {
         dispatch(updateUser({ _id: userId, name, email, isVendor, isAdmin }))
     }
 
+    const deleteHandler = () => {
+        dispatch(deleteUser(userId))
+    }
+
     return (
         <View style={styles.userContainer}>
             {loadingUpdate && <ActivityIndicator size="large" color={Colors.primary} />}
@@ -89,6 +93,13 @@ const UserEditScreen = ({ route, navigation }) => {
                                     <Button
                                         title="Update"
                                         onPress={submitHandler}
+                                    />
+                                </View>
+                                <View style={{ marginVertical: 10 }}>
+                                    <Button
+                                        title="Delete"
+                                        color="red"
+                                        onPress={deleteHandler}
                                     />
                                 </View>
                             </Card>

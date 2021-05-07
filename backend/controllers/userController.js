@@ -7,8 +7,7 @@ import User from '../models/userModel.js'
 // @desc    Auth user & get token
 // @route   POST /api/users/login
 // @access  Public
-const authUser = asyncHandler(async (req, res) =>
-{
+const authUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body
 
   const user = await User.findOne({ email })
@@ -31,8 +30,7 @@ const authUser = asyncHandler(async (req, res) =>
 // @desc    Register a new user
 // @route   POST /api/users
 // @access  Public
-const registerUser = asyncHandler(async (req, res) =>
-{
+const registerUser = asyncHandler(async (req, res) => {
   const { name, email, password } = req.body
 
   const userExists = await User.findOne({ email })
@@ -65,8 +63,7 @@ const registerUser = asyncHandler(async (req, res) =>
 // @desc    Get user profile
 // @route   GET /api/users/profile
 // @access  Private
-const getUserProfile = asyncHandler(async (req, res) =>
-{
+const getUserProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id)
 
   if (user) {
@@ -85,8 +82,7 @@ const getUserProfile = asyncHandler(async (req, res) =>
 // @desc    Update user profile
 // @route   PUT /api/users/profile
 // @access  Private
-const updateUserProfile = asyncHandler(async (req, res) =>
-{
+const updateUserProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id)
 
   if (user) {
@@ -116,8 +112,7 @@ const updateUserProfile = asyncHandler(async (req, res) =>
 // @desc    Create new Password
 // @route   POST /api/users/forgotpassword
 // @access  Public
-const forgotPassword = asyncHandler(async (req, res) =>
-{
+const forgotPassword = asyncHandler(async (req, res) => {
   const { email } = req.body
 
   const user = await User.findOne({ email })
@@ -142,8 +137,7 @@ const forgotPassword = asyncHandler(async (req, res) =>
       html: `Your new password is ${newPass}\n Please login with this Password and Change your password!`
     };
 
-    transporter.sendMail(mailOptions, function (error, info)
-    {
+    transporter.sendMail(mailOptions, function (error, info) {
       if (error) {
         res.status(401)
         throw new Error(error.message)
@@ -160,17 +154,15 @@ const forgotPassword = asyncHandler(async (req, res) =>
 // @desc    Get all users
 // @route   GET /api/users
 // @access  Private/Admin
-const getUsers = asyncHandler(async (req, res) =>
-{
-  const users = await User.find({})
+const getUsers = asyncHandler(async (req, res) => {
+  const users = await User.find({}).sort({ updatedAt: -1 })
   res.json(users)
 })
 
 // @desc    Delete user
 // @route   DELETE /api/users/:id
 // @access  Private/Admin
-const deleteUser = asyncHandler(async (req, res) =>
-{
+const deleteUser = asyncHandler(async (req, res) => {
   const user = await User.findById(req.params.id)
 
   if (user) {
@@ -185,8 +177,7 @@ const deleteUser = asyncHandler(async (req, res) =>
 // @desc    Get user by ID
 // @route   GET /api/users/:id
 // @access  Private/Admin
-const getUserById = asyncHandler(async (req, res) =>
-{
+const getUserById = asyncHandler(async (req, res) => {
   const user = await User.findById(req.params.id).select('-password')
 
   if (user) {
@@ -200,8 +191,7 @@ const getUserById = asyncHandler(async (req, res) =>
 // @desc    Update user
 // @route   PUT /api/users/:id
 // @access  Private/Admin
-const updateUser = asyncHandler(async (req, res) =>
-{
+const updateUser = asyncHandler(async (req, res) => {
   const user = await User.findById(req.params.id)
 
   if (user) {
@@ -225,8 +215,7 @@ const updateUser = asyncHandler(async (req, res) =>
   }
 })
 
-const registerSeller = asyncHandler(async (req, res) =>
-{
+const registerSeller = asyncHandler(async (req, res) => {
   const userId = req.params.id
   const user = await User.findById(userId)
   if (user) {
@@ -247,8 +236,7 @@ const registerSeller = asyncHandler(async (req, res) =>
       html: `<h1>Details of the Vendor</h1>
                         <a href='kalpvriksh.co.in/admin/user/${user._id}/edit'>Click Here to Know Vendor Details!</a>`
     };
-    transporter.sendMail(mailOptions, function (error, info)
-    {
+    transporter.sendMail(mailOptions, function (error, info) {
       if (error) {
         console.log(error);
       } else {
@@ -263,8 +251,7 @@ const registerSeller = asyncHandler(async (req, res) =>
   }
 })
 
-export
-{
+export {
   authUser,
   registerUser,
   getUserProfile,

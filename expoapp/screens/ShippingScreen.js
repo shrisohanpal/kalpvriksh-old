@@ -1,13 +1,17 @@
 import React, { useState } from 'react'
 import { View, ScrollView, Text, TextInput, Button, StyleSheet } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
-import { saveShippingAddress } from '../actions/cartActions'
+import { saveShippingAddress, savePaymentMethod } from '../actions/cartActions'
 
 const ShippingScreen = ({ navigation }) => {
+
+    const [paymentMethod, setPaymentMethod] = useState('Cash')
 
     const cart = useSelector((state) => state.cart)
     const { shippingAddress } = cart
 
+    // shippingAddress.address = "Da"
+    // console.log(shippingAddress)
     const [address, setAddress] = useState(shippingAddress.address)
     const [city, setCity] = useState(shippingAddress.city)
     const [postalCode, setPostalCode] = useState(shippingAddress.postalCode)
@@ -17,7 +21,9 @@ const ShippingScreen = ({ navigation }) => {
 
     const submitHandler = () => {
         dispatch(saveShippingAddress({ address, city, postalCode, phone }))
-        navigation.navigate('Payment')
+        // navigation.navigate('Payment')
+        dispatch(savePaymentMethod(paymentMethod))
+        navigation.navigate('PlaceOrder')
     }
 
 
