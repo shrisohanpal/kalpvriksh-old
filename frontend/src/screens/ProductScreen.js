@@ -146,7 +146,7 @@ const ProductScreen = ({ history, match }) => {
                                             }
                                         </ListGroup.Item>
                                         <ListGroup.Item>
-                                            {product.returnable
+                                            {product.refundable
                                                 ? <Message>Refundable</Message>
                                                 : <Message>Not Refundable</Message>
                                             }
