@@ -9,6 +9,7 @@ import StoreNavigator from './StoreNavigator'
 import AdminNavigator from './AdminNavigator'
 import VendorNavigator from './VendorNavigator'
 
+import Temp from '../screens/tempscreen'
 
 function CustomDrawerContent(props) {
     return (
@@ -42,6 +43,7 @@ export default function App() {
                 {userInfo && userInfo.isVendor && (
                     <Drawer.Screen name="Vendor" component={VendorNavigator} />
                 )}
+                <Drawer.Screen name="Temp" component={Temp} />
             </Drawer.Navigator>
         </NavigationContainer>
     );

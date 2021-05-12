@@ -1,34 +1,67 @@
-import React, { Component } from 'react';
-import GoogleMapReact from 'google-map-react';
+import axios from 'axios';
+import { Form } from 'react-bootstrap'
 
-const AnyReactComponent = ({ text }) => <div>{text}</div>;
 
-class SimpleMap extends Component
-{
-    static defaultProps = {
-        center: { lat: 59.95, lng: 30.33 },
-        zoom: 11
-    };
+function App() {
 
-    render()
-    {
-        return (
-            // Important! Always set the container height explicitly
-            <div style={{ width: '100%', height: '60vh' }}>
-                <GoogleMapReact
-                    // bootstrapURLKeys={{ key: 23243 }}
-                    defaultCenter={this.props.center}
-                    defaultZoom={this.props.zoom}
-                >
-                    <AnyReactComponent
-                        lat={59.955413}
-                        lng={30.337844}
-                        text="My Marker"
-                    />
-                </GoogleMapReact>
-            </div>
-        );
+    const uploadFileHandler = async (e) => {
+        const file = e.target.files[0]
+        console.log(file);
+
+        const formData = new FormData()
+        formData.append('image', file)
+
+        // Upload  without converting into string
+        try {
+            const config = {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            }
+            const { data } = await axios.post('http://localhost:5000/api/upload', formData, config)
+            console.log(data);
+
+        } catch (error) {
+            console.error(error)
+        }
+
+        // Convert image into string format
+
+        /* let reader = new FileReader();
+         reader.readAsDataURL(file);
+         reader.onload = async () => {
+             // console.log(reader.result)
+ 
+             const config = {
+                 headers: {
+                     'Content-Type': 'application/json',
+                 },
+             }
+             const { data } = await axios.post('http://localhost:5000/api/upload/base64', { imgStr: reader.result.split(';base64,').pop() }, config)
+             console.log(data)
+         };
+         reader.onerror = function (error) {
+             console.log('Error: ', error);
+         };
+         */
+
     }
+
+    return (
+        <div className="App">
+            <p>Hello from DKS G</p>
+            <Form.File
+                id='image-file'
+                label='Choose File'
+                custom
+                onChange={uploadFileHandler}
+            ></Form.File>
+
+        </div>
+    );
 }
 
-export default SimpleMap;
+export default App;
+
+
+// /uploads/image-1620834046681.jpg

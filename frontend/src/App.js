@@ -39,8 +39,9 @@ import PrivacypolicyScreen from './screens/PrivacypolicyScreen'
 import ReturnPolicyScreen from './screens/ReturnPolicyScreen'
 import TermsAndConditions from './screens/TermsAndConditions'
 
-const App = () =>
-{
+import Temp from './screens/tempscreen'
+
+const App = () => {
   return (
     <Router>
       <Header />
@@ -80,6 +81,8 @@ const App = () =>
         <Route path='/privacypolicy' component={PrivacypolicyScreen} />
         <Route path='/returnpolicy' component={ReturnPolicyScreen} />
         <Route path='/termsandconditions' component={TermsAndConditions} />
+
+        <Route path='/temp' component={Temp} />
       </main>
       <Footer />
     </Router>
