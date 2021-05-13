@@ -20,13 +20,13 @@ export default function ImagePickerExample() {
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
-            allowsEditing: true,
-            aspect: [4, 3],
-            quality: 0.5,
+            // allowsEditing: true,
+            //  aspect: [4, 3],
+            quality: 0.1,
             base64: true
         });
 
-        console.log(result.base64);
+        //  console.log(result.base64);
 
         try {
             const config = {

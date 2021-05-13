@@ -2,6 +2,7 @@ import axios from 'axios'
 import React, { useState, useEffect } from 'react'
 import { ScrollView, View, Text, TextInput, Button, ActivityIndicator, Picker, StyleSheet } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
+import * as ImagePicker from 'expo-image-picker';
 import { baseUrl } from '../urls'
 import Message from '../components/Message'
 import Card from '../components/Card'
@@ -78,27 +79,34 @@ const ShopEditScreen = ({ navigation, route }) => {
             dispatch(listShops)
             navigation.navigate('ShopList')
         }
+        (async () => {
+            if (Platform.OS !== 'web') {
+                const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+                if (status !== 'granted') {
+                    alert('Sorry, we need Media Library permissions to make this work!');
+                }
+            }
+        })();
     }, [dispatch, navigation, shopId, shop, successUpdate, successDelete])
 
-    const uploadFileHandler = async (e) => {
-        const file = e.target.files[0]
-        const formData = new FormData()
-        formData.append('image', file)
+    const uploadFileHandler = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            quality: 0.1,
+            base64: true
+        });
         setUploading(true)
-
         try {
             const config = {
                 headers: {
-                    'Content-Type': 'multipart/form-data',
+                    'Content-Type': 'application/json',
                 },
             }
-
-            const { data } = await axios.post(`${baseUrl}/api/upload`, formData, config)
-
+            const { data } = await axios.post(`${baseUrl}/api/upload/base64`, { imgStr: result.base64 }, config)
             setImage(data)
             setUploading(false)
         } catch (error) {
-            console.error(error)
+            console.log(error)
             setUploading(false)
         }
     }
@@ -156,12 +164,18 @@ const ShopEditScreen = ({ navigation, route }) => {
                             value={name}
                             onChangeText={setName}
                         />
+                        {uploading && <ActivityIndicator size="large" color={Colors.primary} />}
+
                         <Text style={styles.label}>Image</Text>
                         <TextInput style={styles.textInput}
                             placeholder="Enter image url"
                             value={image}
                             onChangeText={setImage}
                         />
+                        <View style={{ marginHorizontal: 10, marginBottom: 20 }} >
+                            <Button title="Browse image" onPress={uploadFileHandler} />
+                        </View>
+
                         <View style={{ flexDirection: 'row' }}>
                             <Text style={styles.label}>Select Category</Text>
                             <Picker

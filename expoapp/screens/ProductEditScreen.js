@@ -2,6 +2,8 @@ import axios from 'axios'
 import React, { useState, useEffect } from 'react'
 import { ScrollView, View, Text, TextInput, Button, ActivityIndicator, Picker, CheckBox, StyleSheet } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
+import * as ImagePicker from 'expo-image-picker';
+import { baseUrl } from '../urls'
 import Message from '../components/Message'
 import Card from '../components/Card'
 import { listProductDetails, updateProduct, deleteProduct, listProducts } from '../actions/productActions'
@@ -28,6 +30,8 @@ const ProductEditScreen = ({ route, navigation }) => {
     const [refundable, setRefundable] = useState(false)
     const [exchange, setExchange] = useState(0)
     const [uploading, setUploading] = useState(false)
+    const [uploading2, setUploading2] = useState(false)
+    const [uploading3, setUploading3] = useState(false)
 
     const dispatch = useDispatch()
 
@@ -81,76 +85,82 @@ const ProductEditScreen = ({ route, navigation }) => {
             dispatch(listProducts())
             navigation.navigate('ProductList')
         }
+        (async () => {
+            if (Platform.OS !== 'web') {
+                const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+                if (status !== 'granted') {
+                    alert('Sorry, we need Media Library permissions to make this work!');
+                }
+            }
+        })();
     }, [dispatch, navigation, productId, product, successUpdate, successDelete])
 
-    const uploadFileHandler = async (e) => {
-        const file = e.target.files[0]
-        const formData = new FormData()
-        formData.append('image', file)
+    const uploadFileHandler = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            quality: 0.1,
+            base64: true
+        });
         setUploading(true)
-
         try {
             const config = {
                 headers: {
-                    'Content-Type': 'multipart/form-data',
+                    'Content-Type': 'application/json',
                 },
             }
-
-            const { data } = await axios.post('/api/upload', formData, config)
-
+            const { data } = await axios.post(`${baseUrl}/api/upload/base64`, { imgStr: result.base64 }, config)
             setImage(data)
             setUploading(false)
         } catch (error) {
-            console.error(error)
+            console.log(error)
             setUploading(false)
         }
     }
 
-    const uploadFileHandler2 = async (e) => {
-        const file = e.target.files[0]
-        const formData = new FormData()
-        formData.append('image', file)
-        setUploading(true)
-
+    const uploadFileHandler2 = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            quality: 0.1,
+            base64: true
+        });
+        setUploading2(true)
         try {
             const config = {
                 headers: {
-                    'Content-Type': 'multipart/form-data',
+                    'Content-Type': 'application/json',
                 },
             }
-
-            const { data } = await axios.post('/api/upload', formData, config)
-
+            const { data } = await axios.post(`${baseUrl}/api/upload/base64`, { imgStr: result.base64 }, config)
             setImage2(data)
-            setUploading(false)
+            setUploading2(false)
         } catch (error) {
-            console.error(error)
-            setUploading(false)
+            console.log(error)
+            setUploading2(false)
         }
     }
 
-    const uploadFileHandler3 = async (e) => {
-        const file = e.target.files[0]
-        const formData = new FormData()
-        formData.append('image', file)
-        setUploading(true)
-
+    const uploadFileHandler3 = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            quality: 0.1,
+            base64: true
+        });
+        setUploading3(true)
         try {
             const config = {
                 headers: {
-                    'Content-Type': 'multipart/form-data',
+                    'Content-Type': 'application/json',
                 },
             }
-
-            const { data } = await axios.post('/api/upload', formData, config)
-
+            const { data } = await axios.post(`${baseUrl}/api/upload/base64`, { imgStr: result.base64 }, config)
             setImage3(data)
-            setUploading(false)
+            setUploading3(false)
         } catch (error) {
-            console.error(error)
-            setUploading(false)
+            console.log(error)
+            setUploading3(false)
         }
     }
+
 
     const submitHandler = () => {
         //  e.preventDefault()
@@ -196,26 +206,39 @@ const ProductEditScreen = ({ route, navigation }) => {
                             value={name}
                             onChangeText={setName}
                         />
+
+                        {uploading && <ActivityIndicator size="large" color={Colors.primary} />}
                         <Text style={styles.label}>Image</Text>
                         <TextInput style={styles.textInput}
                             placeholder="Enter image url"
                             value={image}
                             onChangeText={setImage}
                         />
+                        <View style={{ marginHorizontal: 10, marginBottom: 20 }} >
+                            <Button title="Browse image" onPress={uploadFileHandler} />
+                        </View>
 
+                        {uploading2 && <ActivityIndicator size="large" color={Colors.primary} />}
                         <Text style={styles.label}>Image2</Text>
                         <TextInput style={styles.textInput}
                             placeholder="Enter image url"
                             value={image2}
                             onChangeText={setImage2}
                         />
+                        <View style={{ marginHorizontal: 10, marginBottom: 20 }} >
+                            <Button title="Browse image" onPress={uploadFileHandler2} />
+                        </View>
 
+                        {uploading3 && <ActivityIndicator size="large" color={Colors.primary} />}
                         <Text style={styles.label}>Image3</Text>
                         <TextInput style={styles.textInput}
                             placeholder="Enter image url"
                             value={image3}
                             onChangeText={setImage3}
                         />
+                        <View style={{ marginHorizontal: 10, marginBottom: 20 }} >
+                            <Button title="Browse image" onPress={uploadFileHandler3} />
+                        </View>
 
                         <Text style={styles.label}>Brand</Text>
                         <TextInput style={styles.textInput}
