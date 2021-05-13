@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react'
 import { View, ActivityIndicator, FlatList, StyleSheet } from 'react-native'
+import Ionicons from 'react-native-vector-icons/Ionicons'
+
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import Shop from '../components/ListShop'
@@ -67,6 +69,27 @@ const VendorsShopScreen = ({ navigation }) => {
     const createShopHandler = () => {
         dispatch(createShop())
     }
+
+    React.useLayoutEffect(() => {
+        navigation.setOptions({
+            // title: 'Categories',
+            headerRight: () => (
+                <View style={{ flexDirection: 'row' }}>
+                    {
+                        !shop && (
+                            <Ionicons
+                                name="ios-add"
+                                size={40}
+                                color='#ffffff'
+                                style={{ margin: 10 }}
+                                onPress={createShopHandler}
+                            />
+                        )
+                    }
+                </View >
+            )
+        })
+    })
 
     return (
         <View>

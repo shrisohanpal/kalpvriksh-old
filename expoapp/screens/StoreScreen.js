@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { ScrollView, Image, Text, View, Button, StyleSheet, Alert } from 'react-native'
 import Card from '../components/Card'
 
@@ -16,6 +17,19 @@ const SingleCard = ({ title, image, description }) => {
 }
 
 const StoreScreen = ({ navigation }) => {
+
+    const userLogin = useSelector((state) => state.userLogin)
+    const { userInfo } = userLogin
+
+    const handleRegister = () => {
+        if (userInfo) {
+            navigation.navigate('ConformStore')
+        } else {
+            Alert.alert("Login to Continue.", "you are not logged in this app. If you want to continue then you have to login.")
+            // navigation.navigate('Login')
+        }
+    }
+
     return (
         <ScrollView>
             <Card style={styles.card}>
@@ -37,7 +51,7 @@ const StoreScreen = ({ navigation }) => {
                 description="Payments will be done directly and securly into your bank account"
             />
             <View style={styles.buttonContainer}>
-                <Button title="Register as a Seller" onPress={() => Alert.alert('We are still working on this feature.')} />
+                <Button title="Register as a Seller" onPress={handleRegister} />
             </View>
         </ScrollView>
     )

@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react'
 import { View, Text, TouchableOpacity, ActivityIndicator, FlatList, StyleSheet } from 'react-native'
+import Ionicons from 'react-native-vector-icons/Ionicons'
+
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import Product from '../components/ListProduct'
@@ -68,6 +70,23 @@ const ProductListScreen = ({ navigation }) => {
     const createProductHandler = () => {
         dispatch(createProduct())
     }
+
+    React.useLayoutEffect(() => {
+        navigation.setOptions({
+            // title: 'Categories',
+            headerRight: () => (
+                <View style={{ flexDirection: 'row' }}>
+                    <Ionicons
+                        name="ios-add"
+                        size={40}
+                        color='#ffffff'
+                        style={{ margin: 10 }}
+                        onPress={createProductHandler}
+                    />
+                </View >
+            )
+        })
+    })
 
     return (
         <View>
