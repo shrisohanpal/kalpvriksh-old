@@ -4,8 +4,8 @@ import { ScrollView, View, Text, TextInput, Button, ActivityIndicator, StyleShee
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import Card from '../components/Card'
-import { listCategoryDetails, updateCategory } from '../actions/categoryActions'
-import { CATEGORY_UPDATE_RESET } from '../constants/categoryConstants'
+import { listCategoryDetails, updateCategory, deleteCategory, listCategorys } from '../actions/categoryActions'
+import { CATEGORY_UPDATE_RESET, CATEGORY_DELETE_RESET } from '../constants/categoryConstants'
 import Colors from '../constants/Colors'
 
 const CategoryEditScreen = ({ route, navigation }) => {
@@ -25,9 +25,17 @@ const CategoryEditScreen = ({ route, navigation }) => {
         success: successUpdate,
     } = categoryUpdate
 
+    const categoryDelete = useSelector((state) => state.categoryDelete)
+    const {
+        loading: loadingDelete,
+        error: errorDelete,
+        success: successDelete,
+    } = categoryDelete
+
     useEffect(() => {
         if (successUpdate) {
             dispatch({ type: CATEGORY_UPDATE_RESET })
+            dispatch(listCategorys())
             navigation.navigate('CategoryList')
             //console.log('Called')
         } else {
@@ -37,7 +45,12 @@ const CategoryEditScreen = ({ route, navigation }) => {
                 setName(category.name)
             }
         }
-    }, [dispatch, navigation, categoryId, category, successUpdate])
+        if (successDelete) {
+            dispatch({ type: CATEGORY_DELETE_RESET })
+            dispatch(listCategorys())
+            navigation.navigate('CategoryList')
+        }
+    }, [dispatch, navigation, categoryId, category, successUpdate, successDelete])
 
     const submitHandler = () => {
         // e.preventDefault()
@@ -49,9 +62,14 @@ const CategoryEditScreen = ({ route, navigation }) => {
         )
     }
 
+    const deleteHandler = () => {
+        dispatch(deleteCategory(categoryId))
+    }
+
     return (
         <ScrollView>
             <Card style={styles.card}>
+                {loadingDelete && <ActivityIndicator size="large" color={Colors.primary} />}
                 {loadingUpdate && <ActivityIndicator size="large" color={Colors.primary} />}
                 {errorUpdate && <Message data={errorUpdate} />}
                 {loading ? (
@@ -68,9 +86,19 @@ const CategoryEditScreen = ({ route, navigation }) => {
                             onChangeText={setName}
                         />
                         <View style={styles.buttonContainer} >
-                            <Button title="Update"
-                                onPress={submitHandler}
-                            />
+                            <View style={{ margin: 10 }}>
+                                <Button
+                                    title="Update"
+                                    onPress={submitHandler}
+                                />
+                            </View>
+                            <View style={{ margin: 10 }}>
+                                <Button
+                                    title="Delete"
+                                    color="red"
+                                    onPress={deleteHandler}
+                                />
+                            </View>
                         </View>
                     </View>
                 )
@@ -103,6 +131,7 @@ const styles = StyleSheet.create({
     },
     buttonContainer: {
         margin: 10,
+        flexDirection: 'row',
         alignItems: 'flex-start'
     }
 })

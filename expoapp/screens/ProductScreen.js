@@ -56,7 +56,7 @@ const ProductScreen = ({ navigation, route }) => {
                                     <>
                                         <Text style={styles.text}>
                                             Select Quantity
-                                </Text>
+                                        </Text>
                                         <Picker
                                             selectedValue={qty}
                                             style={{ marginLeft: 10, width: 120 }}

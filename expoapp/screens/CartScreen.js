@@ -1,19 +1,38 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { View, Text, Image, Button, StyleSheet, FlatList, ScrollView, Alert } from 'react-native'
+import { View, Text, Image, Button, StyleSheet, Picker, ScrollView, Alert, TouchableOpacity } from 'react-native'
 import Message from '../components/Message'
 import { addToCart, removeFromCart } from '../actions/cartActions'
 import { baseUrl } from '../urls'
 
-const CartItem = ({ item }) => {
+const CartItem = ({ item, dispatch }) => {
     //  console.log(item)
     return (
         <View style={{ padding: 20 }}>
             <Image style={styles.image} source={{ uri: `${baseUrl}/api${item.images[0]}` }} />
             <Text style={styles.name}>{item.name}</Text>
             <Text style={styles.text}>Price: ₹{item.price}</Text>
-            <Text>Scroll </Text>
-            <Text>Delete </Text>
+            <View style={{ flexDirection: 'row', alignItems: 'center', }}>
+                <Text style={styles.text}>
+                    Quantity
+                    </Text>
+                <Picker
+                    selectedValue={item.qty}
+                    style={{ marginLeft: 10, width: 120 }}
+                    onValueChange={(itemValue, itemIndex) => dispatch(
+                        addToCart(item.product, Number(itemValue))
+                    )}
+                >
+                    {[...Array(item.countInStock).keys()].map(
+                        (x) => (
+                            <Picker.Item key={x + 1} label={String(x + 1)} value={x + 1} />
+                        )
+                    )}
+                </Picker>
+                <TouchableOpacity onPress={() => dispatch(removeFromCart(item.product))}>
+                    <Text>Remove </Text>
+                </TouchableOpacity>
+            </View>
         </View>
     )
 }
@@ -22,7 +41,7 @@ const CartScreen = ({ route, navigation }) => {
 
     const productId = route.params && route.params.id
 
-    const qty = 1
+    const qty = route.params.qty ? route.params.qty : 1
 
     const dispatch = useDispatch()
 
@@ -37,10 +56,6 @@ const CartScreen = ({ route, navigation }) => {
             dispatch(addToCart(productId, qty))
         }
     }, [dispatch, productId, qty])
-
-    const removeFromCartHandler = (id) => {
-        dispatch(removeFromCart(id))
-    }
 
     const checkoutHandler = () => {
         //    history.push('/login?redirect=shipping')
@@ -58,16 +73,9 @@ const CartScreen = ({ route, navigation }) => {
                 cartItems.length === 0
                     ? <Message data="Your cart is empty" variant="success" />
                     : <ScrollView>
-                        {/**
-                        <FlatList
-                            keyExtractor={(item, index) => item._id}
-                            data={cartItems}
-                            renderItem={({ item }) => <CartItem item={item} />}
-                        />
-                         */}
                         {cartItems.map((item) => {
                             return (
-                                <CartItem key={item.product} item={item} />
+                                <CartItem key={item.product} item={item} dispatch={dispatch} />
                             )
                         })}
                         <Text style={styles.text2}>Subtotal ({cartItems.reduce((acc, item) => acc + item.qty, 0)}) items</Text>

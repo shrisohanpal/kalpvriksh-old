@@ -114,9 +114,10 @@ const UserEditScreen = ({ route, navigation }) => {
 const styles = StyleSheet.create({
     userContainer: {
         flex: 1,
-        padding: 10
+        //  padding: 10
     },
     card: {
+        margin: 10,
         padding: 10
     },
     label: {
