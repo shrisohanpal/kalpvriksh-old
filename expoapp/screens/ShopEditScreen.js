@@ -1,8 +1,10 @@
 import axios from 'axios'
 import React, { useState, useEffect } from 'react'
-import { ScrollView, View, Text, TextInput, Button, ActivityIndicator, Picker, StyleSheet } from 'react-native'
+import { ScrollView, View, Text, TextInput, Button, ActivityIndicator, Picker, Alert, StyleSheet } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import * as ImagePicker from 'expo-image-picker';
+import * as Location from 'expo-location';
+import * as Permissions from 'expo-permissions';
 import { baseUrl } from '../urls'
 import Message from '../components/Message'
 import Card from '../components/Card'
@@ -28,6 +30,8 @@ const ShopEditScreen = ({ navigation, route }) => {
     const [email, setEmail] = useState('')
     const [description, setDescription] = useState('')
     const [uploading, setUploading] = useState(false)
+
+    const [isFetching, setIsFetching] = useState(false);
 
     const dispatch = useDispatch()
 
@@ -137,13 +141,46 @@ const ShopEditScreen = ({ navigation, route }) => {
         //console.log('Yahah tk to thik hai')
     }
 
-    const handleLocation = () => {
-        navigator.geolocation.getCurrentPosition(function (position) {
-            setLatitude(position.coords.latitude)
-            setLongitude(position.coords.longitude)
-            alert(`Location Added Successfully! \n Latitide: ${position.coords.latitude} \n Longitude: ${position.coords.longitude}`)
-        });
-    }
+
+    const verifyLocationPermission = async () => {
+        const result = await Permissions.askAsync(Permissions.LOCATION);
+        if (result.status !== 'granted') {
+            Alert.alert(
+                'Insufficient permissions!',
+                'You need to grant location permissions to use this app.',
+                [{ text: 'Okay' }]
+            );
+            return false;
+        }
+        return true;
+    };
+
+    const getLocationHandler = async () => {
+        const hasPermission = await verifyLocationPermission();
+        if (!hasPermission) {
+            return;
+        }
+
+        try {
+            setIsFetching(true);
+            const location = await Location.getCurrentPositionAsync({
+                timeout: 5000
+            });
+            setLatitude(location.coords.latitude)
+            setLongitude(location.coords.longitude)
+            props.onLocationPicked({
+                lat: location.coords.latitude,
+                lng: location.coords.longitude
+            });
+        } catch (err) {
+            Alert.alert(
+                'Could not fetch location!',
+                'Please try again later.',
+                [{ text: 'Okay' }]
+            );
+        }
+        setIsFetching(false);
+    };
 
     return (
         <ScrollView>
@@ -188,7 +225,7 @@ const ShopEditScreen = ({ navigation, route }) => {
                                     ))
                                 )}
                             </Picker>
-                        </View><Text style={styles.label}>Category</Text>
+                        </View>
 
                         <Text style={styles.label}>Address</Text>
                         <TextInput style={styles.textInput}
@@ -197,8 +234,11 @@ const ShopEditScreen = ({ navigation, route }) => {
                             onChangeText={setAddress}
                         />
 
-                        <Text style={styles.label}>Location</Text>
-
+                        {isFetching && <ActivityIndicator size="large" color={Colors.primary} />}
+                        <View style={{ marginVertical: 10, flexDirection: 'row', alignItems: 'center' }}>
+                            <Text style={styles.label}>Location</Text>
+                            <Button title="Pick Location" onPress={getLocationHandler} />
+                        </View>
                         <Text style={styles.label}>Aadhar Number</Text>
                         <TextInput style={styles.textInput}
                             placeholder="Enter Aadhar Number"
