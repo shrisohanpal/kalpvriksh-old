@@ -1,30 +1,29 @@
-import
-{
-    SHOP_LIST_REQUEST,
-    SHOP_LIST_SUCCESS,
-    SHOP_LIST_FAIL,
-    SHOP_BY_VENDOR_REQUEST,
-    SHOP_BY_VENDOR_SUCCESS,
-    SHOP_BY_VENDOR_FAIL,
-    SHOP_DETAILS_REQUEST,
-    SHOP_DETAILS_SUCCESS,
-    SHOP_DETAILS_FAIL,
-    SHOP_DELETE_REQUEST,
-    SHOP_DELETE_SUCCESS,
-    SHOP_DELETE_FAIL,
-    SHOP_CREATE_RESET,
-    SHOP_CREATE_FAIL,
-    SHOP_CREATE_SUCCESS,
-    SHOP_CREATE_REQUEST,
-    SHOP_UPDATE_REQUEST,
-    SHOP_UPDATE_SUCCESS,
-    SHOP_UPDATE_FAIL,
-    SHOP_UPDATE_RESET
+import {
+SHOP_LIST_REQUEST,
+SHOP_LIST_SUCCESS,
+SHOP_LIST_FAIL,
+SHOP_BY_VENDOR_REQUEST,
+SHOP_BY_VENDOR_SUCCESS,
+SHOP_BY_VENDOR_FAIL,
+SHOP_DETAILS_REQUEST,
+SHOP_DETAILS_SUCCESS,
+SHOP_DETAILS_FAIL,
+SHOP_DELETE_REQUEST,
+SHOP_DELETE_SUCCESS,
+SHOP_DELETE_FAIL,
+SHOP_DELETE_RESET,
+SHOP_CREATE_RESET,
+SHOP_CREATE_FAIL,
+SHOP_CREATE_SUCCESS,
+SHOP_CREATE_REQUEST,
+SHOP_UPDATE_REQUEST,
+SHOP_UPDATE_SUCCESS,
+SHOP_UPDATE_FAIL,
+SHOP_UPDATE_RESET
 } from '../constants/shopConstants'
 
 
-export const shopListReducer = (state = { shops: [] }, action) =>
-{
+export const shopListReducer = (state = { shops: [] }, action) => {
     switch (action.type) {
         case SHOP_LIST_REQUEST:
             return { loading: true, shops: [] }
@@ -40,8 +39,7 @@ export const shopListReducer = (state = { shops: [] }, action) =>
     }
 }
 
-export const shopByVendorReducer = (state = { shop: {} }, action) =>
-{
+export const shopByVendorReducer = (state = { shop: {} }, action) => {
     switch (action.type) {
         case SHOP_BY_VENDOR_REQUEST:
             return { loading: true, shop: {} }
@@ -58,8 +56,7 @@ export const shopByVendorReducer = (state = { shop: {} }, action) =>
 }
 
 
-export const shopDetailsReducer = (state = { shop: {} }, action) =>
-{
+export const shopDetailsReducer = (state = { shop: {} }, action) => {
     switch (action.type) {
         case SHOP_DETAILS_REQUEST:
             return { ...state, loading: true }
@@ -73,8 +70,7 @@ export const shopDetailsReducer = (state = { shop: {} }, action) =>
 }
 
 
-export const shopDeleteReducer = (state = {}, action) =>
-{
+export const shopDeleteReducer = (state = {}, action) => {
     switch (action.type) {
         case SHOP_DELETE_REQUEST:
             return { loading: true }
@@ -82,13 +78,14 @@ export const shopDeleteReducer = (state = {}, action) =>
             return { loading: false, success: true }
         case SHOP_DELETE_FAIL:
             return { loading: false, error: action.payload }
+        case SHOP_DELETE_RESET:
+            return {}
         default:
             return state
     }
 }
 
-export const shopCreateReducer = (state = {}, action) =>
-{
+export const shopCreateReducer = (state = {}, action) => {
     switch (action.type) {
         case SHOP_CREATE_REQUEST:
             return { loading: true }
@@ -103,8 +100,7 @@ export const shopCreateReducer = (state = {}, action) =>
     }
 }
 
-export const shopUpdateReducer = (state = { shop: {} }, action) =>
-{
+export const shopUpdateReducer = (state = { shop: {} }, action) => {
     switch (action.type) {
         case SHOP_UPDATE_REQUEST:
             return { loading: true }

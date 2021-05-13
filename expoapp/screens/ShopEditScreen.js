@@ -1,12 +1,12 @@
 import axios from 'axios'
 import React, { useState, useEffect } from 'react'
-import { ScrollView, View, Text, TextInput, Button, ActivityIndicator, StyleSheet } from 'react-native'
+import { ScrollView, View, Text, TextInput, Button, ActivityIndicator, Picker, StyleSheet } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { baseUrl } from '../urls'
 import Message from '../components/Message'
 import Card from '../components/Card'
-import { listShopDetails, updateShop } from '../actions/shopActions'
-import { SHOP_UPDATE_RESET } from '../constants/shopConstants'
+import { listShopDetails, updateShop, deleteShop, listShops } from '../actions/shopActions'
+import { SHOP_UPDATE_RESET, SHOP_DELETE_RESET } from '../constants/shopConstants'
 import Colors from '../constants/Colors'
 
 
@@ -40,12 +40,20 @@ const ShopEditScreen = ({ navigation, route }) => {
         success: successUpdate,
     } = shopUpdate
 
+    const shopDelete = useSelector((state) => state.shopDelete)
+    const {
+        loading: loadingDelete,
+        error: errorDelete,
+        success: successDelete,
+    } = shopDelete
+
     const categoryList = useSelector((state) => state.categoryList)
     const { loading: categoryLoading, error: categoryError, categorys } = categoryList
 
     useEffect(() => {
         if (successUpdate) {
             dispatch({ type: SHOP_UPDATE_RESET })
+            dispatch(listShops)
             navigation.goBack()
         } else {
             if (!shop || !shop._id || shop._id !== shopId) {
@@ -65,7 +73,12 @@ const ShopEditScreen = ({ navigation, route }) => {
                 setDescription(shop.description)
             }
         }
-    }, [dispatch, navigation, shopId, shop, successUpdate])
+        if (successDelete) {
+            dispatch({ type: SHOP_DELETE_RESET })
+            dispatch(listShops)
+            navigation.navigate('ShopList')
+        }
+    }, [dispatch, navigation, shopId, shop, successUpdate, successDelete])
 
     const uploadFileHandler = async (e) => {
         const file = e.target.files[0]
@@ -111,6 +124,11 @@ const ShopEditScreen = ({ navigation, route }) => {
         )
     }
 
+    const deleteHandler = () => {
+        dispatch(deleteShop(shopId))
+        //console.log('Yahah tk to thik hai')
+    }
+
     const handleLocation = () => {
         navigator.geolocation.getCurrentPosition(function (position) {
             setLatitude(position.coords.latitude)
@@ -122,6 +140,7 @@ const ShopEditScreen = ({ navigation, route }) => {
     return (
         <ScrollView>
             <Card style={styles.card}>
+                {loadingDelete && <ActivityIndicator size="large" color={Colors.primary} />}
                 {loadingUpdate && <ActivityIndicator size="large" color={Colors.primary} />}
                 {errorUpdate && <Message data={errorUpdate} />}
                 {loading ? (
@@ -143,6 +162,65 @@ const ShopEditScreen = ({ navigation, route }) => {
                             value={image}
                             onChangeText={setImage}
                         />
+                        <View style={{ flexDirection: 'row' }}>
+                            <Text style={styles.label}>Select Category</Text>
+                            <Picker
+                                selectedValue={category}
+                                style={{ marginLeft: 10, width: 120 }}
+                                onValueChange={(itemValue, itemIndex) => setCategory(itemValue)}>
+                                {!categoryLoading && !categoryError && (
+                                    categorys.map((category) => (
+                                        <Picker.Item key={category._id} label={category.name} value={category.name} />
+                                    ))
+                                )}
+                            </Picker>
+                        </View><Text style={styles.label}>Category</Text>
+
+                        <Text style={styles.label}>Address</Text>
+                        <TextInput style={styles.textInput}
+                            placeholder="Enter Address"
+                            value={address}
+                            onChangeText={setAddress}
+                        />
+
+                        <Text style={styles.label}>Location</Text>
+
+                        <Text style={styles.label}>Aadhar Number</Text>
+                        <TextInput style={styles.textInput}
+                            placeholder="Enter Aadhar Number"
+                            value={aadharNumber}
+                            keyboardType='numeric'
+                            onChangeText={setAadharNumber}
+                        />
+
+                        <Text style={styles.label}>PAN Number</Text>
+                        <TextInput style={styles.textInput}
+                            placeholder="Enter PAN Number"
+                            value={panNumber}
+                            onChangeText={setPanNumber}
+                        />
+
+                        <Text style={styles.label}>GST Number</Text>
+                        <TextInput style={styles.textInput}
+                            placeholder="Enter GST Number"
+                            value={gstNumber}
+                            onChangeText={setGstNumber}
+                        />
+
+                        <Text style={styles.label}>Phone Number</Text>
+                        <TextInput style={styles.textInput}
+                            placeholder="Enter Phone Number"
+                            value={phone}
+                            keyboardType='numeric'
+                            onChangeText={setPhone}
+                        />
+
+                        <Text style={styles.label}>Email</Text>
+                        <TextInput style={styles.textInput}
+                            placeholder="Enter Email"
+                            value={email}
+                            onChangeText={setEmail}
+                        />
 
                         <Text style={styles.label}>Description</Text>
                         <TextInput style={styles.textInput}
@@ -150,11 +228,22 @@ const ShopEditScreen = ({ navigation, route }) => {
                             value={description}
                             onChangeText={setDescription}
                         />
-
+                        {loadingDelete && <ActivityIndicator size="large" color={Colors.primary} />}
+                        {loadingUpdate && <ActivityIndicator size="large" color={Colors.primary} />}
                         <View style={styles.buttonContainer} >
-                            <Button title="Update"
-                                onPress={submitHandler}
-                            />
+                            <View style={{ margin: 10 }}>
+                                <Button
+                                    title="Update"
+                                    onPress={submitHandler}
+                                />
+                            </View>
+                            <View style={{ margin: 10 }}>
+                                <Button
+                                    title="Delete"
+                                    color="red"
+                                    onPress={deleteHandler}
+                                />
+                            </View>
                         </View>
                     </View>
                 )
@@ -189,6 +278,7 @@ const styles = StyleSheet.create({
     },
     buttonContainer: {
         margin: 10,
+        flexDirection: 'row',
         alignItems: 'flex-start'
     }
 })

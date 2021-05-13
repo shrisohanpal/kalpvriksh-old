@@ -1,11 +1,11 @@
 import axios from 'axios'
 import React, { useState, useEffect } from 'react'
-import { ScrollView, View, Text, TextInput, Button, ActivityIndicator, StyleSheet } from 'react-native'
+import { ScrollView, View, Text, TextInput, Button, ActivityIndicator, Picker, CheckBox, StyleSheet } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import Card from '../components/Card'
-import { listProductDetails, updateProduct, deleteProduct } from '../actions/productActions'
-import { PRODUCT_UPDATE_RESET } from '../constants/productConstants'
+import { listProductDetails, updateProduct, deleteProduct, listProducts } from '../actions/productActions'
+import { PRODUCT_UPDATE_RESET, PRODUCT_DELETE_RESET } from '../constants/productConstants'
 import Colors from '../constants/Colors'
 
 
@@ -41,12 +41,20 @@ const ProductEditScreen = ({ route, navigation }) => {
         success: successUpdate,
     } = productUpdate
 
+    const productDelete = useSelector((state) => state.productDelete)
+    const {
+        loading: loadingDelete,
+        error: errorDelete,
+        success: successDelete,
+    } = productDelete
+
     const categoryList = useSelector((state) => state.categoryList)
     const { loading: categoryLoading, error: categoryError, categorys } = categoryList
 
     useEffect(() => {
         if (successUpdate) {
             dispatch({ type: PRODUCT_UPDATE_RESET })
+            dispatch(listProducts())
             navigation.goBack()
         } else {
             if (!product._id || product._id !== productId) {
@@ -68,7 +76,12 @@ const ProductEditScreen = ({ route, navigation }) => {
                 setExchange(product.exchange)
             }
         }
-    }, [dispatch, navigation, productId, product, successUpdate])
+        if (successDelete) {
+            dispatch({ type: PRODUCT_DELETE_RESET })
+            dispatch(listProducts())
+            navigation.navigate('ProductList')
+        }
+    }, [dispatch, navigation, productId, product, successUpdate, successDelete])
 
     const uploadFileHandler = async (e) => {
         const file = e.target.files[0]
@@ -147,7 +160,7 @@ const ProductEditScreen = ({ route, navigation }) => {
                 name,
                 images: image2 ? image3 ? [image, image2, image3] : [image, image2] : [image],
                 brand,
-                category: categorys.find(c => c.name === category)._id,
+                category: categorys && categorys.find(c => c.name === category) && categorys.find(c => c.name === category)._id,
                 countInStock,
                 description,
                 price,
@@ -160,16 +173,14 @@ const ProductEditScreen = ({ route, navigation }) => {
         )
     }
 
-    const deleteHandler = (id) => {
-        if (window.confirm('Are you sure')) {
-            dispatch(deleteProduct(id))
-            navigation.goBack()
-        }
+    const deleteHandler = () => {
+        dispatch(deleteProduct(productId))
     }
 
     return (
         <ScrollView>
             <Card style={styles.card}>
+                {loadingDelete && <ActivityIndicator size="large" color={Colors.primary} />}
                 {loadingUpdate && <ActivityIndicator size="large" color={Colors.primary} />}
                 {errorUpdate && <Message data={errorUpdate} />}
                 {loading ? (
@@ -206,12 +217,34 @@ const ProductEditScreen = ({ route, navigation }) => {
                             onChangeText={setImage3}
                         />
 
+                        <Text style={styles.label}>Brand</Text>
+                        <TextInput style={styles.textInput}
+                            placeholder="Enter brand"
+                            value={brand}
+                            onChangeText={setBrand}
+                        />
+
                         <Text style={styles.label}>Count In Stock</Text>
                         <TextInput style={styles.textInput}
                             placeholder="Enter Count In Stock"
                             value={countInStock}
+                            keyboardType='numeric'
                             onChangeText={setCountInStock}
                         />
+
+                        <View style={{ flexDirection: 'row' }}>
+                            <Text style={styles.label}>Select Category</Text>
+                            <Picker
+                                selectedValue={category}
+                                style={{ marginLeft: 10, width: 120 }}
+                                onValueChange={(itemValue, itemIndex) => setCategory(itemValue)}>
+                                {!categoryLoading && !categoryError && (
+                                    categorys.map((category) => (
+                                        <Picker.Item key={category._id} label={category.name} value={category.name} />
+                                    ))
+                                )}
+                            </Picker>
+                        </View>
 
                         <Text style={styles.label}>Description</Text>
                         <TextInput style={styles.textInput}
@@ -220,10 +253,69 @@ const ProductEditScreen = ({ route, navigation }) => {
                             onChangeText={setDescription}
                         />
 
-                        <View style={styles.buttonContainer} >
-                            <Button title="Update"
-                                onPress={submitHandler}
+                        <Text style={styles.label}>Price</Text>
+                        <TextInput style={styles.textInput}
+                            placeholder="Enter price"
+                            value={price}
+                            keyboardType='numeric'
+                            onChangeText={setPrice}
+                        />
+
+                        <Text style={styles.label}>GST</Text>
+                        <TextInput style={styles.textInput}
+                            placeholder="Enter GST"
+                            value={gst}
+                            keyboardType='numeric'
+                            onChangeText={setGst}
+                        />
+
+                        <Text style={styles.label}>Final Price</Text>
+                        <TextInput style={styles.textInput}
+                            placeholder="Enter final price"
+                            value={finalPrice}
+                            keyboardType='numeric'
+                            onChangeText={setFinalPrice}
+                        />
+
+                        <Text style={styles.label}>Exchange Validity in days ( 0 means no exchange)</Text>
+                        <TextInput style={styles.textInput}
+                            placeholder="Enter exchange validity"
+                            value={exchange}
+                            keyboardType='numeric'
+                            onChangeText={setExchange}
+                        />
+
+                        <View style={styles.checkBoxContainer}>
+                            <CheckBox value={returnable}
+                                onValueChange={setReturnable}
+                                style={styles.checkbox}
                             />
+                            <Text style={{ fontSize: 18 }}>Returnable</Text>
+                        </View>
+
+                        <View style={styles.checkBoxContainer}>
+                            <CheckBox value={refundable}
+                                onValueChange={setRefundable}
+                                style={styles.checkbox}
+                            />
+                            <Text style={{ fontSize: 18 }}>Refundable</Text>
+                        </View>
+                        {loadingDelete && <ActivityIndicator size="large" color={Colors.primary} />}
+                        {loadingUpdate && <ActivityIndicator size="large" color={Colors.primary} />}
+                        <View style={styles.buttonContainer} >
+                            <View style={{ margin: 10 }}>
+                                <Button
+                                    title="Update"
+                                    onPress={submitHandler}
+                                />
+                            </View>
+                            <View style={{ margin: 10 }}>
+                                <Button
+                                    title="Delete"
+                                    color="red"
+                                    onPress={deleteHandler}
+                                />
+                            </View>
                         </View>
                     </View>
                 )
@@ -257,8 +349,15 @@ const styles = StyleSheet.create({
     },
     buttonContainer: {
         margin: 10,
+        flexDirection: 'row',
         alignItems: 'flex-start'
-    }
+    },
+    checkBoxContainer: {
+        flexDirection: 'row'
+    },
+    checkbox: {
+        color: 'blue'
+    },
 })
 
 
