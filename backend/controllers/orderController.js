@@ -6,8 +6,7 @@ import Product from '../models/productModel.js'
 // @desc    Create new order
 // @route   POST /api/orders
 // @access  Private
-const addOrderItems = asyncHandler(async (req, res) =>
-{
+const addOrderItems = asyncHandler(async (req, res) => {
   const {
     orderItems,
     shippingAddress,
@@ -16,6 +15,7 @@ const addOrderItems = asyncHandler(async (req, res) =>
     taxPrice,
     shippingPrice,
     totalPrice,
+    pickOrder
   } = req.body
 
   if (orderItems && orderItems.length === 0) {
@@ -35,7 +35,10 @@ const addOrderItems = asyncHandler(async (req, res) =>
       taxPrice,
       shippingPrice,
       totalPrice,
+      pickOrder
     })
+
+    //console.log(order)
     const createdOrder = await order.save()
     const odreredItem = orderItems[0]
     // const product = await Product.findById(odreredItem.product)
@@ -61,8 +64,7 @@ const addOrderItems = asyncHandler(async (req, res) =>
       html: `<h1>Details of the Order</h1>
                         <a href=kalpvriksh.co.in/order/${createdOrder._id}>Click Here to Know Order Details!</a>`
     };
-    transporter.sendMail(mailOptions, function (error, info)
-    {
+    transporter.sendMail(mailOptions, function (error, info) {
       if (error) {
         console.log(error);
       } else {
@@ -80,8 +82,7 @@ const addOrderItems = asyncHandler(async (req, res) =>
       html: `<h1>Details of the Order</h1>
                         <a href=kalpvriksh.co.in/order/${createdOrder._id}>Click Here to Know Order Details!</a>`
     };
-    transporter.sendMail(mailOptionsCustomer, function (error, info)
-    {
+    transporter.sendMail(mailOptionsCustomer, function (error, info) {
       if (error) {
         console.log(error);
       } else {
@@ -95,14 +96,14 @@ const addOrderItems = asyncHandler(async (req, res) =>
 // @desc    Get order by ID
 // @route   GET /api/orders/:id
 // @access  Private
-const getOrderById = asyncHandler(async (req, res) =>
-{
+const getOrderById = asyncHandler(async (req, res) => {
   const order = await Order.findById(req.params.id).populate(
     'user',
     'name email'
   )
 
   if (order) {
+    //console.log(order)
     res.json(order)
   } else {
     res.status(404)
@@ -113,8 +114,7 @@ const getOrderById = asyncHandler(async (req, res) =>
 // @desc    Update order to paid
 // @route   GET /api/orders/:id/pay
 // @access  Private
-const updateOrderToPaid = asyncHandler(async (req, res) =>
-{
+const updateOrderToPaid = asyncHandler(async (req, res) => {
   const order = await Order.findById(req.params.id)
 
   if (order) {
@@ -133,8 +133,7 @@ const updateOrderToPaid = asyncHandler(async (req, res) =>
 // @desc    Update order to delivered
 // @route   GET /api/orders/:id/deliver
 // @access  Private/Admin
-const updateOrderToDispatched = asyncHandler(async (req, res) =>
-{
+const updateOrderToDispatched = asyncHandler(async (req, res) => {
   const order = await Order.findById(req.params.id)
 
   if (order) {
@@ -154,8 +153,7 @@ const updateOrderToDispatched = asyncHandler(async (req, res) =>
 // @desc    Update order to delivered
 // @route   GET /api/orders/:id/deliver
 // @access  Private/Admin
-const updateOrderToDelivered = asyncHandler(async (req, res) =>
-{
+const updateOrderToDelivered = asyncHandler(async (req, res) => {
   const order = await Order.findById(req.params.id)
 
   if (order) {
@@ -174,8 +172,7 @@ const updateOrderToDelivered = asyncHandler(async (req, res) =>
 // @desc    Get logged in user orders
 // @route   GET /api/orders/myorders
 // @access  Private
-const getMyOrders = asyncHandler(async (req, res) =>
-{
+const getMyOrders = asyncHandler(async (req, res) => {
   const orders = await Order.find({ user: req.user._id })
   res.json(orders)
 })
@@ -183,8 +180,7 @@ const getMyOrders = asyncHandler(async (req, res) =>
 // @desc    Get all orders
 // @route   GET /api/orders
 // @access  Private/Admin
-const getOrders = asyncHandler(async (req, res) =>
-{
+const getOrders = asyncHandler(async (req, res) => {
   const orders = await Order.find({}).populate('user', 'id name')
   res.json(orders)
 })
@@ -192,14 +188,12 @@ const getOrders = asyncHandler(async (req, res) =>
 // @desc    Get all orders
 // @route   GET /api/orders/byvendor
 // @access  Private/Vendor
-const getOrdersByVendor = asyncHandler(async (req, res) =>
-{
+const getOrdersByVendor = asyncHandler(async (req, res) => {
   const orders = await Order.find({ vendor: req.user._id })
   res.json(orders)
 })
 
-export
-{
+export {
   addOrderItems,
   getOrderById,
   updateOrderToPaid,

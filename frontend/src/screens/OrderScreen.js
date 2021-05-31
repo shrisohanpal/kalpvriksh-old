@@ -97,6 +97,11 @@ const OrderScreen = ({ match, history }) => {
                                         <strong>Phone :</strong>
                                         {' '}{order.shippingAddress.phone}
                                     </p>
+
+                                    <p>
+                                        <strong>Delivery :</strong>
+                                        {' '}{order.pickOrder}
+                                    </p>
                                     {order.isDispatched ? (
                                         <Message variant='success'>
                                             Dispatched on {order.dispatchedAt}

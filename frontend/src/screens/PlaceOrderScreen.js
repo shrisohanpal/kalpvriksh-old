@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Container, Button, Row, Col, ListGroup, Image, Card } from 'react-bootstrap'
+import { Container, Button, Row, Col, ListGroup, Image, Card, Form } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import CheckoutSteps from '../components/CheckoutSteps'
@@ -11,6 +11,8 @@ import { baseUrl } from '../urls'
 
 const PlaceOrderScreen = ({ history }) => {
     const dispatch = useDispatch()
+
+    const [pickOrder, setPickOrder] = useState('normal');
 
     const cart = useSelector((state) => state.cart)
 
@@ -58,6 +60,7 @@ const PlaceOrderScreen = ({ history }) => {
                 shippingPrice: cart.shippingPrice,
                 taxPrice: cart.taxPrice,
                 totalPrice: cart.totalPrice,
+                pickOrder: pickOrder
             })
         )
     }
@@ -120,6 +123,36 @@ const PlaceOrderScreen = ({ history }) => {
                     </Col>
                     <Col md={4}>
                         <Card>
+                            <ListGroup variant='flush'>
+                                <ListGroup.Item>
+                                    <Form.Group controlId='self'>
+                                        <Form.Check
+                                            type='checkbox'
+                                            label='Pack My Order And I Will Self Pick'
+                                            checked={pickOrder == 'self'}
+                                            onChange={(e) => setPickOrder('self')}
+                                        ></Form.Check>
+                                    </Form.Group>
+
+                                    <Form.Group controlId='instant'>
+                                        <Form.Check
+                                            type='checkbox'
+                                            label='Instant Delivery (WithIn 1 Hour)'
+                                            checked={pickOrder == 'instant'}
+                                            onChange={(e) => setPickOrder('instant')}
+                                        ></Form.Check>
+                                    </Form.Group>
+
+                                    <Form.Group controlId='normal'>
+                                        <Form.Check
+                                            type='checkbox'
+                                            label='Normal Delivery (WithIn 24 Hours)'
+                                            checked={pickOrder == 'normal'}
+                                            onChange={(e) => setPickOrder('normal')}
+                                        ></Form.Check>
+                                    </Form.Group>
+                                </ListGroup.Item>
+                            </ListGroup>
                             <ListGroup variant='flush'>
                                 <ListGroup.Item>
                                     <h2>Order Summary</h2>

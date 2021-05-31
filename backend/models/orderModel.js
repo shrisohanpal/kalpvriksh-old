@@ -78,6 +78,9 @@ const orderSchema = mongoose.Schema({
     },
     deliveredAt: {
         type: Date
+    },
+    pickOrder: {
+        type: String  // self, instant, normal
     }
 }, {
     timestamps: true
