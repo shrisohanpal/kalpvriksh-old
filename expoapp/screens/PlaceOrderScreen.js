@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react'
-import { ScrollView, View, Text, Image, StyleSheet, Button } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { ScrollView, View, Text, Image, StyleSheet, Button, CheckBox } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import { createOrder } from '../actions/orderActions'
@@ -11,6 +11,7 @@ import { baseUrl } from '../urls'
 const PlaceOrderScreen = ({ navigation }) => {
 
     const dispatch = useDispatch()
+    const [pickOrder, setPickOrder] = useState('normal');
 
     const cart = useSelector((state) => state.cart)
 
@@ -58,6 +59,7 @@ const PlaceOrderScreen = ({ navigation }) => {
                 shippingPrice: cart.shippingPrice,
                 taxPrice: cart.taxPrice,
                 totalPrice: cart.totalPrice,
+                pickOrder: pickOrder
             })
         )
     }
@@ -88,7 +90,7 @@ const PlaceOrderScreen = ({ navigation }) => {
                         Ordered Items
                 </Text>
                     {cart.cartItems.map((item, index) => (
-                        <View style={styles.itemContainer}>
+                        <View style={styles.itemContainer} key={item._id}>
                             <Image source={{ uri: `${baseUrl}/api${item.images[0]}` }} style={styles.image} />
                             <View style={{ flexDirection: 'column' }}>
                                 <Text style={styles.itemText}>{item.name}</Text>
@@ -96,6 +98,36 @@ const PlaceOrderScreen = ({ navigation }) => {
                             </View>
                         </View>
                     ))}
+                </Card>
+                <Card style={styles.card}>
+                    <Text style={styles.heading}>
+                        Ordered Type
+                </Text>
+                    <View style={{ ...styles.itemContainer, flexDirection: 'column' }}>
+                        <View style={styles.checkBoxContainer}>
+                            <CheckBox value={pickOrder == 'self'}
+                                onValueChange={() => setPickOrder('self')}
+                                style={styles.checkbox}
+                            />
+                            <Text style={{ fontSize: 16 }}>Pack My Order And I Will Self Pick</Text>
+                        </View>
+
+                        <View style={styles.checkBoxContainer}>
+                            <CheckBox value={pickOrder == 'instant'}
+                                onValueChange={() => setPickOrder('instant')}
+                                style={styles.checkbox}
+                            />
+                            <Text style={{ fontSize: 16 }}>Instant Delivery (WithIn 1 Hour)</Text>
+                        </View>
+
+                        <View style={styles.checkBoxContainer}>
+                            <CheckBox value={pickOrder == 'normal'}
+                                onValueChange={() => setPickOrder('normal')}
+                                style={styles.checkbox}
+                            />
+                            <Text style={{ fontSize: 16 }}>Normal Delivery (WithIn 24 Hours)</Text>
+                        </View>
+                    </View>
                 </Card>
                 <Card style={styles.card}>
                     <Text style={styles.heading}>
@@ -149,18 +181,14 @@ const styles = StyleSheet.create({
     itemText: {
         fontSize: 15,
         marginHorizontal: 10
-    }
+    },
+    checkBoxContainer: {
+        flexDirection: 'row'
+    },
+    checkbox: {
+        color: 'blue'
+    },
 })
 
 
 export default PlaceOrderScreen
-
-
-
-
-/*
-1. LAnguage educartion ki paribhasa
-2. HI waale baccho ki paribhasa
-3. Hi waale baccho ki paribhasa
-4. Hi waale baccho ki problem kese solve karte hai
-*/

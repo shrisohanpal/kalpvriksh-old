@@ -10,9 +10,6 @@ const Order = ({ navigation, order }) => {
                     Id: {order._id}
                 </Text>
                 <Text style={styles.text}>
-                    User: {order.user && order.user.name}
-                </Text>
-                <Text style={styles.text}>
                     Date: {order.createdAt.substring(0, 10)}
                 </Text>
                 <Text style={styles.text}>

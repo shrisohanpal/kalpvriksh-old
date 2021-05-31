@@ -79,6 +79,7 @@ const OrderScreen = ({ route, navigation }) => {
                             <Text style={styles.label}>Address: {' '}{order.shippingAddress.address}, {order.shippingAddress.city}{' '}
                                 {order.shippingAddress.postalCode},{' '}</Text>
                             <Text style={styles.label}>Phone: {order.shippingAddress.phone}</Text>
+                            <Text style={styles.label}>Delivery: {order.pickOrder}</Text>
                         </Card>
                         <Card style={styles.card}>
                             {order.isDispatched ? (
