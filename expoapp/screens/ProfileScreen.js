@@ -9,25 +9,6 @@ import { USER_UPDATE_PROFILE_RESET } from '../constants/userConstants'
 import { logout } from '../actions/userActions'
 import Colors from '../constants/Colors'
 
-
-const Order = ({ navigation, order }) => {
-  return (
-    <Card style={styles.card}>
-      <TouchableOpacity onPress={() => navigation.navigate('Order', { id: order._id })}>
-        <Text style={styles.text}>
-          Id: {order._id}
-        </Text>
-        <Text style={styles.text}>
-          Name: {order.name}
-        </Text>
-
-      </TouchableOpacity>
-    </Card>
-  )
-}
-
-
-
 const ProfileScreen = ({ navigation }) => {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
@@ -113,19 +94,13 @@ const ProfileScreen = ({ navigation }) => {
                   color='red'
                   onPress={() => dispatch(logout())}
                 />
-                <View style={{ margin: 20 }} />
-                <Text style={styles.label}>Orders</Text>
-                {loadingOrders ? (
-                  <ActivityIndicator size="large" color={Colors.primary} />
-                ) : errorOrders ? (
-                  <Message data={errorOrders} />
-                ) : (
-                  <FlatList
-                    keyExtractor={(item, index) => item._id}
-                    data={orders}
-                    renderItem={({ item }) => <Order order={item} navigation={navigation} />}
+                <View style={{ marginVertical: 10 }}>
+                  <Button
+                    title="My Orders"
+                    onPress={() => navigation.navigate('MyOrders')}
                   />
-                )}
+                </View>
+                <View style={{ margin: 20 }} />
               </View>
             </ScrollView>
           )

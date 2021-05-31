@@ -5,8 +5,8 @@ import LoginScreen from '../screens/LoginScreen'
 import RegisterScreen from '../screens/RegisterScreen'
 import ForgetPasswordScreen from '../screens/ForgotPassword'
 import ProfileScreen from '../screens/ProfileScreen'
-import OrderScreen from '../screens/OrderScreen'
-
+import MyOrders from '../screens/MyOrders'
+import Order from '../screens/OrderScreen'
 
 const Stack = createStackNavigator()
 
@@ -24,7 +24,8 @@ export default function App() {
             {userInfo ?
                 <>
                     <Stack.Screen name="Profile" component={ProfileScreen} />
-                    <Stack.Screen name="Order" component={OrderScreen} />
+                    <Stack.Screen name="MyOrders" component={MyOrders} />
+                    <Stack.Screen name="Order" component={Order} />
                 </>
                 :
                 <>

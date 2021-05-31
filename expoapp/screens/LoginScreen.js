@@ -19,8 +19,8 @@ const LoginScreen = ({ navigation }) => {
   const { success } = userForgotPassword
 
   const submitHandler = () => {
-    dispatch(login(email, password))
-    //dispatch(login('admin@example.com', '123456'))
+    //dispatch(login(email, password))
+    dispatch(login('admin@example.com', '123456'))
   }
 
   return (
