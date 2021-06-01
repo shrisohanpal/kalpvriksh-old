@@ -41,7 +41,6 @@ const SearchScreen = ({ navigation }) => {
                         renderItem={({ item }) => <Product product={item} navigation={navigation} />}
                         numColumns={2}
                     />
-                    <Button title="SDF" />
                 </View>
             )}
         </View>
